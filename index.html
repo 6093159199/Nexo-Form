@@ -1,0 +1,1994 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+    <meta name="theme-color" content="#7c3aed">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FormFlow+">
+    <meta name="description" content="FormFlow+ - Google Forms alternative with Glassmorphism design">
+    <link rel="manifest"
+        href="data:application/json;base64,ewogICJuYW1lIjogIkZvcm1GbG93KyIsCiAgInNob3J0X25hbWUiOiAiRm9ybUZsb3ciLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgInRoZW1lX2NvbG9yIjogIiM3YzNhZWQiLAogICJpY29ucyI6IFt7InNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUIzYVdSMGFEMG5OelluSUhacFpYZENiM2h3YkQwbmRUUjBKejQ4TDNOMlp6ND0iLCAic2l6ZXMiOiAiMTkyeDE5MiIsICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiIH1dCn0=">
+    <title>FormFlow+ ✨</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'thai': ['Kanit', 'Inter', 'sans-serif'],
+                        'sans': ['Inter', 'Kanit', 'sans-serif'],
+                    },
+                    colors: {
+                        'accent': {
+                            50: '#faf5ff',
+                            100: '#f3e8ff',
+                            200: '#e9d5ff',
+                            300: '#d8b4fe',
+                            400: '#c084fc',
+                            500: '#a855f7',
+                            600: '#9333ea',
+                            700: '#7c3aed',
+                            800: '#6d28d9',
+                            900: '#5b21b6',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'bounce-soft': 'bounceSoft 2s infinite',
+                        'pulse-soft': 'pulseSoft 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(124,58,237,0.3)' },
+                            '100%': { boxShadow: '0 0 40px rgba(124,58,237,0.6)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(30px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        bounceSoft: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        },
+                        pulseSoft: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.7' },
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.35);
+            --glass-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+            --glass-blur: blur(20px);
+            --neo-shadow-light: 8px 8px 16px #d1d5db, -8px -8px 16px #ffffff;
+            --neo-shadow-dark: 8px 8px 16px #1f1f2e, -8px -8px 16px #2d2d44;
+            --accent-hue: 265;
+            --accent-sat: 84%;
+            --accent-light: 65%;
+            --bg-gradient-light: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 25%, #faf5ff 50%, #e0e7ff 75%, #f0f9ff 100%);
+            --bg-gradient-dark: linear-gradient(135deg, #0f0a1a 0%, #1a1030 25%, #0d0d1f 50%, #1a0a2e 75%, #0a0a1a 100%);
+            --card-3d-transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
+            --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --glass-bg: rgba(30, 25, 45, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-shadow: 0 8px 40px rgba(0, 0, 0, 0.35);
+            --glass-blur: blur(24px);
+            --accent-light: 55%;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Kanit', 'Inter', sans-serif;
+            background: var(--bg-gradient-light);
+            background-attachment: fixed;
+            min-height: 100vh;
+            min-height: 100dvh;
+            transition: var(--transition-smooth);
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dark body,
+        body.dark {
+            background: var(--bg-gradient-dark);
+            color: #e2e8f0;
+        }
+
+        [data-theme="dark"] body {
+            background: var(--bg-gradient-dark);
+            color: #e2e8f0;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.25rem;
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition-smooth);
+        }
+
+        .glass:hover {
+            box-shadow: 0 12px 50px rgba(124, 58, 237, 0.15);
+            border-color: rgba(124, 58, 237, 0.4);
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition-smooth);
+            transform: var(--card-3d-transform);
+        }
+
+        .glass-card:hover {
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(-4px);
+            box-shadow: 0 20px 60px rgba(124, 58, 237, 0.2);
+        }
+
+        /* 3D Neo-Shadow */
+        .neo-3d {
+            border-radius: 1.25rem;
+            background: linear-gradient(145deg, #f8f7ff, #e8e5f0);
+            box-shadow: var(--neo-shadow-light);
+            transition: var(--transition-smooth);
+        }
+
+        [data-theme="dark"] .neo-3d {
+            background: linear-gradient(145deg, #232035, #1a1728);
+            box-shadow: var(--neo-shadow-dark);
+        }
+
+        .neo-3d:active {
+            box-shadow: inset 4px 4px 8px #d1d5db, inset -4px -4px 8px #ffffff;
+        }
+
+        [data-theme="dark"] .neo-3d:active {
+            box-shadow: inset 4px 4px 8px #1f1f2e, inset -4px -4px 8px #2d2d44;
+        }
+
+        .neo-btn {
+            border-radius: 1rem;
+            background: linear-gradient(145deg, #f0ecff, #ddd6f5);
+            box-shadow: 4px 4px 10px #d1cce0, -4px -4px 10px #ffffff;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-weight: 600;
+        }
+
+        [data-theme="dark"] .neo-btn {
+            background: linear-gradient(145deg, #2d2640, #1e1830);
+            box-shadow: 4px 4px 10px #151025, -4px -4px 10px #2d2440;
+            color: #e2e8f0;
+        }
+
+        .neo-btn:active {
+            box-shadow: inset 4px 4px 8px #c4bfd6, inset -4px -4px 8px #ffffff;
+            transform: scale(0.97);
+        }
+
+        [data-theme="dark"] .neo-btn:active {
+            box-shadow: inset 4px 4px 8px #110d1c, inset -4px -4px 8px #2d2440;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.5;
+            font-size: 2rem;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            33% {
+                transform: translateY(-30px) rotate(10deg);
+            }
+
+            66% {
+                transform: translateY(-15px) rotate(-5deg);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(124, 58, 237, 0.35);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(124, 58, 237, 0.6);
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            gap: 0.4rem;
+            padding: 0.6rem 1rem;
+            border-radius: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.12);
+            max-width: 95vw;
+        }
+
+        [data-theme="dark"] .bottom-nav {
+            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .bottom-nav a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 0.9rem;
+            border-radius: 1.2rem;
+            text-decoration: none;
+            color: #6b7280;
+            font-size: 0.7rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+            min-width: 52px;
+            position: relative;
+        }
+
+        .bottom-nav a i {
+            font-size: 1.3rem;
+            margin-bottom: 2px;
+            transition: var(--transition-smooth);
+        }
+
+        .bottom-nav a.active {
+            color: #7c3aed;
+            background: rgba(124, 58, 237, 0.12);
+            font-weight: 700;
+        }
+
+        .bottom-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 20px;
+            height: 3px;
+            border-radius: 10px;
+            background: #7c3aed;
+        }
+
+        /* Sidebar overlay */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1040;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Pulse ring */
+        .pulse-ring {
+            animation: pulseRing 2s ease-out infinite;
+        }
+
+        @keyframes pulseRing {
+            0% {
+                box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.5);
+            }
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(124, 58, 237, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(124, 58, 237, 0);
+            }
+        }
+
+        /* Shimmer */
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .glass-card {
+                border-radius: 1rem;
+            }
+
+            .bottom-nav {
+                bottom: 0.5rem;
+                padding: 0.4rem 0.7rem;
+                gap: 0.2rem;
+                border-radius: 1.5rem;
+            }
+
+            .bottom-nav a {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.65rem;
+                min-width: 40px;
+            }
+
+            .bottom-nav a i {
+                font-size: 1.1rem;
+            }
+
+            .sidebar-desktop {
+                display: none;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .bottom-nav {
+                display: none;
+            }
+
+            .sidebar-desktop {
+                display: flex;
+            }
+        }
+
+        /* Input styles */
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="url"],
+        input[type="date"],
+        input[type="time"],
+        input[type="number"],
+        textarea,
+        select {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 0.75rem;
+            padding: 0.65rem 1rem;
+            font-family: inherit;
+            transition: var(--transition-smooth);
+            width: 100%;
+            font-size: 0.95rem;
+        }
+
+        [data-theme="dark"] input[type="text"],
+        [data-theme="dark"] input[type="password"],
+        [data-theme="dark"] input[type="email"],
+        [data-theme="dark"] input[type="url"],
+        [data-theme="dark"] input[type="date"],
+        [data-theme="dark"] input[type="time"],
+        [data-theme="dark"] input[type="number"],
+        [data-theme="dark"] textarea,
+        [data-theme="dark"] select {
+            background: rgba(40, 35, 60, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #e2e8f0;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .toast-item {
+            padding: 0.8rem 1.2rem;
+            border-radius: 1rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            color: inherit;
+            font-weight: 500;
+            animation: slideIn 0.4s ease-out;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            max-width: 380px;
+            font-size: 0.9rem;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Modal */
+        .modal-glass {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+        }
+    </style>
+</head>
+
+<body class="font-thai">
+
+    <!-- Floating particles -->
+    <div id="particles"></div>
+
+    <!-- Root -->
+    <div id="root"></div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Sidebar Overlay (mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js">
+    </script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js">
+    </script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    <script type="text/babel">
+        // ─────────────────────────────────────
+        // 🎨 THEME TOKENS — แก้ไขได้ที่ไฟล์เดียว
+        // ─────────────────────────────────────
+        const ThemeTokens = {
+            accentColor: '#7c3aed',
+            accentHue: 265,
+            accentSat: '84%',
+            borderRadius: '1.25rem',
+            glassOpacity: 0.55,
+            darkGlassOpacity: 0.65,
+            blurAmount: '20px',
+            fontFamily: "'Kanit','Inter',sans-serif",
+            defaultDarkMode: false,
+            adminPassword: 'admin123', // 🔒 เปลี่ยนรหัสผ่านที่นี่
+            googleAppsScriptURL: 'https://script.google.com/macros/s/AKfycbz4b3kaBokaiu1VIXd1sJgtQCkh5WeE84xj-skG8AXe5tH_HhoEpp4uWbo-uqxzyjfVvw/exec', // 🔗 ใส่ Google Apps Script Web App URL ที่นี่
+            sheetsSyncEnabled: false,
+        };
+
+        // ─────────────────────────────────────
+        // 📦 LocalStorage Helpers
+        // ─────────────────────────────────────
+        const LS = {
+            get(key, fallback = null) {
+                try {
+                    const v = localStorage.getItem('formflow_' + key); return v ? JSON.parse(v) :
+                        fallback;
+                } catch (e) { return fallback; }
+            },
+            set(key, value) {
+                try { localStorage.setItem('formflow_' + key, JSON.stringify(value)); } catch (e) { }
+            },
+            remove(key) {
+                try { localStorage.removeItem('formflow_' + key); } catch (e) { }
+            },
+        };
+
+        // ─────────────────────────────────────
+        // 🔔 Toast System
+        // ─────────────────────────────────────
+        let toastId = 0;
+        const toastListeners = [];
+
+        function showToast(message, type = 'info', duration = 3000) {
+            const id = ++toastId;
+            toastListeners.forEach(fn => fn({ id, message, type, duration }));
+            return id;
+        }
+        function subscribeToasts(fn) {
+            toastListeners.push(fn);
+            return () => {
+                const i = toastListeners.indexOf(fn); if (i > -1) toastListeners.splice(i,
+                    1);
+            };
+        }
+
+        function ToastContainer() {
+            const [toasts, setToasts] = React.useState([]);
+            React.useEffect(() => {
+                const unsub = subscribeToasts((t) => {
+                    setToasts(prev => [...prev, t]);
+                    setTimeout(() => setToasts(prev => prev.filter(x => x.id !== t.id)), t.duration);
+                });
+                return unsub;
+            }, []);
+            const icons = { info: '🔔', success: '✅', error: '❌', warning: '⚠️' };
+            return React.createElement('div', { className: 'toast-container' },
+                toasts.map(t => React.createElement('div', { key: t.id, className: 'toast-item animate-slide-up' },
+                    icons[t.type] || '🔔', ' ', t.message
+                ))
+            );
+        }
+
+        // ─────────────────────────────────────
+        // 🌐 Google Sheets API Service
+        // ─────────────────────────────────────
+        const SheetsAPI = {
+            async syncFormData(formData) {
+                if (!ThemeTokens.googleAppsScriptURL || !ThemeTokens.sheetsSyncEnabled) {
+                    // ใช้ localStorage แทน
+                    const existing = LS.get('forms', []);
+                    const idx = existing.findIndex(f => f.id === formData.id);
+                    if (idx > -1) existing[idx] = formData;
+                    else existing.push(formData);
+                    LS.set('forms', existing);
+                    return { success: true, localOnly: true };
+                }
+                try {
+                    const resp = await fetch(ThemeTokens.googleAppsScriptURL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'saveForm', data: formData }),
+                    });
+                    const existing = LS.get('forms', []);
+                    const idx = existing.findIndex(f => f.id === formData.id);
+                    if (idx > -1) existing[idx] = formData;
+                    else existing.push(formData);
+                    LS.set('forms', existing);
+                    return { success: true };
+                } catch (e) {
+                    console.warn('Google Sheets sync failed, using localStorage:', e);
+                    const existing = LS.get('forms', []);
+                    const idx = existing.findIndex(f => f.id === formData.id);
+                    if (idx > -1) existing[idx] = formData;
+                    else existing.push(formData);
+                    LS.set('forms', existing);
+                    return { success: true, localOnly: true };
+                }
+            },
+            async deleteFormData(formId) {
+                const existing = LS.get('forms', []);
+                LS.set('forms', existing.filter(f => f.id !== formId));
+                if (ThemeTokens.googleAppsScriptURL && ThemeTokens.sheetsSyncEnabled) {
+                    try {
+                        await fetch(ThemeTokens.googleAppsScriptURL, {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ action: 'deleteForm', formId }),
+                        });
+                    } catch (e) { }
+                }
+                return { success: true };
+            },
+            async submitResponse(formId, responseData) {
+                const responses = LS.get('responses_' + formId, []);
+                responseData.id = 'resp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+                responseData.submittedAt = new Date().toISOString();
+                responses.push(responseData);
+                LS.set('responses_' + formId, responses);
+                if (ThemeTokens.googleAppsScriptURL && ThemeTokens.sheetsSyncEnabled) {
+                    try {
+                        await fetch(ThemeTokens.googleAppsScriptURL, {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ action: 'submitResponse', formId, data: responseData }),
+                        });
+                    } catch (e) { }
+                }
+                return { success: true };
+            },
+            getResponses(formId) {
+                return LS.get('responses_' + formId, []);
+            },
+        };
+
+        // ─────────────────────────────────────
+        // 🔐 Auth Context
+        // ─────────────────────────────────────
+        const AuthContext = React.createContext();
+        function AuthProvider({ children }) {
+            const [isAdmin, setIsAdmin] = React.useState(LS.get('admin_session', false));
+            const login = (password) => {
+                if (password === ThemeTokens.adminPassword) {
+                    setIsAdmin(true);
+                    LS.set('admin_session', true);
+                    return true;
+                }
+                return false;
+            };
+            const logout = () => {
+                setIsAdmin(false);
+                LS.set('admin_session', false);
+            };
+            return React.createElement(AuthContext.Provider, { value: { isAdmin, login, logout } }, children);
+        }
+        function useAuth() { return React.useContext(AuthContext); }
+
+        // ─────────────────────────────────────
+        // 🌓 Theme Context
+        // ─────────────────────────────────────
+        const ThemeContext = React.createContext();
+        function ThemeProvider({ children }) {
+            const [darkMode, setDarkMode] = React.useState(LS.get('darkMode', ThemeTokens.defaultDarkMode));
+            const [accentColor, setAccentColor] = React.useState(LS.get('accentColor', ThemeTokens.accentColor));
+            React.useEffect(() => {
+                document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+                if (darkMode) document.body.classList.add('dark');
+                else document.body.classList.remove('dark');
+                LS.set('darkMode', darkMode);
+                document.documentElement.style.setProperty('--accent-hue', ThemeTokens.accentHue);
+                document.documentElement.style.setProperty('--accent-sat', ThemeTokens.accentSat);
+                document.querySelector('meta[name="theme-color"]')?.setAttribute('content', accentColor);
+            }, [darkMode, accentColor]);
+            const toggleDark = () => setDarkMode(prev => !prev);
+            return React.createElement(ThemeContext.Provider, {
+                value: {
+                    darkMode, toggleDark, accentColor,
+                    setAccentColor
+                }
+            }, children);
+        }
+        function useTheme() { return React.useContext(ThemeContext); }
+
+        // ─────────────────────────────────────
+        // 📋 Forms Context
+        // ─────────────────────────────────────
+        const FormsContext = React.createContext();
+        function FormsProvider({ children }) {
+            const [forms, setForms] = React.useState(LS.get('forms', []));
+            const saveForm = async (formData) => {
+                const result = await SheetsAPI.syncFormData(formData);
+                setForms(LS.get('forms', []));
+                return result;
+            };
+            const deleteForm = async (formId) => {
+                await SheetsAPI.deleteFormData(formId);
+                setForms(LS.get('forms', []));
+            };
+            const getForm = (formId) => forms.find(f => f.id === formId) || null;
+            return React.createElement(FormsContext.Provider, {
+                value: {
+                    forms, saveForm, deleteForm,
+                    getForm, refreshForms: () => setForms(LS.get('forms', []))
+                }
+            }, children);
+        }
+        function useForms() { return React.useContext(FormsContext); }
+
+        // ─────────────────────────────────────
+        // 🧩 UI Components
+        // ─────────────────────────────────────
+        function GlassCard({ children, className = '', style = {}, onClick, ...props }) {
+            const { darkMode } = useTheme();
+            return React.createElement('div', {
+                className: `glass-card p-4 md:p-6 ${className}`,
+                style: { cursor: onClick ? 'pointer' : 'default', ...style },
+                onClick,
+                ...props
+            }, children);
+        }
+
+        function NeoButton({ children, onClick, className = '', variant = 'primary', icon, disabled = false,
+            style = {} }) {
+            const colors = {
+                primary: { bg: '#7c3aed', color: '#fff', hoverBg: '#6d28d9' },
+                danger: { bg: '#ef4444', color: '#fff', hoverBg: '#dc2626' },
+                success: { bg: '#10b981', color: '#fff', hoverBg: '#059669' },
+                ghost: { bg: 'transparent', color: 'inherit', hoverBg: 'rgba(124,58,237,0.1)' },
+            };
+            const c = colors[variant] || colors.primary;
+            return React.createElement('button', {
+                onClick,
+                disabled,
+                className: `neo-btn px-4 py-2.5 flex items-center gap-2 justify-center ${className}`,
+                style: {
+                    background: c.bg,
+                    color: c.color,
+                    fontWeight: 600,
+                    border: 'none',
+                    cursor: disabled ? 'not-allowed' : 'pointer',
+                    opacity: disabled ? 0.6 : 1,
+                    ...style
+                },
+            }, icon && React.createElement('i', { className: icon }), children);
+        }
+
+        function Badge({ children, color = '#7c3aed' }) {
+            return React.createElement('span', {
+                className: 'inline-block px-2.5 py-1 rounded-full text-xs font-semibold',
+                style: { background: color + '20', color: color, border: '1px solid ' + color + '40' }
+            }, children);
+        }
+
+        // ─────────────────────────────────────
+        // 📱 Bottom Navigation
+        // ─────────────────────────────────────
+        function BottomNav({ currentView, onNavigate, isAdmin }) {
+            const navItems = [
+                { id: 'home', icon: 'fa-solid fa-house', label: 'หน้าแรก', adminOnly: false },
+                { id: 'forms', icon: 'fa-solid fa-clipboard-list', label: 'ฟอร์ม', adminOnly: false },
+                { id: 'admin', icon: 'fa-solid fa-gear', label: 'แอดมิน', adminOnly: true },
+                { id: 'dashboard', icon: 'fa-solid fa-chart-pie', label: 'รายงาน', adminOnly: true },
+                { id: 'settings', icon: 'fa-solid fa-palette', label: 'ปรับแต่ง', adminOnly: false },
+            ];
+            const visible = navItems.filter(n => !n.adminOnly || isAdmin);
+            return React.createElement('div', { className: 'bottom-nav' },
+                visible.map(n =>
+                    React.createElement('a', {
+                        key: n.id,
+                        href: '#',
+                        className: currentView === n.id ? 'active' : '',
+                        onClick: (e) => {
+                            e.preventDefault();
+                            onNavigate(n.id);
+                        },
+                    },
+                        React.createElement('i', { className: n.icon }),
+                        n.label
+                    )
+                )
+            );
+        }
+
+        // ─────────────────────────────────────
+        // 🖥️ Desktop Sidebar
+        // ─────────────────────────────────────
+        function Sidebar({ currentView, onNavigate, isAdmin, darkMode, toggleDark }) {
+            const [open, setOpen] = React.useState(false);
+            const menuItems = [
+                { id: 'home', icon: 'fa-solid fa-house', label: 'หน้าแรก', adminOnly: false },
+                { id: 'forms', icon: 'fa-solid fa-clipboard-list', label: 'ฟอร์มทั้งหมด', adminOnly: false },
+                { id: 'admin', icon: 'fa-solid fa-gear', label: 'จัดการฟอร์ม', adminOnly: true },
+                {
+                    id: 'dashboard', icon: 'fa-solid fa-chart-pie', label: 'รายงาน & วิเคราะห์',
+                    adminOnly: true
+                },
+                { id: 'settings', icon: 'fa-solid fa-palette', label: 'ปรับแต่งธีม', adminOnly: false },
+            ];
+            const visible = menuItems.filter(m => !m.adminOnly || isAdmin);
+
+            const sidebarContent = React.createElement('div', {
+                className: 'glass h-100 d-flex flex-column p-3',
+                style: { minWidth: '240px', maxWidth: '280px', borderRadius: '1.5rem' }
+            },
+                React.createElement('div', { className: 'text-center mb-3' },
+                    React.createElement('h4', { className: 'fw-bold mb-0' }, '✨ FormFlow+'),
+                    React.createElement('small', { className: 'text-muted' }, isAdmin ? 'โหมดแอดมิน' :
+                        'ผู้ใช้งาน')
+                ),
+                React.createElement('hr'),
+                visible.map(m =>
+                    React.createElement('button', {
+                        key: m.id,
+                        onClick: () => {
+                            onNavigate(m.id);
+                            setOpen(false);
+                        },
+                        className: `btn text-start mb-1 py-2 px-3 rounded-3 fw-medium ${currentView === m.id ? 'btn-accent text-white' : ''}`,
+                        style: {
+                            background: currentView === m.id ? '#7c3aed' : 'transparent',
+                            color: currentView === m.id ? '#fff' : 'inherit',
+                            border: 'none',
+                            transition: 'all 0.2s'
+                        }
+                    }, React.createElement('i', { className: m.icon + ' me-2' }), m.label)
+                ),
+                React.createElement('div', { className: 'mt-auto' },
+                    React.createElement('hr'),
+                    React.createElement('button', {
+                        onClick: toggleDark,
+                        className: 'btn w-100 py-2 rounded-3',
+                        style: { border: 'none', background: 'transparent' }
+                    }, React.createElement('i', {
+                        className: darkMode ? 'fa-solid fa-sun me-2' :
+                            'fa-solid fa-moon me-2'
+                    }), darkMode ? 'Light Mode' : 'Dark Mode')
+                )
+            );
+
+            return React.createElement(React.Fragment, null,
+                React.createElement('div', {
+                    className: 'sidebar-desktop d-none d-md-flex', style: {
+                        position: 'fixed',
+                        left: '1.5rem', top: '1.5rem', bottom: '1.5rem', zIndex: 100
+                    }
+                }, sidebarContent),
+                React.createElement('button', {
+                    onClick: () => setOpen(!open),
+                    className: 'd-md-none position-fixed btn p-2 rounded-circle',
+                    style: {
+                        top: '1rem', left: '1rem', zIndex: 1050, background: 'var(--glass-bg)',
+                        backdropFilter: 'var(--glass-blur)', border: '1px solid var(--glass-border)',
+                        width: '44px', height: '44px'
+                    }
+                }, React.createElement('i', { className: 'fa-solid fa-bars' })),
+                React.createElement('div', {
+                    className: `sidebar-overlay d-md-none ${open ? 'open' : ''}`,
+                    onClick: () => setOpen(false)
+                }),
+                React.createElement('div', {
+                    className: 'd-md-none position-fixed',
+                    style: {
+                        left: open ? '1rem' : '-300px',
+                        top: '1rem',
+                        bottom: '1rem',
+                        zIndex: 1050,
+                        transition: 'left 0.35s cubic-bezier(0.4,0,0.2,1)',
+                    }
+                }, sidebarContent)
+            );
+        }
+
+        // ─────────────────────────────────────
+        // 🏠 Home View
+        // ─────────────────────────────────────
+        function HomeView({ onNavigate, isAdmin }) {
+            const { forms } = useForms();
+            const { darkMode } = useTheme();
+            const publicForms = forms.filter(f => f.published !== false);
+            return React.createElement('div', { className: 'container py-4 px-3 animate-slide-up' },
+                React.createElement('div', { className: 'text-center mb-5 pt-3' },
+                    React.createElement('div', {
+                        className: 'd-inline-block mb-3',
+                        style: { fontSize: '4rem', animation: 'float 4s ease-in-out infinite' }
+                    }, '🪄'),
+                    React.createElement('h1', { className: 'display-4 fw-bold mb-2' }, 'FormFlow+'),
+                    React.createElement('p', { className: 'lead text-muted mb-3' },
+                        'สร้างฟอร์มสวย ๆ ด้วย Glassmorphism + 3D Neo-Shadow'),
+                    !isAdmin && React.createElement(NeoButton, {
+                        onClick: () => onNavigate('admin'),
+                        icon: 'fa-solid fa-lock',
+                        variant: 'ghost'
+                    }, 'เข้าสู่ระบบแอดมิน')
+                ),
+                React.createElement('h3', { className: 'mb-3 fw-bold' }, '📋 ฟอร์มที่เปิดให้กรอก'),
+                publicForms.length === 0 ?
+                    React.createElement(GlassCard, { className: 'text-center p-5' },
+                        React.createElement('p', { className: 'text-muted mb-0' }, 'ยังไม่มีฟอร์มสาธารณะในขณะนี้ 🍃')
+                    ) :
+                    React.createElement('div', { className: 'row g-3' },
+                        publicForms.map(form =>
+                            React.createElement('div', { key: form.id, className: 'col-12 col-md-6 col-lg-4' },
+                                React.createElement(GlassCard, {
+                                    onClick: () => onNavigate('fill-' + form.id),
+                                    className: 'h-100',
+                                    style: { cursor: 'pointer' }
+                                },
+                                    form.headerImage && React.createElement('img', {
+                                        src: form.headerImage,
+                                        alt: '',
+                                        className: 'w-100 rounded-3 mb-3',
+                                        style: { maxHeight: '140px', objectFit: 'cover' }
+                                    }),
+                                    React.createElement('div', { className: 'd-flex align-items-center gap-3' },
+                                        React.createElement('div', {
+                                            className: 'rounded-3 d-flex align-items-center justify-content-center flex-shrink-0',
+                                            style: {
+                                                width: '50px',
+                                                height: '50px',
+                                                background: form.accentColor || '#7c3aed',
+                                                color: '#fff',
+                                                fontSize: '1.5rem'
+                                            }
+                                        }, React.createElement('i', { className: 'fa-solid fa-file-lines' })),
+                                        React.createElement('div', { className: 'flex-grow-1 min-w-0' },
+                                            React.createElement('h5', { className: 'fw-bold mb-1 text-truncate' },
+                                                form.title || 'ฟอร์มไม่มีชื่อ'),
+                                            React.createElement('p', { className: 'text-muted mb-0 small text-truncate' },
+                                                form.description || 'ไม่มีคำอธิบาย'),
+                                            React.createElement('small', { className: 'text-muted' },
+                                                form.questions?.length || 0, ' คำถาม')
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+            );
+        }
+
+        // ─────────────────────────────────────
+        // 🔐 Admin Login
+        // ─────────────────────────────────────
+        function AdminLogin({ onLogin }) {
+            const [password, setPassword] = React.useState('');
+            const [error, setError] = React.useState('');
+            const { login } = useAuth();
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (login(password)) {
+                    onLogin();
+                    showToast('เข้าสู่ระบบสำเร็จ! ✅', 'success');
+                } else {
+                    setError('รหัสผ่านไม่ถูกต้อง ❌');
+                    showToast('รหัสผ่านไม่ถูกต้อง', 'error');
+                }
+            };
+            return React.createElement('div', { className: 'container py-5' },
+                React.createElement('div', { className: 'row justify-content-center' },
+                    React.createElement('div', { className: 'col-12 col-md-6 col-lg-4' },
+                        React.createElement(GlassCard, { className: 'p-4 text-center' },
+                            React.createElement('div', { style: { fontSize: '3rem' } }, '🔐'),
+                            React.createElement('h3', { className: 'fw-bold mb-3' }, 'เข้าสู่ระบบแอดมิน'),
+                            React.createElement('form', { onSubmit: handleSubmit },
+                                React.createElement('input', {
+                                    type: 'password',
+                                    placeholder: 'รหัสผ่าน',
+                                    value: password,
+                                    onChange: e => {
+                                        setPassword(e.target.value);
+                                        setError('');
+                                    },
+                                    className: 'mb-3',
+                                    autoFocus: true,
+                                    style: { fontSize: '1rem', padding: '0.8rem 1.2rem' }
+                                }),
+                                error && React.createElement('p', { className: 'text-danger small' }, error),
+                                React.createElement(NeoButton, {
+                                    type: 'submit',
+                                    icon: 'fa-solid fa-right-to-bracket',
+                                    className: 'w-100 mt-2'
+                                }, 'เข้าสู่ระบบ')
+                            ),
+                            React.createElement('p', { className: 'text-muted mt-3 small' },
+                                'รหัสเริ่มต้น: ', React.createElement('code', null, ThemeTokens.adminPassword))
+                        )
+                    )
+                )
+            );
+        }
+
+        // ─────────────────────────────────────
+        // 📝 Form Builder (Admin)
+        // ─────────────────────────────────────
+        function FormBuilder({ formId, onBack }) {
+            const { saveForm, getForm, refreshForms } = useForms();
+            const existing = formId ? getForm(formId) : null;
+            const [formData, setFormData] = React.useState(existing || {
+                id: 'form_' + Date.now(),
+                title: 'ฟอร์มใหม่',
+                description: 'คำอธิบายฟอร์ม',
+                headerImage: '',
+                accentColor: '#7c3aed',
+                backgroundColor: '#ffffff',
+                published: true,
+                questions: [],
+                createdAt: new Date().toISOString(),
+            });
+            const [showQuestionEditor, setShowQuestionEditor] = React.useState(false);
+            const [editingQuestion, setEditingQuestion] = React.useState(null);
+            const [previewMode, setPreviewMode] = React.useState(false);
+
+            const addQuestion = () => {
+                setEditingQuestion({
+                    id: 'q_' + Date.now(),
+                    type: 'short',
+                    label: 'คำถามใหม่',
+                    required: false,
+                    options: [],
+                });
+                setShowQuestionEditor(true);
+            };
+            const saveQuestion = (q) => {
+                const updated = { ...formData };
+                const idx = updated.questions.findIndex(x => x.id === q.id);
+                if (idx > -1) updated.questions[idx] = q;
+                else updated.questions.push(q);
+                updated.questions = [...updated.questions];
+                setFormData(updated);
+                setShowQuestionEditor(false);
+                setEditingQuestion(null);
+            };
+            const deleteQuestion = (qId) => {
+                setFormData(prev => ({ ...prev, questions: prev.questions.filter(q => q.id !== qId) }));
+            };
+            const editQuestion = (q) => {
+                setEditingQuestion({ ...q });
+                setShowQuestionEditor(true);
+            };
+            const handleSave = async () => {
+                await saveForm(formData);
+                refreshForms();
+                showToast('บันทึกฟอร์มเรียบร้อย! ✅', 'success');
+                onBack();
+            };
+            const formURL = window.location.origin + window.location.pathname + '#fill-' + formData.id;
+
+            if (previewMode) {
+                return React.createElement(FormFillView, {
+                    formData,
+                    preview: true,
+                    onExitPreview: () => setPreviewMode(false)
+                });
+            }
+
+            return React.createElement('div', { className: 'container py-4 px-3 animate-slide-up' },
+                React.createElement('div', { className: 'd-flex flex-wrap align-items-center gap-3 mb-4' },
+                    React.createElement(NeoButton, { onClick: onBack, variant: 'ghost', icon: 'fa-solid fa-arrow-left' },
+                        'กลับ'),
+                    React.createElement('h4', { className: 'fw-bold mb-0 flex-grow-1' }, '✏️ ' + (formId ?
+                        'แก้ไขฟอร์ม' : 'สร้างฟอร์มใหม่')),
+                    React.createElement(NeoButton, {
+                        onClick: () => setPreviewMode(true), variant: 'ghost',
+                        icon: 'fa-solid fa-eye'
+                    }, 'พรีวิว'),
+                    React.createElement(NeoButton, {
+                        onClick: handleSave, icon: 'fa-solid fa-floppy-disk',
+                        variant: 'success'
+                    }, 'บันทึก'),
+                ),
+                React.createElement(GlassCard, { className: 'mb-3 p-4' },
+                    React.createElement('label', { className: 'fw-semibold mb-2 d-block' }, '📌 ชื่อฟอร์ม'),
+                    React.createElement('input', {
+                        type: 'text',
+                        value: formData.title,
+                        onChange: e => setFormData(prev => ({ ...prev, title: e.target.value })),
+                        placeholder: 'ชื่อฟอร์ม',
+                        className: 'mb-3'
+                    }),
+                    React.createElement('label', { className: 'fw-semibold mb-2 d-block' }, '📝 คำอธิบาย'),
+                    React.createElement('textarea', {
+                        value: formData.description,
+                        onChange: e => setFormData(prev => ({ ...prev, description: e.target.value })),
+                        rows: 2,
+                        className: 'mb-3'
+                    }),
+                    React.createElement('label', { className: 'fw-semibold mb-2 d-block' }, '🖼️ URL รูปภาพส่วนหัว'),
+                    React.createElement('input', {
+                        type: 'text',
+                        value: formData.headerImage,
+                        onChange: e => setFormData(prev => ({ ...prev, headerImage: e.target.value })),
+                        placeholder: 'https://...',
+                        className: 'mb-3'
+                    }),
+                    React.createElement('div', { className: 'row g-3' },
+                        React.createElement('div', { className: 'col-6' },
+                            React.createElement('label', { className: 'fw-semibold mb-2 d-block' },
+                                '🎨 สี Accent'),
+                            React.createElement('input', {
+                                type: 'color',
+                                value: formData.accentColor,
+                                onChange: e => setFormData(prev => ({
+                                    ...prev, accentColor: e.target
+                                        .value
+                                })),
+                                className: 'w-100',
+                                style: { height: '42px', cursor: 'pointer' }
+                            })
+                        ),
+                        React.createElement('div', { className: 'col-6' },
+                            React.createElement('label', { className: 'fw-semibold mb-2 d-block' },
+                                '🎨 สีพื้นหลัง'),
+                            React.createElement('input', {
+                                type: 'color',
+                                value: formData.backgroundColor,
+                                onChange: e => setFormData(prev => ({
+                                    ...prev, backgroundColor: e.target
+                                        .value
+                                })),
+                                className: 'w-100',
+                                style: { height: '42px', cursor: 'pointer' }
+                            })
+                        )
+                    ),
+                    React.createElement('div', { className: 'form-check form-switch mt-3' },
+                        React.createElement('input', {
+                            className: 'form-check-input',
+                            type: 'checkbox',
+                            checked: formData.published,
+                            onChange: e => setFormData(prev => ({ ...prev, published: e.target.checked })),
+                            id: 'publishedSwitch'
+                        }),
+                        React.createElement('label', { className: 'form-check-label', htmlFor: 'publishedSwitch' },
+                            '📢 เผยแพร่ฟอร์มนี้')
+                    ),
+                    React.createElement('div', { className: 'mt-3 p-3 rounded-3', style: { background: 'rgba(124,58,237,0.08)' } },
+                        React.createElement('small', { className: 'fw-semibold' }, '🔗 URL สำหรับแชร์:'),
+                        React.createElement('div', { className: 'd-flex gap-2 mt-2' },
+                            React.createElement('input', {
+                                type: 'text', value: formURL, readOnly: true,
+                                className: 'flex-grow-1', style: { fontSize: '0.85rem' }
+                            }),
+                            React.createElement(NeoButton, {
+                                onClick: () => {
+                                    navigator.clipboard.writeText(formURL);
+                                    showToast('คัดลอก URL แล้ว! 📋', 'success');
+                                },
+                                variant: 'primary',
+                                icon: 'fa-solid fa-copy',
+                                style: { whiteSpace: 'nowrap' }
+                            }, 'คัดลอก')
+                        )
+                    )
+                ),
+                React.createElement('div', { className: 'd-flex align-items-center gap-3 mb-3' },
+                    React.createElement('h5', { className: 'fw-bold mb-0' }, '📋 คำถาม (' + formData.questions.length +
+                        ')'),
+                    React.createElement(NeoButton, {
+                        onClick: addQuestion, icon: 'fa-solid fa-plus', variant: 'primary',
+                        style: { padding: '0.5rem 1rem' }
+                    }, 'เพิ่มคำถาม')
+                ),
+                formData.questions.length === 0 ?
+                    React.createElement(GlassCard, { className: 'text-center p-4 text-muted' },
+                        'ยังไม่มีคำถาม คลิก "เพิ่มคำถาม" เพื่อเริ่มสร้าง ✨') :
+                    formData.questions.map((q, i) =>
+                        React.createElement(GlassCard, { key: q.id, className: 'mb-2 p-3' },
+                            React.createElement('div', { className: 'd-flex align-items-center gap-3' },
+                                React.createElement(Badge, null, '#' + (i + 1)),
+                                React.createElement('div', { className: 'flex-grow-1 min-w-0' },
+                                    React.createElement('strong', { className: 'd-block text-truncate' }, q.label),
+                                    React.createElement('small', { className: 'text-muted' },
+                                        typeLabel(q.type), q.required ? ' · จำเป็น' : ' · ไม่จำเป็น',
+                                        q.options?.length ? ' · ' + q.options.length + ' ตัวเลือก' : ''
+                                    )
+                                ),
+                                React.createElement(NeoButton, {
+                                    onClick: () => editQuestion(q), variant: 'ghost',
+                                    icon: 'fa-solid fa-pen', style: { padding: '0.4rem 0.6rem' }
+                                }),
+                                React.createElement(NeoButton, {
+                                    onClick: () => deleteQuestion(q.id), variant: 'danger',
+                                    icon: 'fa-solid fa-trash', style: { padding: '0.4rem 0.6rem' }
+                                })
+                            )
+                        )
+                    ),
+                showQuestionEditor && React.createElement(QuestionEditor, {
+                    question: editingQuestion,
+                    onSave: saveQuestion,
+                    onCancel: () => {
+                        setShowQuestionEditor(false);
+                        setEditingQuestion(null);
+                    }
+                })
+            );
+        }
+
+        function typeLabel(type) {
+            const m = {
+                short: '📝 ตอบสั้น', paragraph: '📄 ย่อหน้า', multiple: '☑️ หลายตัวเลือก', dropdown: '📋 เลื่อนลง',
+                file: '📎 อัปโหลดไฟล์', rating: '⭐ คะแนน', date: '📅 วันที่', time: '⏰ เวลา'
+            };
+            return m[type] || type;
+        }
+
+        function QuestionEditor({ question, onSave, onCancel }) {
+            const [q, setQ] = React.useState({ ...question, options: question.options || [] });
+            const [newOption, setNewOption] = React.useState('');
+            const types = [
+                { value: 'short', label: '📝 ตอบสั้น' }, { value: 'paragraph', label: '📄 ย่อหน้า' },
+                { value: 'multiple', label: '☑️ หลายตัวเลือก' }, { value: 'dropdown', label: '📋 เลื่อนลง' },
+                { value: 'file', label: '📎 อัปโหลดไฟล์' }, { value: 'rating', label: '⭐ คะแนน' },
+                { value: 'date', label: '📅 วันที่' }, { value: 'time', label: '⏰ เวลา' },
+            ];
+            const needsOptions = q.type === 'multiple' || q.type === 'dropdown';
+            const addOption = () => {
+                if (newOption.trim()) {
+                    setQ(prev => ({ ...prev, options: [...prev.options, newOption.trim()] }));
+                    setNewOption('');
+                }
+            };
+            return React.createElement('div', {
+                className: 'position-fixed inset-0 d-flex align-items-center justify-content-center',
+                style: { zIndex: 2000, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }
+            },
+                React.createElement('div', {
+                    className: 'modal-glass p-4 m-3',
+                    style: { maxWidth: '500px', width: '100%', maxHeight: '85vh', overflow: 'auto' }
+                },
+                    React.createElement('h5', { className: 'fw-bold mb-3' }, '⚙️ ตั้งค่าคำถาม'),
+                    React.createElement('label', { className: 'fw-semibold mb-1 d-block' }, 'ข้อความคำถาม'),
+                    React.createElement('input', {
+                        type: 'text',
+                        value: q.label,
+                        onChange: e => setQ(prev => ({ ...prev, label: e.target.value })),
+                        className: 'mb-3'
+                    }),
+                    React.createElement('label', { className: 'fw-semibold mb-1 d-block' }, 'ประเภทคำถาม'),
+                    React.createElement('select', {
+                        value: q.type,
+                        onChange: e => setQ(prev => ({
+                            ...prev, type: e.target.value, options: (e.target.value ===
+                                'multiple' || e.target.value === 'dropdown') ? prev.options : []
+                        })),
+                        className: 'mb-3'
+                    }, types.map(t => React.createElement('option', { key: t.value, value: t.value }, t.label))),
+                    needsOptions && React.createElement('div', { className: 'mb-3' },
+                        React.createElement('label', { className: 'fw-semibold mb-1 d-block' }, 'ตัวเลือก'),
+                        q.options.map((opt, i) => React.createElement('div', {
+                            key: i,
+                            className: 'd-flex gap-2 mb-1'
+                        },
+                            React.createElement('input', {
+                                type: 'text', value: opt, readOnly: true,
+                                className: 'flex-grow-1'
+                            }),
+                            React.createElement(NeoButton, {
+                                onClick: () => setQ(prev => ({
+                                    ...prev, options: prev.options.filter(
+                                        (_, j) => j !== i)
+                                })),
+                                variant: 'danger',
+                                icon: 'fa-solid fa-times',
+                                style: { padding: '0.3rem 0.5rem' }
+                            })
+                        )),
+                        React.createElement('div', { className: 'd-flex gap-2 mt-2' },
+                            React.createElement('input', {
+                                type: 'text',
+                                value: newOption,
+                                onChange: e => setNewOption(e.target.value),
+                                placeholder: 'เพิ่มตัวเลือก...',
+                                onKeyDown: e => e.key === 'Enter' && addOption(),
+                                className: 'flex-grow-1'
+                            }),
+                            React.createElement(NeoButton, {
+                                onClick: addOption, icon: 'fa-solid fa-plus',
+                                variant: 'primary', style: { padding: '0.4rem 0.8rem' }
+                            })
+                        )
+                    ),
+                    React.createElement('div', { className: 'form-check form-switch mb-3' },
+                        React.createElement('input', {
+                            className: 'form-check-input',
+                            type: 'checkbox',
+                            checked: q.required,
+                            onChange: e => setQ(prev => ({ ...prev, required: e.target.checked })),
+                            id: 'requiredSwitch'
+                        }),
+                        React.createElement('label', { className: 'form-check-label', htmlFor: 'requiredSwitch' },
+                            '⚠️ จำเป็นต้องตอบ')
+                    ),
+                    React.createElement('div', { className: 'd-flex gap-2 justify-content-end' },
+                        React.createElement(NeoButton, { onClick: onCancel, variant: 'ghost' }, 'ยกเลิก'),
+                        React.createElement(NeoButton, {
+                            onClick: () => onSave(q), variant: 'success',
+                            icon: 'fa-solid fa-check'
+                        }, 'บันทึกคำถาม')
+                    )
+                )
+            );
+        }
+
+        // ─────────────────────────────────────
+        // 📝 Form Fill View (Public)
+        // ─────────────────────────────────────
+        function FormFillView({ formId, formData: propData, preview, onExitPreview }) {
+            const { getForm } = useForms();
+            const formData = propData || (formId ? getForm(formId.replace('fill-', '')) : null);
+            const [answers, setAnswers] = React.useState({});
+            const [submitted, setSubmitted] = React.useState(false);
+            const [fileNames, setFileNames] = React.useState({});
+
+            if (!formData) {
+                return React.createElement('div', { className: 'container py-5 text-center' },
+                    React.createElement(GlassCard, { className: 'p-5' },
+                        React.createElement('h3', null, '😕 ไม่พบฟอร์ม'), React.createElement('p', { className: 'text-muted' },
+                            'ฟอร์มนี้อาจถูกลบหรือไม่มีการเผยแพร่'),
+                        React.createElement('a', { href: '#', className: 'btn btn-accent' }, 'กลับหน้าแรก')
+                    ));
+            }
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                if (!preview) {
+                    await SheetsAPI.submitResponse(formData.id, { answers, fileNames });
+                }
+                setSubmitted(true);
+                showToast('ส่งคำตอบเรียบร้อย! 🎉', 'success');
+            };
+            const updateAnswer = (qId, value) => setAnswers(prev => ({ ...prev, [qId]: value }));
+
+            if (submitted && !preview) {
+                return React.createElement('div', { className: 'container py-5 text-center animate-slide-up' },
+                    React.createElement(GlassCard, { className: 'p-5' },
+                        React.createElement('div', { style: { fontSize: '5rem' } }, '🎉'),
+                        React.createElement('h2', { className: 'fw-bold' }, 'ส่งคำตอบแล้ว!'),
+                        React.createElement('p', { className: 'text-muted' }, 'ขอบคุณที่กรอกฟอร์ม'),
+                        React.createElement('a', { href: '#', className: 'btn btn-accent mt-3' }, 'กลับหน้าแรก')
+                    ));
+            }
+
+            return React.createElement('div', {
+                className: 'container py-4 px-3 animate-slide-up',
+                style: {
+                    maxWidth: '720px', background: formData.backgroundColor, minHeight: '100vh',
+                    borderRadius: '1rem'
+                }
+            },
+                preview && React.createElement(NeoButton, {
+                    onClick: onExitPreview, variant: 'ghost',
+                    icon: 'fa-solid fa-xmark', className: 'mb-3'
+                }, 'ออกจากพรีวิว'),
+                formData.headerImage && React.createElement('img', {
+                    src: formData.headerImage,
+                    alt: '',
+                    className: 'w-100 rounded-3 mb-4',
+                    style: { maxHeight: '200px', objectFit: 'cover' }
+                }),
+                React.createElement('h2', { className: 'fw-bold mb-2' }, formData.title),
+                React.createElement('p', { className: 'text-muted mb-4' }, formData.description),
+                React.createElement('form', { onSubmit: handleSubmit },
+                    formData.questions.map((q, i) =>
+                        React.createElement(GlassCard, { key: q.id, className: 'mb-3 p-3' },
+                            React.createElement('label', { className: 'fw-semibold mb-2 d-block' },
+                                (i + 1) + '. ' + q.label,
+                                q.required && React.createElement('span', { className: 'text-danger' }, ' *')
+                            ),
+                            q.type === 'short' && React.createElement('input', {
+                                type: 'text',
+                                value: answers[q.id] || '',
+                                onChange: e => updateAnswer(q.id, e.target.value),
+                                required: q.required,
+                                placeholder: 'พิมพ์คำตอบสั้น ๆ...'
+                            }),
+                            q.type === 'paragraph' && React.createElement('textarea', {
+                                value: answers[q.id] || '',
+                                onChange: e => updateAnswer(q.id, e.target.value),
+                                required: q.required,
+                                rows: 3,
+                                placeholder: 'พิมพ์คำตอบยาว ๆ...'
+                            }),
+                            (q.type === 'multiple') && React.createElement('div', null,
+                                q.options.map(opt => React.createElement('div', {
+                                    key: opt,
+                                    className: 'form-check mb-1'
+                                },
+                                    React.createElement('input', {
+                                        className: 'form-check-input',
+                                        type: 'radio',
+                                        name: q.id,
+                                        value: opt,
+                                        checked: answers[q.id] === opt,
+                                        onChange: e => updateAnswer(q.id, e.target.value),
+                                        required: q.required && !answers[q.id],
+                                    }),
+                                    React.createElement('label', { className: 'form-check-label' }, opt)
+                                ))
+                            ),
+                            q.type === 'dropdown' && React.createElement('select', {
+                                value: answers[q.id] || '',
+                                onChange: e => updateAnswer(q.id, e.target.value),
+                                required: q.required,
+                            },
+                                React.createElement('option', { value: '' }, '-- เลือก --'),
+                                q.options.map(opt => React.createElement('option', { key: opt, value: opt }, opt))
+                            ),
+                            q.type === 'file' && React.createElement('div', null,
+                                React.createElement('input', {
+                                    type: 'file',
+                                    onChange: e => {
+                                        updateAnswer(q.id, 'file_uploaded');
+                                        setFileNames(prev => ({
+                                            ...prev, [q.id]: e.target.files[0]
+                                                ?.name || ''
+                                        }));
+                                    },
+                                    className: 'form-control'
+                                }),
+                                fileNames[q.id] && React.createElement('small', { className: 'text-success mt-1' },
+                                    '📎 ', fileNames[q.id])
+                            ),
+                            q.type === 'rating' && React.createElement('div', { className: 'd-flex gap-2' },
+                                [1, 2, 3, 4, 5].map(star =>
+                                    React.createElement('span', {
+                                        key: star,
+                                        onClick: () => updateAnswer(q.id, star),
+                                        style: {
+                                            fontSize: '2rem',
+                                            cursor: 'pointer',
+                                            opacity: (answers[q.id] || 0) >= star ? 1 : 0.3,
+                                            transition: 'all 0.2s',
+                                        }
+                                    }, '⭐')
+                                )
+                            ),
+                            q.type === 'date' && React.createElement('input', {
+                                type: 'date',
+                                value: answers[q.id] || '',
+                                onChange: e => updateAnswer(q.id, e.target.value),
+                                required: q.required,
+                            }),
+                            q.type === 'time' && React.createElement('input', {
+                                type: 'time',
+                                value: answers[q.id] || '',
+                                onChange: e => updateAnswer(q.id, e.target.value),
+                                required: q.required,
+                            })
+                        )
+                    ),
+                    React.createElement(NeoButton, {
+                        type: 'submit', icon: 'fa-solid fa-paper-plane',
+                        variant: 'success', className: 'w-100 mt-3 py-3', style: {
+                            fontSize: '1.1rem',
+                            borderRadius: '1rem'
+                        }
+                    },
+                        '📤 ส่งคำตอบ'
+                    )
+                )
+            );
+        }
+
+        // ─────────────────────────────────────
+        // 📊 Dashboard (Admin)
+        // ─────────────────────────────────────
+        function DashboardView() {
+            const { forms } = useForms();
+            const [selectedFormId, setSelectedFormId] = React.useState(forms[0]?.id || null);
+            const chartRef = React.useRef(null);
+            const pieRef = React.useRef(null);
+            const chartInstance = React.useRef(null);
+            const pieInstance = React.useRef(null);
+
+            const selectedForm = forms.find(f => f.id === selectedFormId);
+            const responses = selectedFormId ? SheetsAPI.getResponses(selectedFormId) : [];
+
+            React.useEffect(() => {
+                if (chartRef.current && selectedForm) {
+                    if (chartInstance.current) chartInstance.current.destroy();
+                    const months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.',
+                        'พ.ย.', 'ธ.ค.'
+                    ];
+                    const monthlyCounts = new Array(12).fill(0);
+                    responses.forEach(r => {
+                        const m = new Date(r.submittedAt).getMonth();
+                        if (m >= 0 && m < 12) monthlyCounts[m]++;
+                    });
+                    chartInstance.current = new Chart(chartRef.current, {
+                        type: 'bar',
+                        data: {
+                            labels: months,
+                            datasets: [{
+                                label: 'จำนวนผู้ตอบ',
+                                data: monthlyCounts,
+                                backgroundColor: 'rgba(124,58,237,0.6)',
+                                borderColor: '#7c3aed',
+                                borderWidth: 2,
+                                borderRadius: 12,
+                                borderSkipped: false,
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: { legend: { display: false } },
+                            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+                        },
+                    });
+                }
+                if (pieRef.current && selectedForm) {
+                    if (pieInstance.current) pieInstance.current.destroy();
+                    const qTypes = {};
+                    selectedForm.questions.forEach(q => { qTypes[q.type] = (qTypes[q.type] || 0) + 1; });
+                    const labels = Object.keys(qTypes).map(t => typeLabel(t));
+                    const data = Object.values(qTypes);
+                    pieInstance.current = new Chart(pieRef.current, {
+                        type: 'doughnut',
+                        data: {
+                            labels,
+                            datasets: [{
+                                data, backgroundColor: ['#7c3aed', '#a78bfa', '#c4b5fd',
+                                    '#60a5fa', '#34d399', '#fbbf24', '#f87171', '#fb923c'
+                                ], borderWidth: 0
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: { legend: { position: 'bottom' } },
+                        },
+                    });
+                }
+                return () => {
+                    if (chartInstance.current) chartInstance.current.destroy();
+                    if (pieInstance.current) pieInstance.current.destroy();
+                };
+            }, [selectedFormId, responses.length]);
+
+            return React.createElement('div', { className: 'container py-4 px-3 animate-slide-up' },
+                React.createElement('h4', { className: 'fw-bold mb-4' }, '📊 รายงาน & วิเคราะห์เชิงลึก'),
+                React.createElement('div', { className: 'mb-3' },
+                    React.createElement('label', { className: 'fw-semibold mb-2 d-block' }, '📋 เลือกฟอร์ม'),
+                    React.createElement('select', {
+                        value: selectedFormId || '',
+                        onChange: e => setSelectedFormId(e.target.value),
+                        className: 'form-select'
+                    },
+                        forms.map(f => React.createElement('option', { key: f.id, value: f.id }, f.title))
+                    )
+                ),
+                selectedForm && React.createElement(React.Fragment, null,
+                    React.createElement('div', { className: 'row g-3 mb-4' },
+                        React.createElement('div', { className: 'col-6 col-md-3' },
+                            React.createElement(GlassCard, { className: 'text-center p-3' },
+                                React.createElement('div', { style: { fontSize: '2rem' } }, '📝'),
+                                React.createElement('h3', { className: 'fw-bold mb-0' }, responses.length),
+                                React.createElement('small', { className: 'text-muted' }, 'คำตอบทั้งหมด')
+                            )
+                        ),
+                        React.createElement('div', { className: 'col-6 col-md-3' },
+                            React.createElement(GlassCard, { className: 'text-center p-3' },
+                                React.createElement('div', { style: { fontSize: '2rem' } }, '❓'),
+                                React.createElement('h3', { className: 'fw-bold mb-0' }, selectedForm.questions
+                                    .length),
+                                React.createElement('small', { className: 'text-muted' }, 'คำถาม')
+                            )
+                        ),
+                        React.createElement('div', { className: 'col-6 col-md-3' },
+                            React.createElement(GlassCard, { className: 'text-center p-3' },
+                                React.createElement('div', { style: { fontSize: '2rem' } }, '📅'),
+                                React.createElement('h3', { className: 'fw-bold mb-0' },
+                                    responses.length > 0 ? new Date(responses[responses.length - 1]
+                                        .submittedAt).toLocaleDateString('th-TH') : '-'),
+                                React.createElement('small', { className: 'text-muted' }, 'ตอบล่าสุด')
+                            )
+                        ),
+                        React.createElement('div', { className: 'col-6 col-md-3' },
+                            React.createElement(GlassCard, { className: 'text-center p-3' },
+                                React.createElement('div', { style: { fontSize: '2rem' } }, '🔗'),
+                                React.createElement('h3', { className: 'fw-bold mb-0' }, selectedForm.published ?
+                                    'เปิด' : 'ปิด'),
+                                React.createElement('small', { className: 'text-muted' }, 'สถานะ')
+                            )
+                        ),
+                    ),
+                    React.createElement('div', { className: 'row g-3' },
+                        React.createElement('div', { className: 'col-12 col-lg-8' },
+                            React.createElement(GlassCard, { className: 'p-3' },
+                                React.createElement('h6', { className: 'fw-bold mb-3' }, '📈 กราฟรายเดือน'),
+                                React.createElement('canvas', { ref: chartRef, style: { maxHeight: '300px' } })
+                            )
+                        ),
+                        React.createElement('div', { className: 'col-12 col-lg-4' },
+                            React.createElement(GlassCard, { className: 'p-3' },
+                                React.createElement('h6', { className: 'fw-bold mb-3' }, '🍩 หมวดหมู่คำถาม'),
+                                React.createElement('canvas', { ref: pieRef, style: { maxHeight: '280px' } })
+                            )
+                        ),
+                    )
+                )
+            );
+        }
+
+        // ─────────────────────────────────────
+        // ⚙️ Settings View
+        // ─────────────────────────────────────
+        function SettingsView() {
+            const { darkMode, toggleDark, accentColor, setAccentColor } = useTheme();
+            const { isAdmin, logout } = useAuth();
+            return React.createElement('div', { className: 'container py-4 px-3 animate-slide-up', style: { maxWidth: '600px' } },
+                React.createElement('h4', { className: 'fw-bold mb-4' }, '⚙️ ปรับแต่ง'),
+                React.createElement(GlassCard, { className: 'p-4 mb-3' },
+                    React.createElement('h6', { className: 'fw-bold mb-3' }, '🌓 โหมดสี'),
+                    React.createElement('div', { className: 'd-flex align-items-center justify-content-between' },
+                        React.createElement('span', null, darkMode ? '🌙 Dark Mode' : '☀️ Light Mode'),
+                        React.createElement('div', {
+                            onClick: toggleDark,
+                            className: 'position-relative rounded-pill',
+                            style: {
+                                width: '56px',
+                                height: '30px',
+                                background: darkMode ? '#7c3aed' : '#d1d5db',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s',
+                            }
+                        },
+                            React.createElement('div', {
+                                style: {
+                                    width: '24px',
+                                    height: '24px',
+                                    borderRadius: '50%',
+                                    background: '#fff',
+                                    position: 'absolute',
+                                    top: '3px',
+                                    left: darkMode ? '28px' : '4px',
+                                    transition: 'all 0.3s',
+                                    boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+                                }
+                            })
+                        )
+                    )
+                ),
+                React.createElement(GlassCard, { className: 'p-4 mb-3' },
+                    React.createElement('h6', { className: 'fw-bold mb-3' }, '🎨 Accent Color'),
+                    React.createElement('input', {
+                        type: 'color',
+                        value: accentColor,
+                        onChange: e => {
+                            setAccentColor(e.target.value);
+                            LS.set('accentColor', e.target.value);
+                        },
+                        style: { width: '100%', height: '50px', cursor: 'pointer', borderRadius: '1rem' }
+                    }),
+                    React.createElement('div', { className: 'mt-3 d-flex gap-2 flex-wrap' },
+                        ['#7c3aed', '#ec4899', '#f59e0b', '#10b981', '#3b82f6', '#ef4444'].map(c =>
+                            React.createElement('div', {
+                                key: c,
+                                onClick: () => {
+                                    setAccentColor(c);
+                                    LS.set('accentColor', c);
+                                },
+                                style: {
+                                    width: '36px',
+                                    height: '36px',
+                                    borderRadius: '50%',
+                                    background: c,
+                                    cursor: 'pointer',
+                                    border: accentColor === c ? '3px solid #000' : '3px solid transparent',
+                                    transition: 'all 0.2s',
+                                }
+                            })
+                        )
+                    )
+                ),
+                isAdmin && React.createElement(GlassCard, { className: 'p-4' },
+                    React.createElement('h6', { className: 'fw-bold mb-3' }, '🔒 บัญชีแอดมิน'),
+                    React.createElement(NeoButton, {
+                        onClick: logout, variant: 'danger',
+                        icon: 'fa-solid fa-right-from-bracket', className: 'w-100'
+                    }, 'ออกจากระบบ')
+                ),
+                React.createElement('div', { className: 'text-center mt-4 text-muted small' },
+                    'FormFlow+ v2.0 · Made with 💜 · GitHub Pages Ready'
+                )
+            );
+        }
+
+        // ─────────────────────────────────────
+        // 🗂️ Admin Panel (Form List)
+        // ─────────────────────────────────────
+        function AdminPanelView({ onNavigate }) {
+            const { forms, deleteForm, refreshForms } = useForms();
+            const handleDelete = async (formId) => {
+                if (confirm('แน่ใจว่าจะลบฟอร์มนี้?')) {
+                    await deleteForm(formId);
+                    refreshForms();
+                    showToast('ลบฟอร์มแล้ว 🗑️', 'warning');
+                }
+            };
+            return React.createElement('div', { className: 'container py-4 px-3 animate-slide-up' },
+                React.createElement('div', { className: 'd-flex flex-wrap align-items-center gap-3 mb-4' },
+                    React.createElement('h4', { className: 'fw-bold mb-0 flex-grow-1' }, '🛠️ จัดการฟอร์มทั้งหมด'),
+                    React.createElement(NeoButton, {
+                        onClick: () => onNavigate('builder'),
+                        icon: 'fa-solid fa-plus', variant: 'success'
+                    }, 'สร้างฟอร์มใหม่')
+                ),
+                forms.length === 0 ?
+                    React.createElement(GlassCard, { className: 'text-center p-5' },
+                        React.createElement('p', { className: 'text-muted mb-3' }, 'ยังไม่มีฟอร์มใด ๆ'),
+                        React.createElement(NeoButton, {
+                            onClick: () => onNavigate('builder'),
+                            icon: 'fa-solid fa-plus'
+                        }, 'สร้างฟอร์มแรก')
+                    ) :
+                    React.createElement('div', { className: 'row g-3' },
+                        forms.map(form =>
+                            React.createElement('div', { key: form.id, className: 'col-12 col-md-6' },
+                                React.createElement(GlassCard, { className: 'p-3' },
+                                    React.createElement('div', { className: 'd-flex align-items-start gap-3' },
+                                        React.createElement('div', {
+                                            className: 'rounded-3 d-flex align-items-center justify-content-center flex-shrink-0',
+                                            style: {
+                                                width: '44px',
+                                                height: '44px',
+                                                background: form.accentColor || '#7c3aed',
+                                                color: '#fff'
+                                            }
+                                        }, React.createElement('i', { className: 'fa-solid fa-file' })),
+                                        React.createElement('div', { className: 'flex-grow-1 min-w-0' },
+                                            React.createElement('h6', { className: 'fw-bold mb-1 text-truncate' },
+                                                form.title),
+                                            React.createElement('small', { className: 'text-muted' },
+                                                form.questions.length, ' คำถาม · ',
+                                                form.published ? '🟢 เผยแพร่' : '🔴 ยังไม่เผยแพร่'),
+                                        )
+                                    ),
+                                    React.createElement('div', { className: 'd-flex gap-2 mt-3 flex-wrap' },
+                                        React.createElement(NeoButton, {
+                                            onClick: () => onNavigate('edit-' + form.id),
+                                            variant: 'primary',
+                                            icon: 'fa-solid fa-pen',
+                                            style: { padding: '0.4rem 0.8rem', fontSize: '0.85rem' }
+                                        }, 'แก้ไข'),
+                                        React.createElement(NeoButton, {
+                                            onClick: () => {
+                                                navigator.clipboard.writeText(window.location
+                                                    .origin + window.location.pathname + '#fill-' + form
+                                                        .id);
+                                                showToast('คัดลอก URL! 📋', 'success');
+                                            },
+                                            variant: 'ghost',
+                                            icon: 'fa-solid fa-link',
+                                            style: { padding: '0.4rem 0.8rem', fontSize: '0.85rem' }
+                                        }, 'URL'),
+                                        React.createElement(NeoButton, {
+                                            onClick: () => onNavigate('dashboard'),
+                                            variant: 'ghost',
+                                            icon: 'fa-solid fa-chart-bar',
+                                            style: { padding: '0.4rem 0.8rem', fontSize: '0.85rem' }
+                                        }, 'รายงาน'),
+                                        React.createElement(NeoButton, {
+                                            onClick: () => handleDelete(form.id),
+                                            variant: 'danger',
+                                            icon: 'fa-solid fa-trash',
+                                            style: { padding: '0.4rem 0.8rem', fontSize: '0.85rem' }
+                                        }, 'ลบ'),
+                                    )
+                                )
+                            )
+                        )
+                    )
+            );
+        }
+
+        // ─────────────────────────────────────
+        // 🚀 Main App
+        // ─────────────────────────────────────
+        function App() {
+            const { isAdmin } = useAuth();
+            const { darkMode, toggleDark } = useTheme();
+            const [currentView, setCurrentView] = React.useState('home');
+            const [showLogin, setShowLogin] = React.useState(false);
+
+            const navigate = (view) => {
+                if (view === 'admin' && !isAdmin) {
+                    setShowLogin(true);
+                    return;
+                }
+                setCurrentView(view);
+                setShowLogin(false);
+                window.location.hash = view;
+            };
+
+            // Listen to hash changes
+            React.useEffect(() => {
+                const handleHash = () => {
+                    const hash = window.location.hash.replace('#', '') || 'home';
+                    if (hash.startsWith('fill-')) {
+                        setCurrentView(hash);
+                    } else if (hash.startsWith('edit-') && isAdmin) {
+                        setCurrentView(hash);
+                    } else if (['home', 'forms', 'admin', 'dashboard', 'settings', 'builder'].includes(hash)) {
+                        if (hash === 'admin' && !isAdmin) setShowLogin(true);
+                        else {
+                            setCurrentView(hash);
+                            setShowLogin(false);
+                        }
+                    }
+                };
+                window.addEventListener('hashchange', handleHash);
+                handleHash();
+                return () => window.removeEventListener('hashchange', handleHash);
+            }, [isAdmin]);
+
+            const renderView = () => {
+                if (showLogin && !isAdmin) {
+                    return React.createElement(AdminLogin, {
+                        onLogin: () => {
+                            setShowLogin(false);
+                            setCurrentView('admin');
+                            window.location.hash = 'admin';
+                        }
+                    });
+                }
+                if (currentView === 'home') return React.createElement(HomeView, {
+                    onNavigate: navigate,
+                    isAdmin
+                });
+                if (currentView === 'forms') return React.createElement(HomeView, {
+                    onNavigate: navigate,
+                    isAdmin
+                });
+                if (currentView === 'admin' && isAdmin) return React.createElement(AdminPanelView, {
+                    onNavigate: (
+                        v) => navigate(v)
+                });
+                if (currentView === 'dashboard' && isAdmin) return React.createElement(DashboardView);
+                if (currentView === 'settings') return React.createElement(SettingsView);
+                if (currentView === 'builder' && isAdmin) return React.createElement(FormBuilder, {
+                    formId: null,
+                    onBack: () => navigate('admin')
+                });
+                if (currentView.startsWith('edit-') && isAdmin) {
+                    const fid = currentView.replace('edit-', '');
+                    return React.createElement(FormBuilder, { formId: fid, onBack: () => navigate('admin') });
+                }
+                if (currentView.startsWith('fill-')) {
+                    return React.createElement(FormFillView, { formId: currentView });
+                }
+                return React.createElement(HomeView, { onNavigate: navigate, isAdmin });
+            };
+
+            return React.createElement('div', { style: { paddingBottom: '100px', paddingLeft: '0', minHeight: '100vh' } },
+                React.createElement(Sidebar, { currentView, onNavigate: navigate, isAdmin, darkMode, toggleDark }),
+                React.createElement('div', {
+                    className: 'ms-md-auto', style: {
+                        maxWidth: 'calc(100% - 300px)',
+                        margin: '0 auto', paddingTop: '0.5rem'
+                    }
+                },
+                    renderView()
+                ),
+                React.createElement(BottomNav, { currentView, onNavigate: navigate, isAdmin }),
+                React.createElement(ToastContainer)
+            );
+        }
+
+        // ─────────────────────────────────────
+        // 🌟 Particles Background
+        // ─────────────────────────────────────
+        function createParticles() {
+            const container = document.getElementById('particles');
+            if (!container) return;
+            const emojis = ['✨', '🪄', '💫', '⭐', '🌸', '🔮', '💜', '🦋'];
+            for (let i = 0; i < 15; i++) {
+                const span = document.createElement('span');
+                span.className = 'particle';
+                span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                span.style.left = Math.random() * 90 + '%';
+                span.style.top = Math.random() * 80 + '%';
+                span.style.animationDelay = Math.random() * 6 + 's';
+                span.style.animationDuration = (4 + Math.random() * 8) + 's';
+                span.style.opacity = (0.2 + Math.random() * 0.4);
+                span.style.fontSize = (1 + Math.random() * 2.5) + 'rem';
+                container.appendChild(span);
+            }
+        }
+
+        // ─────────────────────────────────────
+        // 📦 PWA Service Worker Registration
+        // ─────────────────────────────────────
+        function registerSW() {
+            if ('serviceWorker' in navigator) {
+                const swCode = `
+            self.addEventListener('install', e => self.skipWaiting());
+            self.addEventListener('activate', e => e.waitUntil(clients.claim()));
+            self.addEventListener('fetch', e => {
+              e.respondWith(
+                caches.match(e.request).then(r => r || fetch(e.request).then(resp => {
+                  const clone = resp.clone();
+                  caches.open('formflow-v1').then(c => c.put(e.request, clone));
+                  return resp;
+                }).catch(() => caches.match(e.request)))
+              );
+            });`;
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const url = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(url).catch(() => { });
+            }
+        }
+
+        // ─────────────────────────────────────
+        // 🚀 Bootstrap App
+        // ─────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            registerSW();
+            const root = document.getElementById('root');
+            ReactDOM.createRoot(root).render(
+                React.createElement(ThemeProvider, null,
+                    React.createElement(AuthProvider, null,
+                        React.createElement(FormsProvider, null,
+                            React.createElement(App)
+                        )
+                    )
+                )
+            );
+        });
+
+        // Export for global access (debugging)
+        window.FormFlow = {
+            ThemeTokens,
+            LS,
+            SheetsAPI,
+            showToast,
+        };
+        console.log('✨ FormFlow+ Ready! 🚀');
+        console.log('🔑 Admin password:', ThemeTokens.adminPassword);
+        console.log('📋 Google Sheets URL:', ThemeTokens.googleAppsScriptURL || 'Not configured (using localStorage)');
+        console.log('🌐 Open #admin to manage forms, #fill-<formId> to fill a form');
+    </script>
+</body>
+
+</html>
