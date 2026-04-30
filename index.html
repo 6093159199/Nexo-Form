@@ -628,7 +628,7 @@
         .topbar {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justifyContent: space-between;
             margin-bottom: 28px;
             padding: 14px 22px;
             background: var(--glass);
@@ -785,7 +785,7 @@
             border-radius: 50%;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justifyContent: center;
             font-size: 1.6rem;
             background: linear-gradient(135deg, var(--p1), var(--p3));
             color: white;
@@ -1564,7 +1564,7 @@
     <!-- ✅ GAS URL ฝังใน HTML โดยตรง -->
     <script>
         // ตั้งค่า GAS URL อัตโนมัติถ้ายังไม่มี
-        const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbx7TREutcMGu-1UOX5bHgQWBF4-rxtynK0bBfB4cQItV6svqKu4XI0B72XNF8HPzWIXag/exec';
+        const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbwQnKOfa8APt0LQXI2YLFX7XbeHoAoG2GFT-ehSyD3RobdfO12du9qMP3ijDGnlZKGSrA/exec';
         if (!localStorage.getItem('ff_gasurl')) {
             localStorage.setItem('ff_gasurl', DEFAULT_GAS_URL);
             console.log('🔗 ตั้งค่า GAS URL อัตโนมัติ:', DEFAULT_GAS_URL);
@@ -1774,15 +1774,171 @@
             }, []);
         }
 
-        /* Store */
+        /* ============================================
+           STORE - จัดการข้อมูลทั้งหมด + Sync ไป GAS
+        ============================================ */
         function useStore() {
             const [forms, setForms] = useState(() => { try { return JSON.parse(localStorage.getItem('ff_forms') || '[]'); } catch { return []; } });
             const [responses, setResponses] = useState(() => { try { return JSON.parse(localStorage.getItem('ff_responses') || '{}'); } catch { return {}; } });
-            const saveForms = f => { setForms(f); localStorage.setItem('ff_forms', JSON.stringify(f)); };
-            const saveResp = r => { setResponses(r); localStorage.setItem('ff_responses', JSON.stringify(r)); };
-            const addForm = form => { const n = { ...form, id: generateId(), createdAt: new Date().toISOString(), active: true, responseCount: 0 }; saveForms([...forms, n]); return n; };
-            const updateForm = (id, d) => saveForms(forms.map(f => f.id === id ? { ...f, ...d } : f));
-            const deleteForm = id => { saveForms(forms.filter(f => f.id !== id)); const r = { ...responses }; delete r[id]; saveResp(r); };
+
+            const GAS_URL = localStorage.getItem('ff_gasurl') || '';
+
+            // ✅ ฟังก์ชัน sync ข้อมูลฟอร์มไป GAS (สร้าง/แก้ไข)
+            const syncFormToGAS = (form, action = 'save') => {
+                if (!GAS_URL) {
+                    console.warn('⚠️ ไม่พบ GAS URL - ข้อมูลถูกบันทึกใน localStorage เท่านั้น');
+                    return;
+                }
+
+                const payload = {
+                    action: 'saveFormToSheet',
+                    data: {
+                        formId: form.id,
+                        title: form.title,
+                        description: form.description || '',
+                        accentColor: form.accentColor || '',
+                        bgColor: form.bgColor || '',
+                        headerImage: form.headerImage || '',
+                        active: form.active !== undefined ? form.active : true,
+                        questions: form.questions || [],
+                        responseCount: form.responseCount || 0,
+                        createdAt: form.createdAt || new Date().toISOString(),
+                        updatedAt: new Date().toISOString(),
+                        action: action // 'create' หรือ 'update'
+                    }
+                };
+
+                console.log(`📤 Sync form (${action}) to GAS:`, form.title);
+
+                fetch(GAS_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            console.log(`✅ Form ${action} synced to GAS:`, result.message);
+                        } else {
+                            console.warn(`⚠️ GAS sync warning:`, result.message);
+                        }
+                    })
+                    .catch(err => {
+                        console.error(`❌ GAS sync error:`, err);
+                    });
+            };
+
+            // ✅ ฟังก์ชัน sync การลบฟอร์มไป GAS
+            const syncDeleteFormToGAS = (formId) => {
+                if (!GAS_URL) {
+                    console.warn('⚠️ ไม่พบ GAS URL');
+                    return;
+                }
+
+                console.log(`🗑️ Sync delete form to GAS:`, formId);
+
+                fetch(GAS_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'deleteFormData',
+                        data: {
+                            formId: formId
+                        }
+                    })
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            console.log(`✅ Form deleted from GAS:`, result.message);
+                        } else {
+                            console.warn(`⚠️ GAS delete warning:`, result.message);
+                        }
+                    })
+                    .catch(err => {
+                        console.error(`❌ GAS delete error:`, err);
+                    });
+            };
+
+            // ✅ ฟังก์ชัน sync การตั้งค่า (settings) ไป GAS
+            const syncSettingsToGAS = (settings) => {
+                if (!GAS_URL) {
+                    console.warn('⚠️ ไม่พบ GAS URL');
+                    return;
+                }
+
+                console.log(`⚙️ Sync settings to GAS:`, settings);
+
+                fetch(GAS_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'saveSettings',
+                        data: settings
+                    })
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            console.log(`✅ Settings synced to GAS:`, result.message);
+                        } else {
+                            console.warn(`⚠️ GAS settings sync warning:`, result.message);
+                        }
+                    })
+                    .catch(err => {
+                        console.error(`❌ GAS settings sync error:`, err);
+                    });
+            };
+
+            const saveForms = f => {
+                setForms(f);
+                localStorage.setItem('ff_forms', JSON.stringify(f));
+            };
+
+            const saveResp = r => {
+                setResponses(r);
+                localStorage.setItem('ff_responses', JSON.stringify(r));
+            };
+
+            const addForm = form => {
+                const n = {
+                    ...form,
+                    id: generateId(),
+                    createdAt: new Date().toISOString(),
+                    active: true,
+                    responseCount: 0
+                };
+                const updatedForms = [...forms, n];
+                saveForms(updatedForms);
+
+                // ✅ Sync ฟอร์มใหม่ไป GAS
+                syncFormToGAS(n, 'create');
+
+                return n;
+            };
+
+            const updateForm = (id, d) => {
+                const updatedForms = forms.map(f => f.id === id ? { ...f, ...d, updatedAt: new Date().toISOString() } : f);
+                saveForms(updatedForms);
+
+                // ✅ Sync ฟอร์มที่แก้ไขไป GAS
+                const updatedForm = updatedForms.find(f => f.id === id);
+                if (updatedForm) {
+                    syncFormToGAS(updatedForm, 'update');
+                }
+            };
+
+            const deleteForm = id => {
+                const updatedForms = forms.filter(f => f.id !== id);
+                saveForms(updatedForms);
+
+                const r = { ...responses };
+                delete r[id];
+                saveResp(r);
+
+                // ✅ Sync การลบฟอร์มไป GAS
+                syncDeleteFormToGAS(id);
+            };
 
             const addResponse = (formId, data, fileUrls = {}) => {
                 const r = { ...responses };
@@ -1797,14 +1953,13 @@
                 updateForm(formId, { responseCount: (forms.find(f => f.id === formId)?.responseCount || 0) + 1 });
 
                 // ✅ Sync to GAS (URL ถูกตั้งค่าใน localStorage แล้ว)
-                const GAS_URL = localStorage.getItem('ff_gasurl');
                 if (GAS_URL) {
                     const form = forms.find(f => f.id === formId);
                     if (form) {
                         const responseId = generateId();
                         const submittedAt = new Date().toISOString();
 
-                        console.log('📤 กำลัง sync ไป GAS:', {
+                        console.log('📤 กำลัง sync response ไป GAS:', {
                             url: GAS_URL,
                             formId: formId,
                             formTitle: form.title,
@@ -1831,22 +1986,27 @@
                             .then(result => {
                                 if (result.success) {
                                     console.log('✅ GAS sync success:', result);
-                                    console.log('📊 จำนวนคำถามที่บันทึก:', result.data.savedCount);
                                 } else {
                                     console.warn('⚠️ GAS sync warning:', result.message);
                                 }
                             })
                             .catch(err => {
                                 console.error('❌ GAS sync error:', err);
-                                console.log('💾 ข้อมูลถูกบันทึกใน local storage แล้ว แต่ sync ไป GAS ไม่สำเร็จ');
                             });
                     }
-                } else {
-                    console.warn('⚠️ ไม่พบ GAS URL');
                 }
             };
 
-            return { forms, responses, addForm, updateForm, deleteForm, addResponse };
+            return {
+                forms,
+                responses,
+                addForm,
+                updateForm,
+                deleteForm,
+                addResponse,
+                syncFormToGAS,
+                syncSettingsToGAS
+            };
         }
 
         /* ——— COMPONENTS ——— */
@@ -2049,7 +2209,6 @@
 
         function TopBar({ title, onMenuClick, theme, onThemeChange, accent, onAccentChange, onLogout }) {
             const [showTheme, setShowTheme] = useState(false);
-            const addRipple = useRipple();
 
             const handleLogout = () => {
                 const colors = getThemeColors();
@@ -2739,7 +2898,7 @@
             );
         }
 
-        function SettingsPage({ theme, onThemeChange, onLogout }) {
+        function SettingsPage({ theme, onThemeChange, onLogout, syncSettingsToGAS }) {
             const [oldPw, setOldPw] = useState(''); const [newPw, setNewPw] = useState('');
             const [toast, setToast] = useState(null); const [gasUrl, setGasUrl] = useState(localStorage.getItem('ff_gasurl') || '');
             const addRipple = useRipple();
@@ -2773,6 +2932,10 @@
                         localStorage.setItem('ff_adminpw', newPw);
                         setOldPw('');
                         setNewPw('');
+
+                        // ✅ Sync ไป GAS
+                        syncSettingsToGAS({ adminPassword: '********' });
+
                         showSuccessAlert('เปลี่ยนรหัสผ่านสำเร็จ', '🌸 รหัสผ่านถูกเปลี่ยนเรียบร้อยแล้ว');
                     }
                 });
@@ -2785,6 +2948,10 @@
                 }
 
                 localStorage.setItem('ff_gasurl', gasUrl.trim());
+
+                // ✅ Sync settings ไป GAS
+                syncSettingsToGAS({ gasUrl: gasUrl.trim() });
+
                 showSuccessAlert('บันทึก URL สำเร็จ', '✅ บันทึก Google Apps Script URL เรียบร้อยแล้ว');
                 console.log('🔗 GAS URL saved:', gasUrl.trim());
             };
@@ -3286,14 +3453,22 @@
             const [toast, setToast] = useState(null);
             const [urlModal, setUrlModal] = useState(null);
             const [showScroll, setShowScroll] = useState(false);
-            const { forms, responses, addForm, updateForm, deleteForm, addResponse } = useStore();
+            const { forms, responses, addForm, updateForm, deleteForm, addResponse, syncSettingsToGAS } = useStore();
 
             const params = new URLSearchParams(location.search);
             const publicFormId = params.get('form');
 
             useEffect(() => { applyTheme(theme); }, [theme]);
 
-            const handleThemeChange = t => { setTheme(t); localStorage.setItem('ff_theme', t); applyTheme(t); };
+            const handleThemeChange = t => {
+                setTheme(t);
+                localStorage.setItem('ff_theme', t);
+                applyTheme(t);
+
+                // ✅ Sync theme setting ไป GAS
+                syncSettingsToGAS({ theme: t });
+            };
+
             const handleAccentChange = c => { setAccent(c); };
 
             useEffect(() => {
@@ -3301,7 +3476,6 @@
                 addEventListener('scroll', h); return () => removeEventListener('scroll', h);
             }, []);
 
-            const showToast = (msg, type = 'success') => setToast({ msg, type });
             const handleLogin = () => {
                 sessionStorage.setItem('ff_auth', '1');
                 setLoggedIn(true);
@@ -3353,7 +3527,7 @@
                         )}
                         {page === 'responses' && <ResponsesPage forms={forms} responses={responses} />}
                         {page === 'analytics' && <AnalyticsPage forms={forms} responses={responses} />}
-                        {page === 'settings' && <SettingsPage theme={theme} onThemeChange={handleThemeChange} onLogout={handleLogout} />}
+                        {page === 'settings' && <SettingsPage theme={theme} onThemeChange={handleThemeChange} onLogout={handleLogout} syncSettingsToGAS={syncSettingsToGAS} />}
                     </main>
                     <BottomNav page={page} setPage={setPage} />
                     <div className={`scroll-top-btn ${showScroll ? 'visible' : ''}`} onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}>
