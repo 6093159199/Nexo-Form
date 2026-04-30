@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🌸 FormFlow — Cute Form Builder</title>
+    <title>🌸 FormFlow — Cute Form Builder (Sheet-based)</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Mali:wght@400;600;700&family=Mitr:wght@300;400;500;600&display=swap"
         rel="stylesheet" />
@@ -628,7 +628,7 @@
         .topbar {
             display: flex;
             align-items: center;
-            justifyContent: space-between;
+            justify-content: space-between;
             margin-bottom: 28px;
             padding: 14px 22px;
             background: var(--glass);
@@ -648,11 +648,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-
-        .page-title .svg-icon {
-            width: 1.2em;
-            height: 1.2em;
         }
 
         /* ============================================
@@ -785,7 +780,7 @@
             border-radius: 50%;
             display: flex;
             align-items: center;
-            justifyContent: center;
+            justify-content: center;
             font-size: 1.6rem;
             background: linear-gradient(135deg, var(--p1), var(--p3));
             color: white;
@@ -1561,20 +1556,13 @@
     <div id="root"></div>
     <div class="dot-grid"></div>
 
-    <!-- ✅ GAS URL ฝังใน HTML โดยตรง -->
-    <script>
-        // ตั้งค่า GAS URL อัตโนมัติถ้ายังไม่มี
-        const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbz4X6HYi1uPXzx3O5R_9TxpIpoax9WN2vMSOUW_JMXFstzXDqNtO9dXXbNd4naO92GFaw/exec';
-        if (!localStorage.getItem('ff_gasurl')) {
-            localStorage.setItem('ff_gasurl', DEFAULT_GAS_URL);
-            console.log('🔗 ตั้งค่า GAS URL อัตโนมัติ:', DEFAULT_GAS_URL);
-        } else {
-            console.log('🔗 GAS URL ปัจจุบัน:', localStorage.getItem('ff_gasurl'));
-        }
-    </script>
-
     <script type="text/babel">
         const { useState, useEffect, useRef, useCallback, useMemo } = React;
+
+        // ============================================
+        // GAS URL Configuration
+        // ============================================
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbzL5dQbrP8lvtefoyxHIGcZYEXZRoHSnbSmnQiqa6NH9LGsoTpSqodKWVFna9m8uhxpww/exec';
 
         /* ============================================
            SVG ICON MAP
@@ -1732,18 +1720,6 @@
             });
         };
 
-        const showInfoAlert = (title, text) => {
-            const colors = getThemeColors();
-            return Swal.fire({
-                icon: 'info',
-                title: title,
-                text: text,
-                confirmButtonColor: colors.p3,
-                background: colors.card,
-                color: colors.txt,
-            });
-        };
-
         const showDeleteConfirm = (title, text) => {
             const colors = getThemeColors();
             return Swal.fire({
@@ -1775,237 +1751,216 @@
         }
 
         /* ============================================
-           STORE - จัดการข้อมูลทั้งหมด + Sync ไป GAS
+           STORE - ใช้ Google Sheets API เท่านั้น
         ============================================ */
         function useStore() {
-            const [forms, setForms] = useState(() => { try { return JSON.parse(localStorage.getItem('ff_forms') || '[]'); } catch { return []; } });
-            const [responses, setResponses] = useState(() => { try { return JSON.parse(localStorage.getItem('ff_responses') || '{}'); } catch { return {}; } });
+            const [forms, setForms] = useState([]);
+            const [responses, setResponses] = useState({});
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(null);
 
-            const GAS_URL = localStorage.getItem('ff_gasurl') || '';
+            // โหลดข้อมูลทั้งหมดเมื่อเริ่มต้น
+            useEffect(() => {
+                loadAllData();
+            }, []);
 
-            // ✅ ฟังก์ชัน sync ข้อมูลฟอร์มไป GAS (สร้าง/แก้ไข)
-            const syncFormToGAS = (form, action = 'save') => {
-                if (!GAS_URL) {
-                    console.warn('⚠️ ไม่พบ GAS URL - ข้อมูลถูกบันทึกใน localStorage เท่านั้น');
-                    return;
-                }
+            const callGAS = async (action, data = null, method = 'POST') => {
+                try {
+                    let url = GAS_URL;
+                    let options = {};
 
-                const payload = {
-                    action: 'saveFormToSheet',
-                    data: {
-                        formId: form.id,
-                        title: form.title,
-                        description: form.description || '',
-                        accentColor: form.accentColor || '',
-                        bgColor: form.bgColor || '',
-                        headerImage: form.headerImage || '',
-                        active: form.active !== undefined ? form.active : true,
-                        questions: form.questions || [],
-                        responseCount: form.responseCount || 0,
-                        createdAt: form.createdAt || new Date().toISOString(),
-                        updatedAt: new Date().toISOString(),
-                        action: action // 'create' หรือ 'update'
+                    if (method === 'GET') {
+                        url += '?action=' + action;
+                        if (data) {
+                            Object.keys(data).forEach(key => {
+                                url += '&' + key + '=' + encodeURIComponent(data[key]);
+                            });
+                        }
+                        options = { method: 'GET' };
+                    } else {
+                        options = {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ action, ...data })
+                        };
                     }
-                };
 
-                console.log(`📤 Sync form (${action}) to GAS:`, form.title);
-
-                fetch(GAS_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                })
-                    .then(response => response.json())
-                    .then(result => {
-                        if (result.success) {
-                            console.log(`✅ Form ${action} synced to GAS:`, result.message);
-                        } else {
-                            console.warn(`⚠️ GAS sync warning:`, result.message);
-                        }
-                    })
-                    .catch(err => {
-                        console.error(`❌ GAS sync error:`, err);
-                    });
-            };
-
-            // ✅ ฟังก์ชัน sync การลบฟอร์มไป GAS
-            const syncDeleteFormToGAS = (formId) => {
-                if (!GAS_URL) {
-                    console.warn('⚠️ ไม่พบ GAS URL');
-                    return;
+                    const response = await fetch(url, options);
+                    return await response.json();
+                } catch (err) {
+                    console.error('❌ GAS API Error:', err);
+                    return { success: false, message: err.message };
                 }
-
-                console.log(`🗑️ Sync delete form to GAS:`, formId);
-
-                fetch(GAS_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: 'deleteFormData',
-                        data: {
-                            formId: formId
-                        }
-                    })
-                })
-                    .then(response => response.json())
-                    .then(result => {
-                        if (result.success) {
-                            console.log(`✅ Form deleted from GAS:`, result.message);
-                        } else {
-                            console.warn(`⚠️ GAS delete warning:`, result.message);
-                        }
-                    })
-                    .catch(err => {
-                        console.error(`❌ GAS delete error:`, err);
-                    });
             };
 
-            // ✅ ฟังก์ชัน sync การตั้งค่า (settings) ไป GAS
-            const syncSettingsToGAS = (settings) => {
-                if (!GAS_URL) {
-                    console.warn('⚠️ ไม่พบ GAS URL');
-                    return;
+            const loadAllData = async () => {
+                try {
+                    setLoading(true);
+
+                    // ดึงฟอร์มทั้งหมด
+                    const formsResult = await callGAS('getAllForms', null, 'POST');
+
+                    if (formsResult.success) {
+                        const loadedForms = formsResult.data || [];
+                        setForms(loadedForms);
+
+                        // ดึงคำตอบทั้งหมดสำหรับแต่ละฟอร์ม
+                        const allResponses = {};
+                        for (const form of loadedForms) {
+                            const respResult = await callGAS('getResponses', { formId: form.id }, 'POST');
+                            if (respResult.success && respResult.data.length > 0) {
+                                allResponses[form.id] = respResult.data;
+                            }
+                        }
+                        setResponses(allResponses);
+                    } else {
+                        setError(formsResult.message);
+                    }
+                } catch (err) {
+                    console.error('❌ Error loading data:', err);
+                    setError(err.message);
+                } finally {
+                    setLoading(false);
                 }
-
-                console.log(`⚙️ Sync settings to GAS:`, settings);
-
-                fetch(GAS_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: 'saveSettings',
-                        data: settings
-                    })
-                })
-                    .then(response => response.json())
-                    .then(result => {
-                        if (result.success) {
-                            console.log(`✅ Settings synced to GAS:`, result.message);
-                        } else {
-                            console.warn(`⚠️ GAS settings sync warning:`, result.message);
-                        }
-                    })
-                    .catch(err => {
-                        console.error(`❌ GAS settings sync error:`, err);
-                    });
             };
 
-            const saveForms = f => {
-                setForms(f);
-                localStorage.setItem('ff_forms', JSON.stringify(f));
-            };
-
-            const saveResp = r => {
-                setResponses(r);
-                localStorage.setItem('ff_responses', JSON.stringify(r));
-            };
-
-            const addForm = form => {
-                const n = {
-                    ...form,
+            const addForm = async (formData) => {
+                const newForm = {
+                    ...formData,
                     id: generateId(),
                     createdAt: new Date().toISOString(),
                     active: true,
                     responseCount: 0
                 };
-                const updatedForms = [...forms, n];
-                saveForms(updatedForms);
 
-                // ✅ Sync ฟอร์มใหม่ไป GAS
-                syncFormToGAS(n, 'create');
+                const result = await callGAS('saveFormToSheet', {
+                    data: { ...newForm, action: 'create' }
+                });
 
-                return n;
-            };
-
-            const updateForm = (id, d) => {
-                const updatedForms = forms.map(f => f.id === id ? { ...f, ...d, updatedAt: new Date().toISOString() } : f);
-                saveForms(updatedForms);
-
-                // ✅ Sync ฟอร์มที่แก้ไขไป GAS
-                const updatedForm = updatedForms.find(f => f.id === id);
-                if (updatedForm) {
-                    syncFormToGAS(updatedForm, 'update');
+                if (result.success) {
+                    setForms(prev => [...prev, newForm]);
+                    return newForm;
+                } else {
+                    throw new Error(result.message);
                 }
             };
 
-            const deleteForm = id => {
-                const updatedForms = forms.filter(f => f.id !== id);
-                saveForms(updatedForms);
+            const updateForm = async (id, updates) => {
+                const existingForm = forms.find(f => f.id === id);
+                if (!existingForm) throw new Error('ไม่พบฟอร์ม');
 
-                const r = { ...responses };
-                delete r[id];
-                saveResp(r);
+                const newFormData = { ...existingForm, ...updates, updatedAt: new Date().toISOString() };
 
-                // ✅ Sync การลบฟอร์มไป GAS
-                syncDeleteFormToGAS(id);
+                const result = await callGAS('saveFormToSheet', {
+                    data: { ...newFormData, action: 'update' }
+                });
+
+                if (result.success) {
+                    setForms(prev => prev.map(f => f.id === id ? newFormData : f));
+                } else {
+                    throw new Error(result.message);
+                }
             };
 
-            const addResponse = (formId, data, fileUrls = {}) => {
-                const r = { ...responses };
-                if (!r[formId]) r[formId] = [];
-                r[formId] = [...r[formId], {
-                    id: generateId(),
-                    submittedAt: new Date().toISOString(),
-                    data,
-                    fileUrls
-                }];
-                saveResp(r);
-                updateForm(formId, { responseCount: (forms.find(f => f.id === formId)?.responseCount || 0) + 1 });
+            const deleteForm = async (id) => {
+                const result = await callGAS('deleteFormData', { data: { formId: id } });
 
-                // ✅ Sync to GAS (URL ถูกตั้งค่าใน localStorage แล้ว)
-                if (GAS_URL) {
-                    const form = forms.find(f => f.id === formId);
-                    if (form) {
-                        const responseId = generateId();
-                        const submittedAt = new Date().toISOString();
+                if (result.success) {
+                    setForms(prev => prev.filter(f => f.id !== id));
+                    setResponses(prev => {
+                        const newResp = { ...prev };
+                        delete newResp[id];
+                        return newResp;
+                    });
+                } else {
+                    throw new Error(result.message);
+                }
+            };
 
-                        console.log('📤 กำลัง sync response ไป GAS:', {
-                            url: GAS_URL,
-                            formId: formId,
-                            formTitle: form.title,
-                            questions: form.questions.length
-                        });
+            const toggleFormActive = async (id, active) => {
+                const result = await callGAS('updateFormActive', { data: { formId: id, active } });
 
-                        fetch(GAS_URL, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                action: 'saveResponse',
-                                data: {
-                                    responseId: responseId,
-                                    formId: formId,
-                                    formTitle: form.title,
-                                    submittedAt: submittedAt,
-                                    questions: form.questions || [],
-                                    answers: data,
-                                    fileUrls: fileUrls || {}
-                                }
-                            })
-                        })
-                            .then(response => response.json())
-                            .then(result => {
-                                if (result.success) {
-                                    console.log('✅ GAS sync success:', result);
-                                } else {
-                                    console.warn('⚠️ GAS sync warning:', result.message);
-                                }
-                            })
-                            .catch(err => {
-                                console.error('❌ GAS sync error:', err);
-                            });
+                if (result.success) {
+                    setForms(prev => prev.map(f => f.id === id ? { ...f, active } : f));
+                }
+            };
+
+            const addResponse = async (formId, data, fileUrls = {}) => {
+                const form = forms.find(f => f.id === formId);
+                if (!form) throw new Error('ไม่พบฟอร์ม');
+
+                const responseId = generateId();
+                const submittedAt = new Date().toISOString();
+
+                const result = await callGAS('saveResponse', {
+                    data: {
+                        responseId,
+                        formId,
+                        formTitle: form.title,
+                        submittedAt,
+                        questions: form.questions || [],
+                        answers: data,
+                        fileUrls: fileUrls || {}
                     }
+                });
+
+                if (result.success) {
+                    setResponses(prev => ({
+                        ...prev,
+                        [formId]: [...(prev[formId] || []), {
+                            id: responseId,
+                            submittedAt,
+                            data,
+                            fileUrls
+                        }]
+                    }));
+
+                    setForms(prev => prev.map(f =>
+                        f.id === formId ? { ...f, responseCount: (f.responseCount || 0) + 1 } : f
+                    ));
                 }
+
+                return result;
+            };
+
+            const deleteResponse = async (formId, responseId) => {
+                const result = await callGAS('deleteResponseById', {
+                    data: { formId, responseId }
+                });
+
+                if (result.success) {
+                    setResponses(prev => ({
+                        ...prev,
+                        [formId]: (prev[formId] || []).filter(r => r.id !== responseId)
+                    }));
+                    await loadAllData(); // รีโหลดเพื่ออัปเดต response count
+                }
+
+                return result;
+            };
+
+            const updateSettings = async (settings) => {
+                return await callGAS('saveSettings', { data: settings });
+            };
+
+            const verifyPassword = async (password) => {
+                return await callGAS('verifyPassword', { password }, 'GET');
             };
 
             return {
                 forms,
                 responses,
+                loading,
+                error,
                 addForm,
                 updateForm,
                 deleteForm,
+                toggleFormActive,
                 addResponse,
-                syncFormToGAS,
-                syncSettingsToGAS
+                deleteResponse,
+                updateSettings,
+                verifyPassword,
+                loadAllData
             };
         }
 
@@ -2051,25 +2006,50 @@
             );
         }
 
-        function LoginScreen({ onLogin }) {
+        function LoadingScreen() {
+            return (
+                <div className="login-wrap">
+                    <div className="login-card bounce-in" style={{ textAlign: 'center' }}>
+                        <Icon name="spinner" size="3rem" style={{ color: 'var(--p3)', marginBottom: 16 }} />
+                        <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--p3)' }}>กำลังโหลดข้อมูล...</h2>
+                        <p style={{ color: 'var(--txt2)', marginTop: 8 }}>กำลังเชื่อมต่อกับ Google Sheets</p>
+                    </div>
+                </div>
+            );
+        }
+
+        function LoginScreen({ onLogin, verifyPassword }) {
             const [pw, setPw] = useState('');
             const [err, setErr] = useState('');
             const [loading, setLoading] = useState(false);
             const addRipple = useRipple();
-            const PASS = localStorage.getItem('ff_adminpw') || 'admin1234';
 
-            const handleLogin = e => {
-                e.preventDefault(); setLoading(true);
-                setTimeout(() => {
-                    if (pw === PASS) {
-                        confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 }, colors: ['#F8B4C8', '#C4B5F4', '#90E0C8', '#FFB085', '#FFE070'] });
+            const handleLogin = async (e) => {
+                e.preventDefault();
+                setLoading(true);
+
+                try {
+                    const result = await verifyPassword(pw);
+
+                    if (result.success) {
+                        confetti({
+                            particleCount: 120,
+                            spread: 70,
+                            origin: { y: 0.6 },
+                            colors: ['#F8B4C8', '#C4B5F4', '#90E0C8', '#FFB085', '#FFE070']
+                        });
                         onLogin();
                     } else {
                         setErr('💔 รหัสผ่านไม่ถูกต้อง ลองใหม่นะคะ~');
-                        setLoading(false);
                         showErrorAlert('เข้าสู่ระบบไม่สำเร็จ', 'รหัสผ่านไม่ถูกต้องนะคะ ลองใหม่อีกครั้ง~');
                     }
-                }, 600);
+                } catch (error) {
+                    console.error('Login error:', error);
+                    setErr('💔 ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
+                    showErrorAlert('ข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ กรุณาลองใหม่');
+                } finally {
+                    setLoading(false);
+                }
             };
 
             return (
@@ -2079,7 +2059,7 @@
                         <div style={{ fontSize: '3rem', marginBottom: 4 }}>🌸</div>
                         <div className="login-logo">FormFlow</div>
                         <p style={{ color: 'var(--txt2)', marginBottom: 30, fontSize: '0.92rem', fontFamily: 'var(--font-display)' }}>
-                            ✨ ระบบสร้างและจัดการแบบฟอร์มอัจฉริยะ
+                            ✨ ระบบสร้างและจัดการแบบฟอร์มอัจฉริยะ (Sheet-based)
                         </p>
                         <form onSubmit={handleLogin}>
                             <div style={{ marginBottom: 16 }}>
@@ -2097,8 +2077,8 @@
                             </button>
                         </form>
                         <p style={{ color: 'var(--txt3)', fontSize: '0.75rem', marginTop: 22 }}>
-                            <Icon name="shield-halved" style={{ marginRight: 5 }} />
-                            รหัสผ่านเริ่มต้น: <strong>admin1234</strong>
+                            <Icon name="cloud" style={{ marginRight: 5 }} />
+                            ข้อมูลทั้งหมดบันทึกใน Google Sheets
                         </p>
                     </div>
                 </div>
@@ -2131,7 +2111,6 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         onLogout();
-                        showInfoAlert('ออกจากระบบแล้ว', 'พบกันใหม่นะคะ~ 🌸');
                     }
                 });
             };
@@ -2141,7 +2120,7 @@
                     <div className={`sidebar-overlay ${open ? 'show' : ''}`} onClick={onClose} />
                     <nav className={`sidebar ${open ? 'open' : ''}`}>
                         <div className="sidebar-logo">
-                            <div className="sidebar-logo-icon"><Icon name="mug-hot" /></div>
+                            <div className="sidebar-logo-icon"><Icon name="cloud" /></div>
                             FormFlow
                         </div>
                         <div className="sidebar-section-label">✦ เมนูหลัก</div>
@@ -2158,13 +2137,13 @@
                                 ออกจากระบบ
                             </div>
                         </div>
-                        <div className="sidebar-footer">🌸 FormFlow v3.0 Pastel</div>
+                        <div className="sidebar-footer">🌸 FormFlow v3.0 Sheets</div>
                     </nav>
                 </>
             );
         }
 
-        function ThemePicker({ currentTheme, onThemeChange, accent, onAccentChange }) {
+        function ThemePicker({ currentTheme, onThemeChange }) {
             return (
                 <div>
                     <div className="theme-preview-bar" />
@@ -2174,23 +2153,7 @@
                     <div className="theme-grid">
                         {THEMES.map(t => (
                             <div key={t.id} className={`theme-swatch ${currentTheme === t.id ? 'active' : ''}`}
-                                onClick={() => {
-                                    onThemeChange(t.id);
-                                    const colors = getThemeColors();
-                                    const Toast = Swal.mixin({
-                                        toast: true,
-                                        position: 'top-end',
-                                        showConfirmButton: false,
-                                        timer: 2000,
-                                        timerProgressBar: true,
-                                        background: colors.card,
-                                        color: colors.txt,
-                                    });
-                                    Toast.fire({
-                                        icon: 'success',
-                                        title: `เปลี่ยนเป็นธีม ${t.label} แล้ว!`
-                                    });
-                                }}>
+                                onClick={() => onThemeChange(t.id)}>
                                 <div className="theme-swatch-dot" style={{
                                     background: `linear-gradient(135deg, ${t.dot[0]}, ${t.dot[1]})`
                                 }} />
@@ -2198,16 +2161,11 @@
                             </div>
                         ))}
                     </div>
-                    <div className="custom-color-row">
-                        <span style={{ fontSize: '0.72rem', color: 'var(--txt3)', fontWeight: 700 }}>กำหนดเอง:</span>
-                        <input type="color" value={accent} onChange={e => onAccentChange(e.target.value)} />
-                        <span style={{ fontSize: '0.75rem', color: 'var(--txt3)', fontFamily: 'monospace' }}>{accent}</span>
-                    </div>
                 </div>
             );
         }
 
-        function TopBar({ title, onMenuClick, theme, onThemeChange, accent, onAccentChange, onLogout }) {
+        function TopBar({ title, onMenuClick, theme, onThemeChange, onLogout }) {
             const [showTheme, setShowTheme] = useState(false);
 
             const handleLogout = () => {
@@ -2248,7 +2206,7 @@
                         </button>
                         {showTheme && (
                             <div className="theme-picker-panel">
-                                <ThemePicker currentTheme={theme} onThemeChange={t => { onThemeChange(t); setShowTheme(false); }} accent={accent} onAccentChange={onAccentChange} />
+                                <ThemePicker currentTheme={theme} onThemeChange={t => { onThemeChange(t); setShowTheme(false); }} />
                             </div>
                         )}
                     </div>
@@ -2540,31 +2498,9 @@
                             </h3>
                             <div className="chart-wrap">
                                 {forms.length > 0 ? <canvas ref={chartRef2} /> :
-                                    <div className="empty-state"><div className="empty-state-emoji"><Icon name="chart-pie" size="3.5rem" /></div><div className="empty-state-sub">ยังไม่มีข้อมูล</div></div>}
+                                    <div style={{ textAlign: 'center', padding: 40, color: 'var(--txt3)' }}>ยังไม่มีข้อมูล</div>}
                             </div>
                         </div>
-                    </div>
-                    <div className="card" style={{ padding: 22 }}>
-                        <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.96rem', marginBottom: 16, color: 'var(--p3)', display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <Icon name="clock-rotate-left" />ฟอร์มล่าสุด
-                        </h3>
-                        {forms.length === 0 ? (
-                            <div className="empty-state"><div className="empty-state-emoji"><Icon name="file-heart" size="3.5rem" /></div><div className="empty-state-title">ยังไม่มีฟอร์ม</div></div>
-                        ) : forms.slice().reverse().slice(0, 5).map(f => (
-                            <div key={f.id} className="card" style={{ padding: '14px 18px', marginBottom: 10, borderLeft: `4px solid ${f.accentColor || 'var(--p3)'}` }}>
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
-                                    <div>
-                                        <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{f.title}</div>
-                                        <div style={{ color: 'var(--txt3)', fontSize: '0.78rem', marginTop: 3 }}>
-                                            <Icon name="inbox" style={{ marginRight: 4 }} />{(responses[f.id] || []).length} คำตอบ
-                                            <span style={{ margin: '0 8px' }}>·</span>
-                                            <Icon name="list-check" style={{ marginRight: 4 }} />{(f.questions || []).length} คำถาม
-                                        </div>
-                                    </div>
-                                    <span className={`badge ${f.active ? 'badge-on' : 'badge-off'}`}>{f.active ? 'เปิด' : 'ปิด'}</span>
-                                </div>
-                            </div>
-                        ))}
                     </div>
                 </div>
             );
@@ -2577,24 +2513,32 @@
             const addRipple = useRipple();
             const filtered = forms.filter(f => f.title.toLowerCase().includes(search.toLowerCase()));
 
-            const handleSave = data => {
-                if (editForm?.id) {
-                    onEdit(editForm.id, data);
-                    showSuccessAlert('อัปเดตฟอร์มแล้ว!', `ฟอร์ม "${data.title}" ถูกอัปเดตเรียบร้อยแล้ว 🌸`);
-                } else {
-                    onAdd(data);
-                    showSuccessAlert('สร้างฟอร์มสำเร็จ!', `ฟอร์ม "${data.title}" ถูกสร้างเรียบร้อยแล้ว ✨`);
+            const handleSave = async (data) => {
+                try {
+                    if (editForm?.id) {
+                        await onEdit(editForm.id, data);
+                        showSuccessAlert('อัปเดตฟอร์มแล้ว!', `ฟอร์ม "${data.title}" ถูกอัปเดตเรียบร้อยแล้ว 🌸`);
+                    } else {
+                        await onAdd(data);
+                        showSuccessAlert('สร้างฟอร์มสำเร็จ!', `ฟอร์ม "${data.title}" ถูกสร้างเรียบร้อยแล้ว ✨`);
+                    }
+                    setShowModal(false);
+                    setEditForm(null);
+                } catch (err) {
+                    showErrorAlert('เกิดข้อผิดพลาด', err.message);
                 }
-                setShowModal(false);
-                setEditForm(null);
             };
 
             const handleDelete = (form) => {
                 showDeleteConfirm('ลบฟอร์ม?', `คุณแน่ใจหรือไม่ที่จะลบ "${form.title}"?<br><small style="color: var(--txt3)">การกระทำนี้จะลบคำตอบทั้งหมดด้วยและไม่สามารถกู้คืนได้</small>`)
-                    .then((result) => {
+                    .then(async (result) => {
                         if (result.isConfirmed) {
-                            onDelete(form.id);
-                            showSuccessAlert('ลบฟอร์มแล้ว', `ฟอร์ม "${form.title}" ถูกลบเรียบร้อยแล้ว`);
+                            try {
+                                await onDelete(form.id);
+                                showSuccessAlert('ลบฟอร์มแล้ว', `ฟอร์ม "${form.title}" ถูกลบเรียบร้อยแล้ว`);
+                            } catch (err) {
+                                showErrorAlert('เกิดข้อผิดพลาด', err.message);
+                            }
                         }
                     });
             };
@@ -2616,9 +2560,9 @@
                     reverseButtons: true,
                     background: colors.card,
                     color: colors.txt,
-                }).then((result) => {
+                }).then(async (result) => {
                     if (result.isConfirmed) {
-                        onToggle(form.id, newStatus);
+                        await onToggle(form.id, newStatus);
                         showSuccessAlert(`${action}รับคำตอบแล้ว`, `ฟอร์ม "${form.title}" ${action}รับคำตอบเรียบร้อยแล้ว`);
                     }
                 });
@@ -2636,10 +2580,10 @@
                         </button>
                     </div>
                     {filtered.length === 0 ? (
-                        <div className="empty-state" style={{ textAlign: 'center', padding: 60 }}>
-                            <div className="empty-state-emoji"><Icon name="file-heart" size="3.5rem" /></div>
-                            <div className="empty-state-title" style={{ fontWeight: 700, marginTop: 10 }}>{search ? 'ไม่พบฟอร์มที่ค้นหา' : 'ยังไม่มีฟอร์ม'}</div>
-                            <div className="empty-state-sub" style={{ color: 'var(--txt3)' }}>{search ? 'ลองค้นหาด้วยคำอื่น' : 'คลิก "สร้างฟอร์มใหม่" เพื่อเริ่มต้น~'}</div>
+                        <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}>
+                            <Icon name="file-heart" size="3rem" style={{ marginBottom: 16 }} />
+                            <div style={{ fontWeight: 700, fontSize: '1rem' }}>{search ? 'ไม่พบฟอร์มที่ค้นหา' : 'ยังไม่มีฟอร์ม'}</div>
+                            <div style={{ marginTop: 8 }}>{search ? 'ลองค้นหาด้วยคำอื่น' : 'คลิก "สร้างฟอร์มใหม่" เพื่อเริ่มต้น~'}</div>
                         </div>
                     ) : (
                         <div className="stagger">
@@ -2664,8 +2608,8 @@
                                         </div>
                                         <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
                                             <button className="btn-icon" title="ลิงก์ฟอร์ม" onClick={() => onViewUrl(f)}><Icon name="link" /></button>
-                                            <label className="toggle" title="เปิด/ปิด" onClick={() => handleToggle(f, !f.active)}>
-                                                <input type="checkbox" checked={f.active} readOnly />
+                                            <label className="toggle" title="เปิด/ปิด">
+                                                <input type="checkbox" checked={f.active} onChange={() => handleToggle(f, !f.active)} />
                                                 <span className="toggle-slider" />
                                             </label>
                                             <button className="btn-icon" title="แก้ไข" onClick={() => { setEditForm(f); setShowModal(true); }}><Icon name="pen-to-square" /></button>
@@ -2691,20 +2635,6 @@
                 navigator.clipboard?.writeText(url);
                 setCopied(true);
                 setTimeout(() => setCopied(false), 2000);
-                const colors = getThemeColors();
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    timerProgressBar: true,
-                    background: colors.card,
-                    color: colors.txt,
-                });
-                Toast.fire({
-                    icon: 'success',
-                    title: '📋 คัดลอกลิงก์แล้ว!'
-                });
             };
             return (
                 <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
@@ -2728,17 +2658,24 @@
             );
         }
 
-        function ResponsesPage({ forms, responses }) {
+        function ResponsesPage({ forms, responses, onDeleteResponse }) {
             const [selForm, setSelForm] = useState(forms[0]?.id || '');
             const [viewResp, setViewResp] = useState(null);
             const form = forms.find(f => f.id === selForm);
             const resps = responses[selForm] || [];
 
-            const handleDeleteResponse = (response) => {
-                showDeleteConfirm('ลบคำตอบ?', `คุณแน่ใจหรือไม่ที่จะลบคำตอบที่ ${resps.indexOf(response) + 1}?<br><small style="color: var(--txt3)">การกระทำนี้ไม่สามารถย้อนกลับได้</small>`)
-                    .then((result) => {
+            const handleDelete = (response) => {
+                const index = resps.indexOf(response);
+                showDeleteConfirm('ลบคำตอบ?', `คุณแน่ใจหรือไม่ที่จะลบคำตอบที่ ${index + 1}?<br><small style="color: var(--txt3)">การกระทำนี้ไม่สามารถย้อนกลับได้</small>`)
+                    .then(async (result) => {
                         if (result.isConfirmed) {
-                            showSuccessAlert('ลบคำตอบแล้ว', 'คำตอบถูกลบเรียบร้อยแล้ว');
+                            try {
+                                await onDeleteResponse(selForm, response.id);
+                                setViewResp(null);
+                                showSuccessAlert('ลบคำตอบแล้ว', 'คำตอบถูกลบเรียบร้อยแล้ว');
+                            } catch (err) {
+                                showErrorAlert('เกิดข้อผิดพลาด', err.message);
+                            }
                         }
                     });
             };
@@ -2751,9 +2688,16 @@
                         </select>
                     </div>
                     {!form ? (
-                        <div className="empty-state" style={{ textAlign: 'center', padding: 60 }}><div className="empty-state-emoji"><Icon name="inbox" size="3.5rem" /></div><div className="empty-state-sub">เลือกฟอร์มเพื่อดูคำตอบ</div></div>
+                        <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}>
+                            <Icon name="inbox" size="3rem" style={{ marginBottom: 16 }} />
+                            <div>เลือกฟอร์มเพื่อดูคำตอบ</div>
+                        </div>
                     ) : resps.length === 0 ? (
-                        <div className="empty-state" style={{ textAlign: 'center', padding: 60 }}><div className="empty-state-emoji"><Icon name="inbox" size="3.5rem" /></div><div className="empty-state-title">ยังไม่มีคำตอบ</div><div className="empty-state-sub">รอให้ผู้ใช้ส่งคำตอบมา~</div></div>
+                        <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}>
+                            <Icon name="inbox" size="3rem" style={{ marginBottom: 16 }} />
+                            <div style={{ fontWeight: 700 }}>ยังไม่มีคำตอบ</div>
+                            <div style={{ marginTop: 8 }}>รอให้ผู้ใช้ส่งคำตอบมา~</div>
+                        </div>
                     ) : (
                         <div className="stagger">
                             {resps.map((r, i) => (
@@ -2770,7 +2714,7 @@
                                                 <Icon name="chevron-right" style={{ color: 'var(--txt3)' }} />
                                             </button>
                                             <button className="btn-icon" style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }}
-                                                onClick={(e) => { e.stopPropagation(); handleDeleteResponse(r); }}>
+                                                onClick={(e) => { e.stopPropagation(); handleDelete(r); }}>
                                                 <Icon name="trash-can" />
                                             </button>
                                         </div>
@@ -2799,10 +2743,7 @@
                                 ))}
                                 <div style={{ marginTop: 10, display: 'flex', gap: 10 }}>
                                     <button className="btn btn-ghost" onClick={() => setViewResp(null)}><Icon name="xmark" /> ปิด</button>
-                                    <button className="btn btn-danger" onClick={() => {
-                                        setViewResp(null);
-                                        handleDeleteResponse(viewResp);
-                                    }}>
+                                    <button className="btn btn-danger" onClick={() => handleDelete(viewResp)}>
                                         <Icon name="trash-can" /> ลบคำตอบนี้
                                     </button>
                                 </div>
@@ -2847,7 +2788,10 @@
                         </select>
                     </div>
                     {!form ? (
-                        <div className="empty-state" style={{ textAlign: 'center', padding: 60 }}><div className="empty-state-emoji"><Icon name="chart-pie" size="3.5rem" /></div><div className="empty-state-sub">เลือกฟอร์มเพื่อดูการวิเคราะห์</div></div>
+                        <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}>
+                            <Icon name="chart-pie" size="3rem" style={{ marginBottom: 16 }} />
+                            <div>เลือกฟอร์มเพื่อดูการวิเคราะห์</div>
+                        </div>
                     ) : (
                         <div className="stagger">
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 14, marginBottom: 20 }}>
@@ -2857,9 +2801,7 @@
                                     { label: 'อัตราตอบครบ', val: `${resps.length > 0 ? Math.round(resps.filter(r => Object.keys(r.data).length === (form.questions || []).length).length / resps.length * 100) : 0}%`, icon: 'circle-check' },
                                 ].map((s, i) => (
                                     <div key={i} className="card stat-card">
-                                        <div style={{ fontSize: '1.4rem', marginBottom: 4 }}>
-                                            <Icon name={s.icon} size="1.4em" />
-                                        </div>
+                                        <div style={{ fontSize: '1.4rem', marginBottom: 4 }}><Icon name={s.icon} size="1.4em" /></div>
                                         <div className="stat-number" style={{ fontSize: '2rem' }}>{s.val}</div>
                                         <div className="stat-label">{s.label}</div>
                                     </div>
@@ -2898,15 +2840,16 @@
             );
         }
 
-        function SettingsPage({ theme, onThemeChange, onLogout, syncSettingsToGAS }) {
-            const [oldPw, setOldPw] = useState(''); const [newPw, setNewPw] = useState('');
-            const [toast, setToast] = useState(null); const [gasUrl, setGasUrl] = useState(localStorage.getItem('ff_gasurl') || '');
+        function SettingsPage({ theme, onThemeChange, onLogout, updateSettings }) {
+            const [oldPw, setOldPw] = useState('');
+            const [newPw, setNewPw] = useState('');
+            const [toast, setToast] = useState(null);
             const addRipple = useRipple();
+            const GAS_URL_LOCAL = GAS_URL;
 
-            const changePw = () => {
-                const cur = localStorage.getItem('ff_adminpw') || 'admin1234';
-                if (oldPw !== cur) {
-                    showErrorAlert('เปลี่ยนรหัสผ่านไม่สำเร็จ', '💔 รหัสผ่านเดิมไม่ถูกต้อง');
+            const changePw = async () => {
+                if (!oldPw) {
+                    showErrorAlert('กรุณากรอกข้อมูล', '💔 กรุณากรอกรหัสผ่านเดิม');
                     return;
                 }
                 if (newPw.length < 6) {
@@ -2914,56 +2857,64 @@
                     return;
                 }
 
-                const colors = getThemeColors();
-                Swal.fire({
-                    title: 'เปลี่ยนรหัสผ่าน?',
-                    text: 'คุณแน่ใจหรือไม่ที่จะเปลี่ยนรหัสผ่าน?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: colors.p3,
-                    cancelButtonColor: colors.txt2,
-                    confirmButtonText: 'ใช่ เปลี่ยนเลย!',
-                    cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true,
-                    background: colors.card,
-                    color: colors.txt,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        localStorage.setItem('ff_adminpw', newPw);
-                        setOldPw('');
-                        setNewPw('');
+                try {
+                    // ตรวจสอบรหัสผ่านเดิม
+                    const verifyResponse = await fetch(GAS_URL_LOCAL + '?action=verifyPassword&password=' + encodeURIComponent(oldPw));
+                    const verifyResult = await verifyResponse.json();
 
-                        // ✅ Sync ไป GAS
-                        syncSettingsToGAS({ adminPassword: '********' });
-
-                        showSuccessAlert('เปลี่ยนรหัสผ่านสำเร็จ', '🌸 รหัสผ่านถูกเปลี่ยนเรียบร้อยแล้ว');
+                    if (!verifyResult.success) {
+                        showErrorAlert('เปลี่ยนรหัสผ่านไม่สำเร็จ', '💔 รหัสผ่านเดิมไม่ถูกต้อง');
+                        return;
                     }
-                });
+
+                    const colors = getThemeColors();
+                    const confirmResult = await Swal.fire({
+                        title: 'เปลี่ยนรหัสผ่าน?',
+                        text: 'คุณแน่ใจหรือไม่ที่จะเปลี่ยนรหัสผ่าน?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: colors.p3,
+                        cancelButtonColor: colors.txt2,
+                        confirmButtonText: 'ใช่ เปลี่ยนเลย!',
+                        cancelButtonText: 'ยกเลิก',
+                        reverseButtons: true,
+                        background: colors.card,
+                        color: colors.txt,
+                    });
+
+                    if (confirmResult.isConfirmed) {
+                        const result = await updateSettings({ adminPassword: newPw });
+
+                        if (result.success) {
+                            setOldPw('');
+                            setNewPw('');
+                            showSuccessAlert('เปลี่ยนรหัสผ่านสำเร็จ', '🌸 รหัสผ่านถูกเปลี่ยนเรียบร้อยแล้ว');
+                        } else {
+                            showErrorAlert('เกิดข้อผิดพลาด', result.message || 'ไม่สามารถเปลี่ยนรหัสผ่านได้');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Change password error:', error);
+                    showErrorAlert('ข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
+                }
             };
 
-            const saveGas = () => {
-                if (!gasUrl.trim()) {
-                    showWarningAlert('กรุณากรอก URL', '🔗 ใส่ GAS Web App URL ก่อนนะคะ');
-                    return;
+            const handleThemeChange = async (newTheme) => {
+                onThemeChange(newTheme);
+                try {
+                    await updateSettings({ theme: newTheme });
+                    const themeLabel = THEMES.find(t => t.id === newTheme)?.label || newTheme;
+                    showSuccessAlert('เปลี่ยนธีมสำเร็จ', `เปลี่ยนเป็นธีม ${themeLabel} แล้ว!`);
+                } catch (error) {
+                    console.error('Theme change error:', error);
                 }
-
-                localStorage.setItem('ff_gasurl', gasUrl.trim());
-
-                // ✅ Sync settings ไป GAS
-                syncSettingsToGAS({ gasUrl: gasUrl.trim() });
-
-                showSuccessAlert('บันทึก URL สำเร็จ', '✅ บันทึก Google Apps Script URL เรียบร้อยแล้ว');
-                console.log('🔗 GAS URL saved:', gasUrl.trim());
             };
 
             const clearData = () => {
-                showDeleteConfirm('⚠️ ลบข้อมูลทั้งหมด?', 'คุณแน่ใจหรือไม่ที่จะลบข้อมูลทั้งหมด?<br><small style="color: #D04060">การกระทำนี้ไม่สามารถกู้คืนได้!</small>')
+                showDeleteConfirm('⚠️ ลบข้อมูลทั้งหมด?', 'คุณแน่ใจหรือไม่ที่จะลบข้อมูลทั้งหมดจาก Google Sheets?<br><small style="color: #D04060">การกระทำนี้ไม่สามารถกู้คืนได้!</small>')
                     .then((result) => {
                         if (result.isConfirmed) {
-                            localStorage.removeItem('ff_forms');
-                            localStorage.removeItem('ff_responses');
-                            showSuccessAlert('ลบข้อมูลแล้ว', 'ข้อมูลทั้งหมดถูกลบเรียบร้อยแล้ว กำลังรีเฟรชหน้า...');
-                            setTimeout(() => location.reload(), 1500);
+                            showWarningAlert('คำเตือน', 'กรุณาลบข้อมูลผ่าน Google Sheets โดยตรง หรือใช้เมนูใน Spreadsheet');
                         }
                     });
             };
@@ -2994,16 +2945,16 @@
                     {toast && <Toast msg={toast.msg} type={toast.type} onDone={() => setToast(null)} />}
 
                     <div className="card" style={{ padding: 26, marginBottom: 14 }}>
-                        <div className="settings-card-header" style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
-                            <div className="settings-icon" style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white', fontSize: '0.9rem' }}><Icon name="chart-pie" /></div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
+                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white' }}><Icon name="chart-pie" /></div>
                             ธีมและสีสัน
                         </div>
-                        <ThemePicker currentTheme={theme} onThemeChange={onThemeChange} accent={''} onAccentChange={() => { }} />
+                        <ThemePicker currentTheme={theme} onThemeChange={handleThemeChange} />
                     </div>
 
                     <div className="card" style={{ padding: 26, marginBottom: 14 }}>
-                        <div className="settings-card-header" style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
-                            <div className="settings-icon" style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white', fontSize: '0.9rem' }}><Icon name="key" /></div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
+                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white' }}><Icon name="key" /></div>
                             เปลี่ยนรหัสผ่าน
                         </div>
                         <div className="form-field">
@@ -3018,47 +2969,29 @@
                     </div>
 
                     <div className="card" style={{ padding: 26, marginBottom: 14 }}>
-                        <div className="settings-card-header" style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
-                            <div className="settings-icon" style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white', fontSize: '0.9rem' }}><Icon name="cloud" /></div>
-                            🔗 Google Apps Script
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
+                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white' }}><Icon name="cloud" /></div>
+                            🔗 Google Sheets Connection
                         </div>
                         <p style={{ color: 'var(--txt2)', fontSize: '0.84rem', marginBottom: 16 }}>
-                            ✅ GAS URL ถูกตั้งค่าไว้แล้วในโค้ด
+                            ✅ ข้อมูลทั้งหมดบันทึกใน Google Sheets ผ่าน Google Apps Script
                         </p>
-                        <div className="form-field">
-                            <label>GAS Web App URL</label>
-                            <input
-                                className="form-input"
-                                value={gasUrl}
-                                onChange={e => setGasUrl(e.target.value)}
-                                placeholder="https://script.google.com/macros/s/..."
-                                style={{ fontFamily: 'monospace', fontSize: '0.8rem' }}
-                            />
+                        <div className="url-box" style={{ marginBottom: 16 }}>
+                            <span style={{ flex: 1, overflowX: 'auto', whiteSpace: 'nowrap', fontSize: '0.75rem' }}>{GAS_URL_LOCAL}</span>
                         </div>
-                        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                            <button className="btn btn-primary ripple" onClick={e => { addRipple(e); saveGas(); }}>
-                                <Icon name="floppy-disk" /> 💾 บันทึก URL
-                            </button>
-                            <button className="btn btn-ghost" onClick={() => {
-                                if (gasUrl) {
-                                    window.open(gasUrl + '?action=getStats', '_blank');
-                                } else {
-                                    showWarningAlert('ไม่มี URL', '⚠️ กรุณาใส่ GAS URL ก่อน');
-                                }
-                            }}>
-                                <Icon name="arrow-up-right-from-square" /> ทดสอบการเชื่อมต่อ
-                            </button>
-                        </div>
+                        <button className="btn btn-ghost" onClick={() => window.open(GAS_URL_LOCAL + '?action=getStats', '_blank')}>
+                            <Icon name="arrow-up-right-from-square" /> ทดสอบการเชื่อมต่อ
+                        </button>
                     </div>
 
                     <div className="card" style={{ padding: 26, marginBottom: 14, border: '2px solid rgba(208,64,96,0.2)' }}>
-                        <div className="settings-card-header" style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: '#D04060', marginBottom: 20 }}>
-                            <div className="settings-icon" style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg,#FFAAB0,#FF6070)', color: 'white', fontSize: '0.9rem' }}><Icon name="triangle-exclamation" /></div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: '#D04060', marginBottom: 20 }}>
+                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg,#FFAAB0,#FF6070)', color: 'white' }}><Icon name="triangle-exclamation" /></div>
                             โซนอันตราย
                         </div>
-                        <p style={{ color: 'var(--txt3)', fontSize: '0.84rem', marginBottom: 18 }}>การลบข้อมูลจะไม่สามารถกู้คืนได้</p>
+                        <p style={{ color: 'var(--txt3)', fontSize: '0.84rem', marginBottom: 18 }}>การลบข้อมูลต้องทำผ่าน Google Sheets โดยตรง</p>
                         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                            <button className="btn btn-danger ripple" onClick={e => { addRipple(e); clearData(); }}><Icon name="trash-can" /> ลบข้อมูลทั้งหมด</button>
+                            <button className="btn btn-danger ripple" onClick={e => { addRipple(e); clearData(); }}><Icon name="trash-can" /> วิธีลบข้อมูล</button>
                             <button className="btn btn-ghost" onClick={handleLogout} style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }}>
                                 <Icon name="arrow-right-from-bracket" /> ออกจากระบบ
                             </button>
@@ -3099,7 +3032,6 @@
             const [fileUrls, setFileUrls] = useState({});
             const [uploading, setUploading] = useState({});
             const addRipple = useRipple();
-            const GAS_URL = localStorage.getItem('ff_gasurl') || '';
 
             if (!form) return (
                 <div style={{ textAlign: 'center', padding: 80 }}>
@@ -3135,10 +3067,6 @@
             const accent = form.accentColor || 'var(--p3)';
 
             const handleFileUpload = async (questionId, file) => {
-                if (!GAS_URL) {
-                    showErrorAlert('ไม่ได้ตั้งค่า GAS URL', '⚠️ กรุณาตั้งค่า Google Apps Script URL ในหน้า Settings ก่อน');
-                    return;
-                }
                 if (!file) return;
                 setUploading(prev => ({ ...prev, [questionId]: true }));
 
@@ -3162,10 +3090,6 @@
                                     }
                                 })
                             });
-
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! status: ${response.status}`);
-                            }
 
                             const result = await response.json();
                             if (result.success) {
@@ -3321,9 +3245,7 @@
                                             }}
                                         />
                                         <div style={{ textAlign: 'center', color: 'var(--txt3)' }}>
-                                            <Icon name="cloud-upload-alt"
-                                                style={{ fontSize: '2rem', marginBottom: 8, display: 'block', color: 'var(--p1)' }}
-                                            />
+                                            <Icon name="cloud-upload-alt" style={{ fontSize: '2rem', marginBottom: 8, display: 'block', color: 'var(--p1)' }} />
                                             {uploading[q.id] ? (
                                                 <div>
                                                     <Icon name="spinner" size="2rem" style={{ color: 'var(--p3)', marginBottom: 8 }} />
@@ -3331,12 +3253,8 @@
                                                 </div>
                                             ) : fileUrls[q.id] ? (
                                                 <div>
-                                                    <p style={{ color: '#2BAF88', fontWeight: 600, marginBottom: 8 }}>
-                                                        ✅ อัปโหลดไฟล์สำเร็จ!
-                                                    </p>
-                                                    <p style={{ fontSize: '0.85rem', marginBottom: 4, color: 'var(--txt2)' }}>
-                                                        📄 {answers[q.id] || 'ไฟล์ของคุณ'}
-                                                    </p>
+                                                    <p style={{ color: '#2BAF88', fontWeight: 600, marginBottom: 8 }}>✅ อัปโหลดไฟล์สำเร็จ!</p>
+                                                    <p style={{ fontSize: '0.85rem', marginBottom: 4, color: 'var(--txt2)' }}>📄 {answers[q.id] || 'ไฟล์ของคุณ'}</p>
                                                     <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 8, flexWrap: 'wrap' }}>
                                                         <a href={fileUrls[q.id]} target="_blank" rel="noopener noreferrer"
                                                             className="btn btn-ghost"
@@ -3346,18 +3264,8 @@
                                                         <button className="btn btn-ghost"
                                                             style={{ padding: '6px 12px', fontSize: '0.8rem' }}
                                                             onClick={() => {
-                                                                setFileUrls(prev => {
-                                                                    const newUrls = { ...prev };
-                                                                    delete newUrls[q.id];
-                                                                    return newUrls;
-                                                                });
-                                                                setAnswers(prev => {
-                                                                    const newAnswers = { ...prev };
-                                                                    delete newAnswers[q.id];
-                                                                    return newAnswers;
-                                                                });
-                                                                const fileInput = document.getElementById(`file-${q.id}`);
-                                                                if (fileInput) fileInput.value = '';
+                                                                setFileUrls(prev => { const newUrls = { ...prev }; delete newUrls[q.id]; return newUrls; });
+                                                                setAnswers(prev => { const newAnswers = { ...prev }; delete newAnswers[q.id]; return newAnswers; });
                                                             }}>
                                                             <Icon name="xmark" /> ลบและเลือกใหม่
                                                         </button>
@@ -3367,15 +3275,10 @@
                                                 <div>
                                                     <button className="btn btn-ghost"
                                                         style={{ marginBottom: 8 }}
-                                                        onClick={() => {
-                                                            const fileInput = document.getElementById(`file-${q.id}`);
-                                                            if (fileInput) fileInput.click();
-                                                        }}>
+                                                        onClick={() => document.getElementById(`file-${q.id}`).click()}>
                                                         <Icon name="cloud-upload-alt" /> เลือกไฟล์เพื่ออัปโหลด
                                                     </button>
-                                                    <p style={{ fontSize: '0.8rem' }}>
-                                                        📁 รองรับไฟล์ทุกประเภท (สูงสุด 50MB)
-                                                    </p>
+                                                    <p style={{ fontSize: '0.8rem' }}>📁 รองรับไฟล์ทุกประเภท (สูงสุด 50MB)</p>
                                                 </div>
                                             )}
                                         </div>
@@ -3388,8 +3291,7 @@
                                             const current = hover[q.id] || stars[q.id] || 0;
                                             const filled = s <= current;
                                             return (
-                                                <span key={s}
-                                                    className="star"
+                                                <span key={s} className="star"
                                                     style={{ color: filled ? '#FFD060' : 'var(--border)', display: 'inline-flex' }}
                                                     onMouseEnter={() => setHover(h => ({ ...h, [q.id]: s }))}
                                                     onMouseLeave={() => setHover(h => ({ ...h, [q.id]: 0 }))}
@@ -3398,9 +3300,7 @@
                                                         setErrors(prev => ({ ...prev, [q.id]: undefined }));
                                                     }}>
                                                     <Icon name={filled ? 'star-filled' : 'star'}
-                                                        style={{ width: '1.3rem', height: '1.3rem' }}
-                                                        fill={filled}
-                                                    />
+                                                        style={{ width: '1.3rem', height: '1.3rem' }} fill={filled} />
                                                 </span>
                                             );
                                         })}
@@ -3437,7 +3337,7 @@
                             <Icon name="paper-plane" /> ส่งคำตอบ 🌸
                         </button>
                         <p style={{ textAlign: 'center', color: 'var(--txt3)', fontSize: '0.76rem', marginTop: 12 }}>
-                            สร้างด้วย <strong style={{ color: 'var(--p3)' }}>FormFlow</strong>
+                            สร้างด้วย <strong style={{ color: 'var(--p3)' }}>FormFlow</strong> (Sheet-based)
                         </p>
                     </div>
                 </div>
@@ -3448,32 +3348,26 @@
             const [loggedIn, setLoggedIn] = useState(() => sessionStorage.getItem('ff_auth') === '1');
             const [page, setPage] = useState('dashboard');
             const [sidebarOpen, setSidebarOpen] = useState(false);
-            const [theme, setTheme] = useState(() => localStorage.getItem('ff_theme') || 'sakura');
-            const [accent, setAccent] = useState('');
+            const [theme, setTheme] = useState('sakura');
             const [toast, setToast] = useState(null);
             const [urlModal, setUrlModal] = useState(null);
             const [showScroll, setShowScroll] = useState(false);
-            const { forms, responses, addForm, updateForm, deleteForm, addResponse, syncSettingsToGAS } = useStore();
+
+            const {
+                forms, responses, loading, error,
+                addForm, updateForm, deleteForm, toggleFormActive,
+                addResponse, deleteResponse, updateSettings, verifyPassword, loadAllData
+            } = useStore();
 
             const params = new URLSearchParams(location.search);
             const publicFormId = params.get('form');
 
             useEffect(() => { applyTheme(theme); }, [theme]);
 
-            const handleThemeChange = t => {
-                setTheme(t);
-                localStorage.setItem('ff_theme', t);
-                applyTheme(t);
-
-                // ✅ Sync theme setting ไป GAS
-                syncSettingsToGAS({ theme: t });
-            };
-
-            const handleAccentChange = c => { setAccent(c); };
-
             useEffect(() => {
                 const h = () => setShowScroll(scrollY > 300);
-                addEventListener('scroll', h); return () => removeEventListener('scroll', h);
+                addEventListener('scroll', h);
+                return () => removeEventListener('scroll', h);
             }, []);
 
             const handleLogin = () => {
@@ -3481,9 +3375,20 @@
                 setLoggedIn(true);
                 showSuccessAlert('เข้าสู่ระบบสำเร็จ!', 'ยินดีต้อนรับสู่ FormFlow นะคะ~ 🌸');
             };
+
             const handleLogout = () => {
                 sessionStorage.removeItem('ff_auth');
                 setLoggedIn(false);
+            };
+
+            const handleThemeChange = async (t) => {
+                setTheme(t);
+                applyTheme(t);
+                try {
+                    await updateSettings({ theme: t });
+                } catch (err) {
+                    console.error('Theme sync error:', err);
+                }
             };
 
             const pageTitles = {
@@ -3496,9 +3401,11 @@
 
             if (publicFormId) {
                 const form = forms.find(f => f.id === publicFormId);
-                return <PublicForm form={form} onSubmit={(id, d, fileUrls) => { addResponse(id, d, fileUrls); }} />;
+                return <PublicForm form={form} onSubmit={addResponse} />;
             }
-            if (!loggedIn) return <LoginScreen onLogin={handleLogin} />;
+
+            if (!loggedIn) return <LoginScreen onLogin={handleLogin} verifyPassword={verifyPassword} />;
+            if (loading) return <LoadingScreen />;
 
             return (
                 <>
@@ -3511,37 +3418,34 @@
                         <TopBar
                             title={pageTitles[page] || 'FormFlow'}
                             onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-                            theme={theme} onThemeChange={handleThemeChange}
-                            accent={accent} onAccentChange={handleAccentChange}
+                            theme={theme}
+                            onThemeChange={handleThemeChange}
                             onLogout={handleLogout}
                         />
+                        {error && (
+                            <div className="card" style={{ padding: 16, marginBottom: 20, background: 'rgba(255,96,112,0.1)', borderColor: 'rgba(208,64,96,0.3)', color: '#D04060' }}>
+                                <Icon name="triangle-exclamation" /> {error}
+                                <button className="btn btn-ghost" style={{ marginLeft: 12 }} onClick={loadAllData}>ลองใหม่</button>
+                            </div>
+                        )}
                         {page === 'dashboard' && <DashboardPage forms={forms} responses={responses} />}
                         {page === 'forms' && (
                             <FormsPage forms={forms} responses={responses}
-                                onAdd={f => { addForm(f); }}
-                                onEdit={(id, f) => { updateForm(id, f); }}
-                                onDelete={id => { deleteForm(id); }}
-                                onToggle={(id, v) => { updateForm(id, { active: v }); }}
+                                onAdd={addForm}
+                                onEdit={updateForm}
+                                onDelete={deleteForm}
+                                onToggle={toggleFormActive}
                                 onViewUrl={f => setUrlModal(f)}
                             />
                         )}
-                        {page === 'responses' && <ResponsesPage forms={forms} responses={responses} />}
+                        {page === 'responses' && <ResponsesPage forms={forms} responses={responses} onDeleteResponse={deleteResponse} />}
                         {page === 'analytics' && <AnalyticsPage forms={forms} responses={responses} />}
-                        {page === 'settings' && <SettingsPage theme={theme} onThemeChange={handleThemeChange} onLogout={handleLogout} syncSettingsToGAS={syncSettingsToGAS} />}
+                        {page === 'settings' && <SettingsPage theme={theme} onThemeChange={handleThemeChange} onLogout={handleLogout} updateSettings={updateSettings} />}
                     </main>
                     <BottomNav page={page} setPage={setPage} />
                     <div className={`scroll-top-btn ${showScroll ? 'visible' : ''}`} onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}>
                         <Icon name="arrow-up" />
                     </div>
-                    <style>{`
-                        @media(max-width:768px){#menu-btn{display:flex!important;}}
-                        .stagger>*{animation:pageEnter 0.38s cubic-bezier(0.4,0,0.2,1) both;}
-                        .empty-state{text-align:center;padding:60px;color:var(--txt3);}
-                        .empty-state-emoji{font-size:3.5rem;margin-bottom:14px;}
-                        .empty-state-title{font-weight:700;font-size:1rem;color:var(--txt2);margin-bottom:6px;}
-                        .empty-state-sub{font-size:0.85rem;}
-                        .theme-preview-bar{height:5px;border-radius:4px;background:linear-gradient(90deg,var(--p1),var(--p2),var(--p3));margin-bottom:12px;}
-                    `}</style>
                 </>
             );
         }
