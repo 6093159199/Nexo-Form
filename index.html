@@ -8,25 +8,17 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Mali:wght@400;600;700&family=Mitr:wght@300;400;500;600&display=swap"
         rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
-    </script>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js">
-    </script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js">
-    </script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
 
     <style>
         /* ============================================
            PASTEL THEME SYSTEM
         ============================================ */
-
-        /* 🌸 SAKURA (Pink) */
         [data-theme="sakura"] {
             --p1: #F8B4C8;
             --p2: #F4A1B8;
@@ -49,7 +41,6 @@
             --badge-off-c: #8B5A6A;
         }
 
-        /* 🍬 CANDY (Lavender) */
         [data-theme="candy"] {
             --p1: #C4B5F4;
             --p2: #B8A7F0;
@@ -72,7 +63,6 @@
             --badge-off-c: #6B4F9A;
         }
 
-        /* 🍑 PEACH (Orange) */
         [data-theme="peach"] {
             --p1: #FFB085;
             --p2: #FFA070;
@@ -95,7 +85,6 @@
             --badge-off-c: #8B5030;
         }
 
-        /* 🌿 MINT (Green) */
         [data-theme="mint"] {
             --p1: #90E0C8;
             --p2: #7AD4B8;
@@ -118,7 +107,6 @@
             --badge-off-c: #3A7060;
         }
 
-        /* 🌊 SKY (Blue) */
         [data-theme="sky"] {
             --p1: #90C8F0;
             --p2: #78B8EC;
@@ -141,7 +129,6 @@
             --badge-off-c: #3A5878;
         }
 
-        /* 🍋 LEMON (Yellow) */
         [data-theme="lemon"] {
             --p1: #FFE070;
             --p2: #FFD840;
@@ -164,7 +151,6 @@
             --badge-off-c: #786020;
         }
 
-        /* 🌙 DARK MODE (Midnight) */
         [data-theme="dark"] {
             --p1: #C4A8E8;
             --p2: #B094DC;
@@ -187,9 +173,6 @@
             --badge-off-c: #9080B8;
         }
 
-        /* ============================================
-           GLOBAL BASE
-        ============================================ */
         :root {
             --sidebar-w: 260px;
             --radius-sm: 14px;
@@ -238,7 +221,8 @@
             content: '';
             position: fixed;
             inset: 0;
-            background-image: radial-gradient(circle at 15% 20%, var(--p1) 0%, transparent 35%),
+            background-image:
+                radial-gradient(circle at 15% 20%, var(--p1) 0%, transparent 35%),
                 radial-gradient(circle at 85% 10%, var(--p2) 0%, transparent 30%),
                 radial-gradient(circle at 70% 80%, var(--p1) 0%, transparent 28%),
                 radial-gradient(circle at 10% 75%, var(--p2) 0%, transparent 25%);
@@ -276,9 +260,6 @@
             pointer-events: none;
         }
 
-        /* ============================================
-           SCROLLBAR
-        ============================================ */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -297,9 +278,6 @@
             background: var(--p3);
         }
 
-        /* ============================================
-           TYPOGRAPHY
-        ============================================ */
         .font-display {
             font-family: var(--font-display);
         }
@@ -308,9 +286,6 @@
             color: var(--p3);
         }
 
-        /* ============================================
-           BUTTONS
-        ============================================ */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -413,9 +388,6 @@
             }
         }
 
-        /* ============================================
-           CARDS
-        ============================================ */
         .card {
             background: var(--card);
             border: 1.5px solid var(--border2);
@@ -439,9 +411,6 @@
             box-shadow: 0 4px 20px var(--shadow);
         }
 
-        /* ============================================
-           FORMS
-        ============================================ */
         .form-field {
             display: flex;
             flex-direction: column;
@@ -490,9 +459,6 @@
             cursor: pointer;
         }
 
-        /* ============================================
-           LAYOUT
-        ============================================ */
         .sidebar {
             position: fixed;
             left: 0;
@@ -622,9 +588,6 @@
             z-index: 1;
         }
 
-        /* ============================================
-           TOPBAR
-        ============================================ */
         .topbar {
             display: flex;
             align-items: center;
@@ -650,9 +613,6 @@
             gap: 8px;
         }
 
-        /* ============================================
-           THEME PICKER
-        ============================================ */
         .theme-picker-panel {
             position: absolute;
             right: 0;
@@ -722,18 +682,6 @@
             border: 3px solid white;
         }
 
-        .custom-color-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 14px;
-            padding-top: 14px;
-            border-top: 1.5px dashed var(--border);
-        }
-
-        /* ============================================
-           STAT CARDS
-        ============================================ */
         .stat-card {
             padding: 22px;
             position: relative;
@@ -757,20 +705,6 @@
             font-family: var(--font-display);
         }
 
-        .stat-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.68rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--p1), var(--p2));
-            color: white;
-            margin-top: 8px;
-            letter-spacing: 0.03em;
-        }
-
         .stat-icon {
             position: absolute;
             right: -8px;
@@ -787,9 +721,6 @@
             opacity: 0.15;
         }
 
-        /* ============================================
-           BADGES & CHIPS
-        ============================================ */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -835,9 +766,6 @@
             font-family: var(--font-display);
         }
 
-        /* ============================================
-           TOGGLE
-        ============================================ */
         .toggle {
             position: relative;
             display: inline-block;
@@ -881,9 +809,6 @@
             transform: translateX(22px);
         }
 
-        /* ============================================
-           BOTTOM NAV
-        ============================================ */
         .bottom-nav {
             display: none;
             position: fixed;
@@ -941,9 +866,6 @@
             transform: translateY(-4px) scale(1.1);
         }
 
-        /* ============================================
-           LOGIN
-        ============================================ */
         .login-wrap {
             min-height: 100vh;
             display: flex;
@@ -1010,9 +932,6 @@
             box-shadow: 0 0 0 4px var(--bg3);
         }
 
-        /* ============================================
-           MODALS
-        ============================================ */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -1070,9 +989,6 @@
             color: var(--p3);
         }
 
-        /* ============================================
-           FORM CARDS (list)
-        ============================================ */
         .form-card {
             padding: 0;
             overflow: hidden;
@@ -1105,9 +1021,6 @@
             background: linear-gradient(90deg, var(--p1), var(--p3));
         }
 
-        /* ============================================
-           QUESTION ITEMS
-        ============================================ */
         .question-item {
             padding: 14px 18px;
             margin-bottom: 10px;
@@ -1136,9 +1049,6 @@
             border: 1px solid var(--p1);
         }
 
-        /* ============================================
-           PUBLIC FORM
-        ============================================ */
         .public-wrap {
             min-height: 100vh;
             display: flex;
@@ -1250,9 +1160,6 @@
             transform: scale(1.35) rotate(12deg);
         }
 
-        /* ============================================
-           URL BOX
-        ============================================ */
         .url-box {
             background: var(--bg2);
             border: 2px dashed var(--border);
@@ -1268,9 +1175,6 @@
             word-break: break-all;
         }
 
-        /* ============================================
-           TOAST
-        ============================================ */
         .toast-ff {
             position: fixed;
             top: 22px;
@@ -1302,9 +1206,6 @@
             }
         }
 
-        /* ============================================
-           SCROLL PROGRESS + SCROLL TOP
-        ============================================ */
         .scroll-progress {
             position: fixed;
             top: 0;
@@ -1355,9 +1256,6 @@
             transform: translateY(-4px) scale(1.12);
         }
 
-        /* ============================================
-           SIDEBAR OVERLAY
-        ============================================ */
         .sidebar-overlay {
             display: none;
             position: fixed;
@@ -1371,18 +1269,12 @@
             display: block;
         }
 
-        /* ============================================
-           DIVIDER
-        ============================================ */
         .divider {
             height: 1.5px;
             background: linear-gradient(90deg, transparent, var(--border), transparent);
             margin: 22px 0;
         }
 
-        /* ============================================
-           ANIMATIONS
-        ============================================ */
         @keyframes pageEnter {
             from {
                 opacity: 0;
@@ -1454,17 +1346,11 @@
             }
         }
 
-        /* ============================================
-           CHART
-        ============================================ */
         .chart-wrap {
             position: relative;
             height: 240px;
         }
 
-        /* ============================================
-           SWAL OVERRIDES
-        ============================================ */
         .swal2-popup {
             font-family: var(--font-display), sans-serif !important;
             border-radius: var(--radius-xl) !important;
@@ -1480,9 +1366,6 @@
             box-shadow: 0 4px 14px var(--shadow) !important;
         }
 
-        /* ============================================
-           RESPONSIVE
-        ============================================ */
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -1559,14 +1442,8 @@
     <script type="text/babel">
         const { useState, useEffect, useRef, useCallback, useMemo } = React;
 
-        // ============================================
-        // GAS URL Configuration
-        // ============================================
-        const GAS_URL = 'https://script.google.com/macros/s/AKfycby3Kj14cCXmmz9OIziQdhrK0Eq4lBipwq8j26FJrZfyJzPVbBynoFioV0Ni8VjHV6r4AQ/exec';
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbxqPO2T8CWpdOa40vtwOMDyuhhXWjpellbeddFR3tMBE-z2rbJI2mmFdTDbhDcup1xw9A/exec';
 
-        /* ============================================
-           SVG ICON MAP
-        ============================================ */
         const iconPaths = {
             'mug-hot': 'M6 3h12a2 2 0 0 1 2 2v3a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V5a2 2 0 0 1 2-2z M6 3v2 M18 3v2 M10 13v6a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2v-6',
             'house-chimney': 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10',
@@ -1627,22 +1504,12 @@
             const pathData = iconPaths[name];
             if (!pathData) return null;
             return (
-                <svg
-                    className={`svg-icon ${fill ? 'svg-icon-fill' : ''} ${className}`}
-                    style={{ width: size, height: size, ...style }}
-                    viewBox="0 0 24 24"
-                    fill={fill ? 'currentColor' : 'none'}
-                    stroke={fill ? 'none' : 'currentColor'}
-                    strokeWidth={fill ? 0 : 2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                >
+                <svg className={`svg-icon ${fill ? 'svg-icon-fill' : ''} ${className}`} style={{ width: size, height: size, ...style }} viewBox="0 0 24 24" fill={fill ? 'currentColor' : 'none'} stroke={fill ? 'none' : 'currentColor'} strokeWidth={fill ? 0 : 2} strokeLinecap="round" strokeLinejoin="round">
                     <path d={pathData} />
                 </svg>
             );
         }
 
-        /* ——— THEME CONFIG ——— */
         const THEMES = [
             { id: 'sakura', label: '🌸 ซากุระ', dot: ['#F8B4C8', '#E879A0'] },
             { id: 'candy', label: '🍬 แคนดี้', dot: ['#C4B5F4', '#8B6FE8'] },
@@ -1686,46 +1553,23 @@
 
         const showSuccessAlert = (title, text) => {
             const colors = getThemeColors();
-            return Swal.fire({
-                icon: 'success',
-                title: title,
-                text: text,
-                confirmButtonColor: colors.p3,
-                background: colors.card,
-                color: colors.txt,
-            });
+            return Swal.fire({ icon: 'success', title, text, confirmButtonColor: colors.p3, background: colors.card, color: colors.txt });
         };
 
         const showErrorAlert = (title, text) => {
             const colors = getThemeColors();
-            return Swal.fire({
-                icon: 'error',
-                title: title,
-                text: text,
-                confirmButtonColor: '#FF6070',
-                background: colors.card,
-                color: colors.txt,
-            });
+            return Swal.fire({ icon: 'error', title, text, confirmButtonColor: '#FF6070', background: colors.card, color: colors.txt });
         };
 
         const showWarningAlert = (title, text) => {
             const colors = getThemeColors();
-            return Swal.fire({
-                icon: 'warning',
-                title: title,
-                text: text,
-                confirmButtonColor: colors.p3,
-                background: colors.card,
-                color: colors.txt,
-            });
+            return Swal.fire({ icon: 'warning', title, text, confirmButtonColor: colors.p3, background: colors.card, color: colors.txt });
         };
 
         const showDeleteConfirm = (title, text) => {
             const colors = getThemeColors();
             return Swal.fire({
-                title: title,
-                html: text,
-                icon: 'warning',
+                title, html: text, icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#FF6070',
                 cancelButtonColor: colors.txt2,
@@ -1750,24 +1594,21 @@
             }, []);
         }
 
-        /* ============================================
-           STORE - ใช้ Google Sheets API เท่านั้น
-        ============================================ */
         function useStore() {
             const [forms, setForms] = useState([]);
             const [responses, setResponses] = useState({});
             const [loading, setLoading] = useState(true);
             const [error, setError] = useState(null);
 
-            // โหลดข้อมูลทั้งหมดเมื่อเริ่มต้น
-            useEffect(() => {
-                loadAllData();
-            }, []);
+            useEffect(() => { loadAllData(); }, []);
 
             const callGAS = async (action, data = null, method = 'POST') => {
                 try {
                     let url = GAS_URL;
-                    let options = {};
+                    let options = {
+                        method: method,
+                        headers: { 'Accept': 'application/json' }
+                    };
 
                     if (method === 'GET') {
                         url += '?action=' + action;
@@ -1776,35 +1617,40 @@
                                 url += '&' + key + '=' + encodeURIComponent(data[key]);
                             });
                         }
-                        options = { method: 'GET' };
                     } else {
-                        options = {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ action, ...data })
-                        };
+                        options.headers['Content-Type'] = 'application/json';
+                        options.body = JSON.stringify({ action, ...data });
                     }
 
+                    console.log('🔍 API Call:', url, method);
                     const response = await fetch(url, options);
-                    return await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    console.log('📥 API Response:', result);
+                    return result;
                 } catch (err) {
-                    console.error('❌ GAS API Error:', err);
-                    return { success: false, message: err.message };
+                    console.error('❌ API Error:', err, 'URL:', GAS_URL, 'Action:', action);
+                    return { success: false, message: 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้: ' + err.message };
                 }
             };
 
             const loadAllData = async () => {
                 try {
                     setLoading(true);
+                    console.log('🔄 กำลังโหลดข้อมูลจาก Google Sheets...');
 
-                    // ดึงฟอร์มทั้งหมด
                     const formsResult = await callGAS('getAllForms', null, 'POST');
+                    console.log('📋 Forms result:', formsResult);
 
                     if (formsResult.success) {
                         const loadedForms = formsResult.data || [];
                         setForms(loadedForms);
+                        console.log('✅ โหลดฟอร์มสำเร็จ:', loadedForms.length, 'ฟอร์ม');
 
-                        // ดึงคำตอบทั้งหมดสำหรับแต่ละฟอร์ม
                         const allResponses = {};
                         for (const form of loadedForms) {
                             const respResult = await callGAS('getResponses', { formId: form.id }, 'POST');
@@ -1813,7 +1659,9 @@
                             }
                         }
                         setResponses(allResponses);
+                        console.log('✅ โหลดคำตอบเสร็จสิ้น');
                     } else {
+                        console.error('❌ โหลดฟอร์มไม่สำเร็จ:', formsResult.message);
                         setError(formsResult.message);
                     }
                 } catch (err) {
@@ -1825,117 +1673,55 @@
             };
 
             const addForm = async (formData) => {
-                const newForm = {
-                    ...formData,
-                    id: generateId(),
-                    createdAt: new Date().toISOString(),
-                    active: true,
-                    responseCount: 0
-                };
-
-                const result = await callGAS('saveFormToSheet', {
-                    data: { ...newForm, action: 'create' }
-                });
-
-                if (result.success) {
-                    setForms(prev => [...prev, newForm]);
-                    return newForm;
-                } else {
-                    throw new Error(result.message);
-                }
+                const newForm = { ...formData, id: generateId(), createdAt: new Date().toISOString(), active: true, responseCount: 0 };
+                const result = await callGAS('saveFormToSheet', { data: { ...newForm, action: 'create' } });
+                if (result.success) { setForms(prev => [...prev, newForm]); return newForm; }
+                else throw new Error(result.message);
             };
 
             const updateForm = async (id, updates) => {
                 const existingForm = forms.find(f => f.id === id);
                 if (!existingForm) throw new Error('ไม่พบฟอร์ม');
-
                 const newFormData = { ...existingForm, ...updates, updatedAt: new Date().toISOString() };
-
-                const result = await callGAS('saveFormToSheet', {
-                    data: { ...newFormData, action: 'update' }
-                });
-
-                if (result.success) {
-                    setForms(prev => prev.map(f => f.id === id ? newFormData : f));
-                } else {
-                    throw new Error(result.message);
-                }
+                const result = await callGAS('saveFormToSheet', { data: { ...newFormData, action: 'update' } });
+                if (result.success) { setForms(prev => prev.map(f => f.id === id ? newFormData : f)); }
+                else throw new Error(result.message);
             };
 
             const deleteForm = async (id) => {
                 const result = await callGAS('deleteFormData', { data: { formId: id } });
-
                 if (result.success) {
                     setForms(prev => prev.filter(f => f.id !== id));
-                    setResponses(prev => {
-                        const newResp = { ...prev };
-                        delete newResp[id];
-                        return newResp;
-                    });
-                } else {
-                    throw new Error(result.message);
-                }
+                    setResponses(prev => { const newResp = { ...prev }; delete newResp[id]; return newResp; });
+                } else throw new Error(result.message);
             };
 
             const toggleFormActive = async (id, active) => {
                 const result = await callGAS('updateFormActive', { data: { formId: id, active } });
-
-                if (result.success) {
-                    setForms(prev => prev.map(f => f.id === id ? { ...f, active } : f));
-                }
+                if (result.success) { setForms(prev => prev.map(f => f.id === id ? { ...f, active } : f)); }
             };
 
             const addResponse = async (formId, data, fileUrls = {}) => {
                 const form = forms.find(f => f.id === formId);
                 if (!form) throw new Error('ไม่พบฟอร์ม');
-
                 const responseId = generateId();
                 const submittedAt = new Date().toISOString();
-
                 const result = await callGAS('saveResponse', {
-                    data: {
-                        responseId,
-                        formId,
-                        formTitle: form.title,
-                        submittedAt,
-                        questions: form.questions || [],
-                        answers: data,
-                        fileUrls: fileUrls || {}
-                    }
+                    data: { responseId, formId, formTitle: form.title, submittedAt, questions: form.questions || [], answers: data, fileUrls: fileUrls || {} }
                 });
-
                 if (result.success) {
-                    setResponses(prev => ({
-                        ...prev,
-                        [formId]: [...(prev[formId] || []), {
-                            id: responseId,
-                            submittedAt,
-                            data,
-                            fileUrls
-                        }]
-                    }));
-
-                    setForms(prev => prev.map(f =>
-                        f.id === formId ? { ...f, responseCount: (f.responseCount || 0) + 1 } : f
-                    ));
+                    setResponses(prev => ({ ...prev, [formId]: [...(prev[formId] || []), { id: responseId, submittedAt, data, fileUrls }] }));
+                    setForms(prev => prev.map(f => f.id === formId ? { ...f, responseCount: (f.responseCount || 0) + 1 } : f));
                 }
-
                 return result;
             };
 
             const deleteResponse = async (formId, responseId) => {
-                const result = await callGAS('deleteResponseById', {
-                    data: { formId, responseId }
-                });
-
+                const result = await callGAS('deleteResponseById', { data: { formId, responseId } });
                 if (result.success) {
-                    setResponses(prev => ({
-                        ...prev,
-                        [formId]: (prev[formId] || []).filter(r => r.id !== responseId)
-                    }));
-                    await loadAllData(); // รีโหลดเพื่ออัปเดต response count
+                    setResponses(prev => ({ ...prev, [formId]: (prev[formId] || []).filter(r => r.id !== responseId) }));
+                    await loadAllData();
                 }
-
                 return result;
             };
 
@@ -1944,33 +1730,16 @@
             };
 
             const verifyPassword = async (password) => {
+                console.log('🔐 กำลังตรวจสอบรหัสผ่าน...');
                 return await callGAS('verifyPassword', { password }, 'GET');
             };
 
-            return {
-                forms,
-                responses,
-                loading,
-                error,
-                addForm,
-                updateForm,
-                deleteForm,
-                toggleFormActive,
-                addResponse,
-                deleteResponse,
-                updateSettings,
-                verifyPassword,
-                loadAllData
-            };
+            return { forms, responses, loading, error, addForm, updateForm, deleteForm, toggleFormActive, addResponse, deleteResponse, updateSettings, verifyPassword, loadAllData };
         }
-
-        /* ——— COMPONENTS ——— */
 
         function Toast({ msg, type = 'success', onDone }) {
             useEffect(() => { const t = setTimeout(onDone, 3200); return () => clearTimeout(t); }, []);
-            const bg = type === 'success' ? 'linear-gradient(135deg,#90D4B0,#2BAF80)'
-                : type === 'error' ? 'linear-gradient(135deg,#FFAAB0,#FF6070)'
-                    : 'linear-gradient(135deg,var(--p1),var(--p3))';
+            const bg = type === 'success' ? 'linear-gradient(135deg,#90D4B0,#2BAF80)' : type === 'error' ? 'linear-gradient(135deg,#FFAAB0,#FF6070)' : 'linear-gradient(135deg,var(--p1),var(--p3))';
             const icon = type === 'success' ? 'circle-check' : type === 'error' ? 'circle-xmark' : 'circle-info';
             return <div className="toast-ff" style={{ background: bg }}><Icon name={icon} /> {msg}</div>;
         }
@@ -1979,8 +1748,7 @@
             const [w, setW] = useState(0);
             useEffect(() => {
                 const h = () => { const d = document.documentElement; setW(d.scrollHeight - innerHeight > 0 ? scrollY / (d.scrollHeight - innerHeight) * 100 : 0); };
-                addEventListener('scroll', h);
-                return () => removeEventListener('scroll', h);
+                addEventListener('scroll', h); return () => removeEventListener('scroll', h);
             }, []);
             return <div className="scroll-progress" style={{ width: `${w}%` }} />;
         }
@@ -1988,19 +1756,13 @@
         function FloatingDecorations() {
             const emojis = useMemo(() => ['🌸', '🌺', '🌷', '🍓', '🎀', '🍬', '🧁', '🍩', '✨', '💫', '🌟', '🦋', '🌈', '🌻', '🍭', '🎊'], []);
             const items = useMemo(() => Array.from({ length: 20 }, (_, i) => ({
-                id: i, left: Math.random() * 100, delay: Math.random() * 10,
-                size: 14 + Math.random() * 18, duration: 8 + Math.random() * 6,
+                id: i, left: Math.random() * 100, delay: Math.random() * 10, size: 14 + Math.random() * 18, duration: 8 + Math.random() * 6,
                 emoji: emojis[Math.floor(Math.random() * emojis.length)]
             })), []);
             return (
                 <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0 }}>
                     {items.map(it => (
-                        <div key={it.id} className="floating-decor" style={{
-                            left: `${it.left}%`, bottom: '-50px',
-                            fontSize: `${it.size}px`,
-                            animationDelay: `${it.delay}s`,
-                            animationDuration: `${it.duration}s`
-                        }}>{it.emoji}</div>
+                        <div key={it.id} className="floating-decor" style={{ left: `${it.left}%`, bottom: '-50px', fontSize: `${it.size}px`, animationDelay: `${it.delay}s`, animationDuration: `${it.duration}s` }}>{it.emoji}</div>
                     ))}
                 </div>
             );
@@ -2027,26 +1789,28 @@
             const handleLogin = async (e) => {
                 e.preventDefault();
                 setLoading(true);
+                setErr('');
 
                 try {
+                    console.log('🔐 กำลังพยายามเข้าสู่ระบบ...');
                     const result = await verifyPassword(pw);
+                    console.log('🔐 ผลลัพธ์การยืนยัน:', result);
 
-                    if (result.success) {
+                    if (result && result.success) {
                         confetti({
-                            particleCount: 120,
-                            spread: 70,
-                            origin: { y: 0.6 },
+                            particleCount: 120, spread: 70, origin: { y: 0.6 },
                             colors: ['#F8B4C8', '#C4B5F4', '#90E0C8', '#FFB085', '#FFE070']
                         });
                         onLogin();
                     } else {
-                        setErr('💔 รหัสผ่านไม่ถูกต้อง ลองใหม่นะคะ~');
-                        showErrorAlert('เข้าสู่ระบบไม่สำเร็จ', 'รหัสผ่านไม่ถูกต้องนะคะ ลองใหม่อีกครั้ง~');
+                        const msg = result?.message || 'รหัสผ่านไม่ถูกต้อง';
+                        setErr('💔 ' + msg);
+                        showErrorAlert('เข้าสู่ระบบไม่สำเร็จ', msg);
                     }
                 } catch (error) {
-                    console.error('Login error:', error);
-                    setErr('💔 ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
-                    showErrorAlert('ข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ กรุณาลองใหม่');
+                    console.error('❌ Login error:', error);
+                    setErr('💔 ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้: ' + error.message);
+                    showErrorAlert('ข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้: ' + error.message);
                 } finally {
                     setLoading(false);
                 }
@@ -2058,14 +1822,10 @@
                     <div className="login-card bounce-in">
                         <div style={{ fontSize: '3rem', marginBottom: 4 }}>🌸</div>
                         <div className="login-logo">FormFlow</div>
-                        <p style={{ color: 'var(--txt2)', marginBottom: 30, fontSize: '0.92rem', fontFamily: 'var(--font-display)' }}>
-                            ✨ ระบบสร้างและจัดการแบบฟอร์มอัจฉริยะ (Sheet-based)
-                        </p>
+                        <p style={{ color: 'var(--txt2)', marginBottom: 30, fontSize: '0.92rem', fontFamily: 'var(--font-display)' }}>✨ ระบบสร้างและจัดการแบบฟอร์มอัจฉริยะ (Sheet-based)</p>
                         <form onSubmit={handleLogin}>
                             <div style={{ marginBottom: 16 }}>
-                                <input type="password" className="login-input"
-                                    placeholder="🔐 รหัสผ่านผู้ดูแลระบบ"
-                                    value={pw} onChange={e => { setPw(e.target.value); setErr(''); }} autoFocus />
+                                <input type="password" className="login-input" placeholder="🔐 รหัสผ่านผู้ดูแลระบบ" value={pw} onChange={e => { setPw(e.target.value); setErr(''); }} autoFocus />
                             </div>
                             {err && (
                                 <div style={{ background: 'rgba(255,96,112,0.1)', color: '#D04060', padding: '10px 16px', borderRadius: 40, marginBottom: 16, fontSize: '0.85rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -2077,8 +1837,7 @@
                             </button>
                         </form>
                         <p style={{ color: 'var(--txt3)', fontSize: '0.75rem', marginTop: 22 }}>
-                            <Icon name="cloud" style={{ marginRight: 5 }} />
-                            ข้อมูลทั้งหมดบันทึกใน Google Sheets
+                            <Icon name="cloud" style={{ marginRight: 5 }} /> ข้อมูลทั้งหมดบันทึกใน Google Sheets
                         </p>
                     </div>
                 </div>
@@ -2097,44 +1856,27 @@
             const handleLogout = () => {
                 const colors = getThemeColors();
                 Swal.fire({
-                    title: 'ออกจากระบบ?',
-                    text: 'คุณแน่ใจหรือไม่ที่จะออกจากระบบ?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: colors.p3,
-                    cancelButtonColor: colors.txt2,
-                    confirmButtonText: '🚪 ใช่ ออกจากระบบ',
-                    cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true,
-                    background: colors.card,
-                    color: colors.txt,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        onLogout();
-                    }
-                });
+                    title: 'ออกจากระบบ?', text: 'คุณแน่ใจหรือไม่ที่จะออกจากระบบ?', icon: 'question',
+                    showCancelButton: true, confirmButtonColor: colors.p3, cancelButtonColor: colors.txt2,
+                    confirmButtonText: '🚪 ใช่ ออกจากระบบ', cancelButtonText: 'ยกเลิก',
+                    reverseButtons: true, background: colors.card, color: colors.txt,
+                }).then((result) => { if (result.isConfirmed) onLogout(); });
             };
 
             return (
                 <>
                     <div className={`sidebar-overlay ${open ? 'show' : ''}`} onClick={onClose} />
                     <nav className={`sidebar ${open ? 'open' : ''}`}>
-                        <div className="sidebar-logo">
-                            <div className="sidebar-logo-icon"><Icon name="cloud" /></div>
-                            FormFlow
-                        </div>
+                        <div className="sidebar-logo"><div className="sidebar-logo-icon"><Icon name="cloud" /></div>FormFlow</div>
                         <div className="sidebar-section-label">✦ เมนูหลัก</div>
                         {nav.map(item => (
-                            <div key={item.id} className={`nav-item ${page === item.id ? 'active' : ''}`}
-                                onClick={() => { setPage(item.id); onClose(); }}>
-                                <div className="nav-icon"><Icon name={item.icon} /></div>
-                                {item.label}
+                            <div key={item.id} className={`nav-item ${page === item.id ? 'active' : ''}`} onClick={() => { setPage(item.id); onClose(); }}>
+                                <div className="nav-icon"><Icon name={item.icon} /></div>{item.label}
                             </div>
                         ))}
                         <div style={{ marginTop: 'auto', padding: '10px 0' }}>
                             <div className="nav-item" onClick={handleLogout} style={{ color: '#D04060' }}>
-                                <div className="nav-icon" style={{ background: 'rgba(208,64,96,0.1)' }}><Icon name="arrow-right-from-bracket" /></div>
-                                ออกจากระบบ
+                                <div className="nav-icon" style={{ background: 'rgba(208,64,96,0.1)' }}><Icon name="arrow-right-from-bracket" /></div>ออกจากระบบ
                             </div>
                         </div>
                         <div className="sidebar-footer">🌸 FormFlow v3.0 Sheets</div>
@@ -2147,16 +1889,11 @@
             return (
                 <div>
                     <div className="theme-preview-bar" />
-                    <p style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--txt3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 12 }}>
-                        🎨 เลือกธีมสี
-                    </p>
+                    <p style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--txt3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 12 }}>🎨 เลือกธีมสี</p>
                     <div className="theme-grid">
                         {THEMES.map(t => (
-                            <div key={t.id} className={`theme-swatch ${currentTheme === t.id ? 'active' : ''}`}
-                                onClick={() => onThemeChange(t.id)}>
-                                <div className="theme-swatch-dot" style={{
-                                    background: `linear-gradient(135deg, ${t.dot[0]}, ${t.dot[1]})`
-                                }} />
+                            <div key={t.id} className={`theme-swatch ${currentTheme === t.id ? 'active' : ''}`} onClick={() => onThemeChange(t.id)}>
+                                <div className="theme-swatch-dot" style={{ background: `linear-gradient(135deg, ${t.dot[0]}, ${t.dot[1]})` }} />
                                 <span style={{ fontSize: '0.68rem' }}>{t.label}</span>
                             </div>
                         ))}
@@ -2171,39 +1908,22 @@
             const handleLogout = () => {
                 const colors = getThemeColors();
                 Swal.fire({
-                    title: 'ออกจากระบบ?',
-                    text: 'คุณแน่ใจหรือไม่ที่จะออกจากระบบ?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: colors.p3,
-                    cancelButtonColor: colors.txt2,
-                    confirmButtonText: '🚪 ใช่ ออกจากระบบ',
-                    cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true,
-                    background: colors.card,
-                    color: colors.txt,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        onLogout();
-                    }
-                });
+                    title: 'ออกจากระบบ?', text: 'คุณแน่ใจหรือไม่ที่จะออกจากระบบ?', icon: 'question',
+                    showCancelButton: true, confirmButtonColor: colors.p3, cancelButtonColor: colors.txt2,
+                    confirmButtonText: '🚪 ใช่ ออกจากระบบ', cancelButtonText: 'ยกเลิก',
+                    reverseButtons: true, background: colors.card, color: colors.txt,
+                }).then((result) => { if (result.isConfirmed) onLogout(); });
             };
 
             return (
                 <div className="topbar">
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <button className="btn-icon" onClick={onMenuClick} style={{ display: 'none' }} id="menu-btn">
-                            <Icon name="bars" />
-                        </button>
+                        <button className="btn-icon" onClick={onMenuClick} style={{ display: 'none' }} id="menu-btn"><Icon name="bars" /></button>
                         <span className="page-title">{title}</span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, position: 'relative' }}>
-                        <button className="btn-icon" onClick={() => setShowTheme(!showTheme)} title="เปลี่ยนธีม">
-                            <Icon name="chart-pie" />
-                        </button>
-                        <button className="btn-icon" onClick={handleLogout} title="ออกจากระบบ">
-                            <Icon name="arrow-right-from-bracket" />
-                        </button>
+                        <button className="btn-icon" onClick={() => setShowTheme(!showTheme)} title="เปลี่ยนธีม"><Icon name="chart-pie" /></button>
+                        <button className="btn-icon" onClick={handleLogout} title="ออกจากระบบ"><Icon name="arrow-right-from-bracket" /></button>
                         {showTheme && (
                             <div className="theme-picker-panel">
                                 <ThemePicker currentTheme={theme} onThemeChange={t => { onThemeChange(t); setShowTheme(false); }} />
@@ -2218,28 +1938,19 @@
             const isEdit = !!question?.id;
             const [data, setData] = useState({
                 title: question?.title || '', type: question?.type || 'short',
-                required: question?.required || false,
-                options: question?.options || ['ตัวเลือกที่ 1'],
-                placeholder: question?.placeholder || '',
+                required: question?.required || false, options: question?.options || ['ตัวเลือกที่ 1'], placeholder: question?.placeholder || '',
             });
             const set = (k, v) => setData(d => ({ ...d, [k]: v }));
             const needsOpts = ['multiple', 'dropdown'].includes(data.type);
             const addRipple = useRipple();
             const handleSave = () => {
-                if (!data.title.trim()) {
-                    showWarningAlert('กรุณากรอกข้อมูล', '💬 ใส่ชื่อคำถามด้วยนะ~');
-                    return;
-                }
-                onSave(data);
-                onClose();
+                if (!data.title.trim()) { showWarningAlert('กรุณากรอกข้อมูล', '💬 ใส่ชื่อคำถามด้วยนะ~'); return; }
+                onSave(data); onClose();
             };
             return (
                 <div className="modal-overlay" style={{ zIndex: 1100 }} onClick={e => e.target === e.currentTarget && onClose()}>
                     <div className="modal-box card">
-                        <div className="modal-title">
-                            <Icon name={isEdit ? 'pen-to-square' : 'plus'} />
-                            {isEdit ? '✏️ แก้ไขคำถาม' : '✨ เพิ่มคำถามใหม่'}
-                        </div>
+                        <div className="modal-title"><Icon name={isEdit ? 'pen-to-square' : 'plus'} />{isEdit ? '✏️ แก้ไขคำถาม' : '✨ เพิ่มคำถามใหม่'}</div>
                         <div className="form-field">
                             <label>💖 ชื่อคำถาม *</label>
                             <input className="form-input" placeholder="เช่น คุณชอบอะไรมากที่สุด?" value={data.title} onChange={e => set('title', e.target.value)} />
@@ -2286,10 +1997,9 @@
             const isEdit = !!form?.id;
             const [data, setData] = useState({
                 title: form?.title || '', description: form?.description || '',
-                accentColor: form?.accentColor || '#F8B4C8',
-                bgColor: form?.bgColor || '#FFF5F8',
-                headerImage: form?.headerImage || '',
-                questions: form?.questions || [], active: form?.active !== undefined ? form.active : true,
+                accentColor: form?.accentColor || '#F8B4C8', bgColor: form?.bgColor || '#FFF5F8',
+                headerImage: form?.headerImage || '', questions: form?.questions || [],
+                active: form?.active !== undefined ? form.active : true,
             });
             const [qModal, setQModal] = useState(null);
             const [dragIdx, setDragIdx] = useState(null);
@@ -2299,19 +2009,11 @@
             const updateQ = (id, q) => set('questions', data.questions.map(x => x.id === id ? { ...x, ...q } : x));
             const deleteQ = id => {
                 const question = data.questions.find(q => q.id === id);
-                showDeleteConfirm('ลบคำถาม?', `คุณแน่ใจหรือไม่ที่จะลบ "${question?.title || '(ไม่มีชื่อ)'}"? การกระทำนี้ไม่สามารถย้อนกลับได้`)
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            set('questions', data.questions.filter(x => x.id !== id));
-                            showSuccessAlert('ลบคำถามแล้ว', 'คำถามถูกลบเรียบร้อยแล้ว');
-                        }
-                    });
+                showDeleteConfirm('ลบคำถาม?', `คุณแน่ใจหรือไม่ที่จะลบ "${question?.title || '(ไม่มีชื่อ)'}"?`)
+                    .then((result) => { if (result.isConfirmed) { set('questions', data.questions.filter(x => x.id !== id)); showSuccessAlert('ลบคำถามแล้ว', 'คำถามถูกลบเรียบร้อยแล้ว'); } });
             };
             const handleSave = () => {
-                if (!data.title.trim()) {
-                    showWarningAlert('กรุณากรอกข้อมูล', '💬 ต้องมีชื่อฟอร์มนะ~');
-                    return;
-                }
+                if (!data.title.trim()) { showWarningAlert('กรุณากรอกข้อมูล', '💬 ต้องมีชื่อฟอร์มนะ~'); return; }
                 onSave(data);
             };
             const dragStart = idx => setDragIdx(idx);
@@ -2323,10 +2025,7 @@
             return (
                 <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
                     <div className="modal-box card">
-                        <div className="modal-title">
-                            <Icon name={isEdit ? 'pen-to-square' : 'file-circle-plus'} />
-                            {isEdit ? '🍂 แก้ไขฟอร์ม' : '✨ สร้างฟอร์มใหม่'}
-                        </div>
+                        <div className="modal-title"><Icon name={isEdit ? 'pen-to-square' : 'file-circle-plus'} />{isEdit ? '🍂 แก้ไขฟอร์ม' : '✨ สร้างฟอร์มใหม่'}</div>
                         <div className="form-field">
                             <label>💖 ชื่อฟอร์ม *</label>
                             <input className="form-input" placeholder="เช่น แบบสำรวจขนมหวาน 🍰" value={data.title} onChange={e => set('title', e.target.value)} />
@@ -2374,9 +2073,7 @@
                             </div>
                         )}
                         {data.questions.map((q, idx) => (
-                            <div key={q.id} className="question-item card"
-                                draggable onDragStart={() => dragStart(idx)} onDragOver={e => dragOver(e, idx)} onDragEnd={() => setDragIdx(null)}
-                                style={{ ...(dragIdx === idx ? { opacity: 0.5, transform: 'scale(0.98)' } : {}) }}>
+                            <div key={q.id} className="question-item card" draggable onDragStart={() => dragStart(idx)} onDragOver={e => dragOver(e, idx)} onDragEnd={() => setDragIdx(null)} style={{ ...(dragIdx === idx ? { opacity: 0.5, transform: 'scale(0.98)' } : {}) }}>
                                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
                                     <Icon name="grip-vertical" style={{ color: 'var(--txt3)', marginTop: 4, cursor: 'grab' }} />
                                     <div style={{ flex: 1 }}>
@@ -2433,19 +2130,11 @@
                 const p3 = style.getPropertyValue('--p3').trim() || '#E879A0';
                 c1.current = new Chart(chartRef.current, {
                     type: 'bar',
-                    data: {
-                        labels: months, datasets: [{
-                            label: 'คำตอบ', data: counts,
-                            backgroundColor: `${p1}88`, borderColor: p3, borderWidth: 2, borderRadius: 10
-                        }]
-                    },
+                    data: { labels: months, datasets: [{ label: 'คำตอบ', data: counts, backgroundColor: `${p1}88`, borderColor: p3, borderWidth: 2, borderRadius: 10 }] },
                     options: {
                         responsive: true, maintainAspectRatio: false,
                         plugins: { legend: { display: false } },
-                        scales: {
-                            y: { beginAtZero: true, grid: { color: 'rgba(128,128,128,0.08)' }, ticks: { color: 'var(--txt3)' } },
-                            x: { grid: { display: false }, ticks: { color: 'var(--txt3)' } }
-                        }
+                        scales: { y: { beginAtZero: true, grid: { color: 'rgba(128,128,128,0.08)' }, ticks: { color: 'var(--txt3)' } }, x: { grid: { display: false }, ticks: { color: 'var(--txt3)' } } }
                     }
                 });
                 return () => c1.current?.destroy();
@@ -2458,10 +2147,7 @@
                     type: 'doughnut',
                     data: {
                         labels: forms.map(f => f.title.length > 14 ? f.title.slice(0, 14) + '…' : f.title),
-                        datasets: [{
-                            data: forms.map(f => (responses[f.id] || []).length || 1),
-                            backgroundColor: colors.slice(0, forms.length), borderWidth: 3, borderColor: 'rgba(255,255,255,0.8)', hoverOffset: 14
-                        }]
+                        datasets: [{ data: forms.map(f => (responses[f.id] || []).length || 1), backgroundColor: colors.slice(0, forms.length), borderWidth: 3, borderColor: 'rgba(255,255,255,0.8)', hoverOffset: 14 }]
                     },
                     options: {
                         responsive: true, maintainAspectRatio: false,
@@ -2476,9 +2162,7 @@
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 16, marginBottom: 24 }}>
                         {stats.map((s, i) => (
                             <div key={i} className="card stat-card">
-                                <div style={{ fontSize: '1.6rem', marginBottom: 6 }}>
-                                    <Icon name={s.icon} size="1.6em" />
-                                </div>
+                                <div style={{ fontSize: '1.6rem', marginBottom: 6 }}><Icon name={s.icon} size="1.6em" /></div>
                                 <div className="stat-number">{s.val.toLocaleString()}</div>
                                 <div className="stat-label">{s.label}</div>
                                 <div className="stat-icon"><Icon name={s.icon} /></div>
@@ -2496,10 +2180,7 @@
                             <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.96rem', marginBottom: 16, color: 'var(--p3)', display: 'flex', alignItems: 'center', gap: 8 }}>
                                 <Icon name="chart-pie" />สัดส่วน
                             </h3>
-                            <div className="chart-wrap">
-                                {forms.length > 0 ? <canvas ref={chartRef2} /> :
-                                    <div style={{ textAlign: 'center', padding: 40, color: 'var(--txt3)' }}>ยังไม่มีข้อมูล</div>}
-                            </div>
+                            <div className="chart-wrap">{forms.length > 0 ? <canvas ref={chartRef2} /> : <div style={{ textAlign: 'center', padding: 40, color: 'var(--txt3)' }}>ยังไม่มีข้อมูล</div>}</div>
                         </div>
                     </div>
                 </div>
@@ -2515,57 +2196,25 @@
 
             const handleSave = async (data) => {
                 try {
-                    if (editForm?.id) {
-                        await onEdit(editForm.id, data);
-                        showSuccessAlert('อัปเดตฟอร์มแล้ว!', `ฟอร์ม "${data.title}" ถูกอัปเดตเรียบร้อยแล้ว 🌸`);
-                    } else {
-                        await onAdd(data);
-                        showSuccessAlert('สร้างฟอร์มสำเร็จ!', `ฟอร์ม "${data.title}" ถูกสร้างเรียบร้อยแล้ว ✨`);
-                    }
-                    setShowModal(false);
-                    setEditForm(null);
-                } catch (err) {
-                    showErrorAlert('เกิดข้อผิดพลาด', err.message);
-                }
+                    if (editForm?.id) { await onEdit(editForm.id, data); showSuccessAlert('อัปเดตฟอร์มแล้ว!', `ฟอร์ม "${data.title}" ถูกอัปเดตเรียบร้อยแล้ว 🌸`); }
+                    else { await onAdd(data); showSuccessAlert('สร้างฟอร์มสำเร็จ!', `ฟอร์ม "${data.title}" ถูกสร้างเรียบร้อยแล้ว ✨`); }
+                    setShowModal(false); setEditForm(null);
+                } catch (err) { showErrorAlert('เกิดข้อผิดพลาด', err.message); }
             };
 
             const handleDelete = (form) => {
                 showDeleteConfirm('ลบฟอร์ม?', `คุณแน่ใจหรือไม่ที่จะลบ "${form.title}"?<br><small style="color: var(--txt3)">การกระทำนี้จะลบคำตอบทั้งหมดด้วยและไม่สามารถกู้คืนได้</small>`)
-                    .then(async (result) => {
-                        if (result.isConfirmed) {
-                            try {
-                                await onDelete(form.id);
-                                showSuccessAlert('ลบฟอร์มแล้ว', `ฟอร์ม "${form.title}" ถูกลบเรียบร้อยแล้ว`);
-                            } catch (err) {
-                                showErrorAlert('เกิดข้อผิดพลาด', err.message);
-                            }
-                        }
-                    });
+                    .then(async (result) => { if (result.isConfirmed) { try { await onDelete(form.id); showSuccessAlert('ลบฟอร์มแล้ว', `ฟอร์ม "${form.title}" ถูกลบเรียบร้อยแล้ว`); } catch (err) { showErrorAlert('เกิดข้อผิดพลาด', err.message); } } });
             };
 
             const handleToggle = (form, newStatus) => {
                 const action = newStatus ? 'เปิด' : 'ปิด';
-                const emoji = newStatus ? '📬' : '🔒';
                 const colors = getThemeColors();
-
                 Swal.fire({
-                    title: `${emoji} ${action}รับคำตอบ?`,
-                    html: `คุณต้องการ${action}รับคำตอบสำหรับฟอร์ม "${form.title}" ใช่หรือไม่?`,
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: newStatus ? '#2BAF88' : colors.p3,
-                    cancelButtonColor: colors.txt2,
-                    confirmButtonText: `ใช่ ${action}เลย!`,
-                    cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true,
-                    background: colors.card,
-                    color: colors.txt,
-                }).then(async (result) => {
-                    if (result.isConfirmed) {
-                        await onToggle(form.id, newStatus);
-                        showSuccessAlert(`${action}รับคำตอบแล้ว`, `ฟอร์ม "${form.title}" ${action}รับคำตอบเรียบร้อยแล้ว`);
-                    }
-                });
+                    title: `${newStatus ? '📬' : '🔒'} ${action}รับคำตอบ?`, html: `คุณต้องการ${action}รับคำตอบสำหรับฟอร์ม "${form.title}" ใช่หรือไม่?`, icon: 'question',
+                    showCancelButton: true, confirmButtonColor: newStatus ? '#2BAF88' : colors.p3, cancelButtonColor: colors.txt2,
+                    confirmButtonText: `ใช่ ${action}เลย!`, cancelButtonText: 'ยกเลิก', reverseButtons: true, background: colors.card, color: colors.txt,
+                }).then(async (result) => { if (result.isConfirmed) { await onToggle(form.id, newStatus); showSuccessAlert(`${action}รับคำตอบแล้ว`, `ฟอร์ม "${form.title}" ${action}รับคำตอบเรียบร้อยแล้ว`); } });
             };
 
             return (
@@ -2575,9 +2224,7 @@
                             <Icon name="magnifying-glass" style={{ position: 'absolute', left: 18, top: '50%', transform: 'translateY(-50%)', color: 'var(--txt3)' }} />
                             <input className="form-input" style={{ paddingLeft: 46 }} placeholder="🔍 ค้นหาฟอร์ม..." value={search} onChange={e => setSearch(e.target.value)} />
                         </div>
-                        <button className="btn btn-primary ripple" onClick={e => { addRipple(e); setEditForm(null); setShowModal(true); }}>
-                            <Icon name="plus" /> สร้างฟอร์มใหม่
-                        </button>
+                        <button className="btn btn-primary ripple" onClick={e => { addRipple(e); setEditForm(null); setShowModal(true); }}><Icon name="plus" /> สร้างฟอร์มใหม่</button>
                     </div>
                     {filtered.length === 0 ? (
                         <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}>
@@ -2591,9 +2238,7 @@
                                 <div key={f.id} className="form-card card">
                                     <div className="form-card-accent-bar" style={{ background: `linear-gradient(90deg,${f.accentColor || 'var(--p1)'},${f.accentColor || 'var(--p3)'})` }} />
                                     <div className="form-card-inner">
-                                        <div className="form-card-icon">
-                                            {f.headerImage?.startsWith('http') ? <img src={f.headerImage} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: 12 }} alt="" /> : (f.headerImage || <Icon name="file-heart" size="1.5rem" />)}
-                                        </div>
+                                        <div className="form-card-icon">{f.headerImage?.startsWith('http') ? <img src={f.headerImage} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: 12 }} alt="" /> : (f.headerImage || <Icon name="file-heart" size="1.5rem" />)}</div>
                                         <div style={{ flex: 1, minWidth: 0 }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>
                                                 <span style={{ fontWeight: 700, fontSize: '0.96rem' }}>{f.title}</span>
@@ -2608,15 +2253,9 @@
                                         </div>
                                         <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
                                             <button className="btn-icon" title="ลิงก์ฟอร์ม" onClick={() => onViewUrl(f)}><Icon name="link" /></button>
-                                            <label className="toggle" title="เปิด/ปิด">
-                                                <input type="checkbox" checked={f.active} onChange={() => handleToggle(f, !f.active)} />
-                                                <span className="toggle-slider" />
-                                            </label>
+                                            <label className="toggle" title="เปิด/ปิด"><input type="checkbox" checked={f.active} onChange={() => handleToggle(f, !f.active)} /><span className="toggle-slider" /></label>
                                             <button className="btn-icon" title="แก้ไข" onClick={() => { setEditForm(f); setShowModal(true); }}><Icon name="pen-to-square" /></button>
-                                            <button className="btn-icon" style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }} title="ลบ"
-                                                onClick={() => handleDelete(f)}>
-                                                <Icon name="trash-can" />
-                                            </button>
+                                            <button className="btn-icon" style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }} title="ลบ" onClick={() => handleDelete(f)}><Icon name="trash-can" /></button>
                                         </div>
                                     </div>
                                 </div>
@@ -2643,14 +2282,10 @@
                         <p style={{ color: 'var(--txt2)', marginBottom: 14, fontSize: '0.88rem' }}>แชร์ลิงก์นี้ให้ผู้ตอบแบบสอบถาม</p>
                         <div className="url-box">
                             <span style={{ flex: 1, overflowX: 'auto', whiteSpace: 'nowrap' }}>{url}</span>
-                            <button className="btn-icon" onClick={copy} style={{ background: copied ? 'rgba(43,175,136,0.1)' : undefined, color: copied ? '#2BAF88' : undefined }}>
-                                <Icon name={copied ? 'check' : 'copy'} />
-                            </button>
+                            <button className="btn-icon" onClick={copy} style={{ background: copied ? 'rgba(43,175,136,0.1)' : undefined, color: copied ? '#2BAF88' : undefined }}><Icon name={copied ? 'check' : 'copy'} /></button>
                         </div>
                         <div style={{ marginTop: 18, display: 'flex', gap: 10 }}>
-                            <a href={url} target="_blank" rel="noopener" className="btn btn-primary" style={{ textDecoration: 'none' }}>
-                                <Icon name="arrow-up-right-from-square" /> เปิดฟอร์ม
-                            </a>
+                            <a href={url} target="_blank" rel="noopener" className="btn btn-primary" style={{ textDecoration: 'none' }}><Icon name="arrow-up-right-from-square" /> เปิดฟอร์ม</a>
                             <button className="btn btn-ghost" onClick={onClose}>ปิด</button>
                         </div>
                     </div>
@@ -2666,18 +2301,8 @@
 
             const handleDelete = (response) => {
                 const index = resps.indexOf(response);
-                showDeleteConfirm('ลบคำตอบ?', `คุณแน่ใจหรือไม่ที่จะลบคำตอบที่ ${index + 1}?<br><small style="color: var(--txt3)">การกระทำนี้ไม่สามารถย้อนกลับได้</small>`)
-                    .then(async (result) => {
-                        if (result.isConfirmed) {
-                            try {
-                                await onDeleteResponse(selForm, response.id);
-                                setViewResp(null);
-                                showSuccessAlert('ลบคำตอบแล้ว', 'คำตอบถูกลบเรียบร้อยแล้ว');
-                            } catch (err) {
-                                showErrorAlert('เกิดข้อผิดพลาด', err.message);
-                            }
-                        }
-                    });
+                showDeleteConfirm('ลบคำตอบ?', `คุณแน่ใจหรือไม่ที่จะลบคำตอบที่ ${index + 1}?`)
+                    .then(async (result) => { if (result.isConfirmed) { try { await onDeleteResponse(selForm, response.id); setViewResp(null); showSuccessAlert('ลบคำตอบแล้ว', 'คำตอบถูกลบเรียบร้อยแล้ว'); } catch (err) { showErrorAlert('เกิดข้อผิดพลาด', err.message); } } });
             };
 
             return (
@@ -2688,16 +2313,9 @@
                         </select>
                     </div>
                     {!form ? (
-                        <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}>
-                            <Icon name="inbox" size="3rem" style={{ marginBottom: 16 }} />
-                            <div>เลือกฟอร์มเพื่อดูคำตอบ</div>
-                        </div>
+                        <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}><Icon name="inbox" size="3rem" style={{ marginBottom: 16 }} /><div>เลือกฟอร์มเพื่อดูคำตอบ</div></div>
                     ) : resps.length === 0 ? (
-                        <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}>
-                            <Icon name="inbox" size="3rem" style={{ marginBottom: 16 }} />
-                            <div style={{ fontWeight: 700 }}>ยังไม่มีคำตอบ</div>
-                            <div style={{ marginTop: 8 }}>รอให้ผู้ใช้ส่งคำตอบมา~</div>
-                        </div>
+                        <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}><Icon name="inbox" size="3rem" style={{ marginBottom: 16 }} /><div style={{ fontWeight: 700 }}>ยังไม่มีคำตอบ</div><div style={{ marginTop: 8 }}>รอให้ผู้ใช้ส่งคำตอบมา~</div></div>
                     ) : (
                         <div className="stagger">
                             {resps.map((r, i) => (
@@ -2705,18 +2323,11 @@
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                         <div onClick={() => setViewResp(r)} style={{ flex: 1 }}>
                                             <span style={{ fontWeight: 700 }}><Icon name="inbox" style={{ marginRight: 6 }} />คำตอบที่ {i + 1}</span>
-                                            <span style={{ color: 'var(--txt3)', fontSize: '0.78rem', marginLeft: 12 }}>
-                                                <Icon name="clock-rotate-left" style={{ marginRight: 4 }} />{new Date(r.submittedAt).toLocaleString('th-TH')}
-                                            </span>
+                                            <span style={{ color: 'var(--txt3)', fontSize: '0.78rem', marginLeft: 12 }}><Icon name="clock-rotate-left" style={{ marginRight: 4 }} />{new Date(r.submittedAt).toLocaleString('th-TH')}</span>
                                         </div>
                                         <div style={{ display: 'flex', gap: 5 }}>
-                                            <button className="btn-icon" onClick={() => setViewResp(r)}>
-                                                <Icon name="chevron-right" style={{ color: 'var(--txt3)' }} />
-                                            </button>
-                                            <button className="btn-icon" style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }}
-                                                onClick={(e) => { e.stopPropagation(); handleDelete(r); }}>
-                                                <Icon name="trash-can" />
-                                            </button>
+                                            <button className="btn-icon" onClick={() => setViewResp(r)}><Icon name="chevron-right" style={{ color: 'var(--txt3)' }} /></button>
+                                            <button className="btn-icon" style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }} onClick={(e) => { e.stopPropagation(); handleDelete(r); }}><Icon name="trash-can" /></button>
                                         </div>
                                     </div>
                                 </div>
@@ -2733,19 +2344,13 @@
                                         <p style={{ fontWeight: 700, fontSize: '0.76rem', color: 'var(--txt3)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 4 }}>{q.title}</p>
                                         <p style={{ fontWeight: 500, fontSize: '0.9rem' }}>
                                             {viewResp.data[q.id] || <em style={{ color: 'var(--txt3)' }}>ไม่ได้ตอบ</em>}
-                                            {viewResp.fileUrls?.[q.id] && (
-                                                <a href={viewResp.fileUrls[q.id]} target="_blank" rel="noopener noreferrer" style={{ display: 'block', color: 'var(--p3)', textDecoration: 'underline', marginTop: 4, fontSize: '0.8rem' }}>
-                                                    📎 ดูไฟล์ที่อัปโหลด
-                                                </a>
-                                            )}
+                                            {viewResp.fileUrls?.[q.id] && <a href={viewResp.fileUrls[q.id]} target="_blank" rel="noopener noreferrer" style={{ display: 'block', color: 'var(--p3)', textDecoration: 'underline', marginTop: 4, fontSize: '0.8rem' }}>📎 ดูไฟล์ที่อัปโหลด</a>}
                                         </p>
                                     </div>
                                 ))}
                                 <div style={{ marginTop: 10, display: 'flex', gap: 10 }}>
                                     <button className="btn btn-ghost" onClick={() => setViewResp(null)}><Icon name="xmark" /> ปิด</button>
-                                    <button className="btn btn-danger" onClick={() => handleDelete(viewResp)}>
-                                        <Icon name="trash-can" /> ลบคำตอบนี้
-                                    </button>
+                                    <button className="btn btn-danger" onClick={() => handleDelete(viewResp)}><Icon name="trash-can" /> ลบคำตอบนี้</button>
                                 </div>
                             </div>
                         </div>
@@ -2772,10 +2377,7 @@
                     charts.current[q.id] = new Chart(canvas, {
                         type: 'bar',
                         data: { labels: Object.keys(counts), datasets: [{ data: Object.values(counts), backgroundColor: `${p1}aa`, borderColor: p3, borderWidth: 2, borderRadius: 10 }] },
-                        options: {
-                            responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-                            scales: { y: { beginAtZero: true, ticks: { color: 'var(--txt3)' }, grid: { color: 'rgba(128,128,128,0.06)' } }, x: { ticks: { color: 'var(--txt3)' }, grid: { display: false } } }
-                        }
+                        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { color: 'var(--txt3)' }, grid: { color: 'rgba(128,128,128,0.06)' } }, x: { ticks: { color: 'var(--txt3)' }, grid: { display: false } } } }
                     });
                 });
                 return () => Object.values(charts.current).forEach(c => c?.destroy());
@@ -2788,18 +2390,11 @@
                         </select>
                     </div>
                     {!form ? (
-                        <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}>
-                            <Icon name="chart-pie" size="3rem" style={{ marginBottom: 16 }} />
-                            <div>เลือกฟอร์มเพื่อดูการวิเคราะห์</div>
-                        </div>
+                        <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}><Icon name="chart-pie" size="3rem" style={{ marginBottom: 16 }} /><div>เลือกฟอร์มเพื่อดูการวิเคราะห์</div></div>
                     ) : (
                         <div className="stagger">
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 14, marginBottom: 20 }}>
-                                {[
-                                    { label: 'คำตอบทั้งหมด', val: resps.length, icon: 'inbox' },
-                                    { label: 'จำนวนคำถาม', val: (form.questions || []).length, icon: 'circle-question' },
-                                    { label: 'อัตราตอบครบ', val: `${resps.length > 0 ? Math.round(resps.filter(r => Object.keys(r.data).length === (form.questions || []).length).length / resps.length * 100) : 0}%`, icon: 'circle-check' },
-                                ].map((s, i) => (
+                                {[{ label: 'คำตอบทั้งหมด', val: resps.length, icon: 'inbox' }, { label: 'จำนวนคำถาม', val: (form.questions || []).length, icon: 'circle-question' }, { label: 'อัตราตอบครบ', val: `${resps.length > 0 ? Math.round(resps.filter(r => Object.keys(r.data).length === (form.questions || []).length).length / resps.length * 100) : 0}%`, icon: 'circle-check' }].map((s, i) => (
                                     <div key={i} className="card stat-card">
                                         <div style={{ fontSize: '1.4rem', marginBottom: 4 }}><Icon name={s.icon} size="1.4em" /></div>
                                         <div className="stat-number" style={{ fontSize: '2rem' }}>{s.val}</div>
@@ -2823,10 +2418,7 @@
                                             <div style={{ fontSize: '2.4rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--p3)' }}>{avg.toFixed(1)}</div>
                                             <div>
                                                 <div style={{ display: 'flex', gap: 4 }}>
-                                                    {[1, 2, 3, 4, 5].map(s => {
-                                                        const filled = s <= Math.round(avg);
-                                                        return <Icon key={s} name={filled ? 'star-filled' : 'star'} style={{ color: filled ? '#FFD060' : 'var(--border)', width: '1.2rem', height: '1.2rem' }} fill={filled} />
-                                                    })}
+                                                    {[1, 2, 3, 4, 5].map(s => { const filled = s <= Math.round(avg); return <Icon key={s} name={filled ? 'star-filled' : 'star'} style={{ color: filled ? '#FFD060' : 'var(--border)', width: '1.2rem', height: '1.2rem' }} fill={filled} /> })}
                                                 </div>
                                                 <div style={{ color: 'var(--txt3)', fontSize: '0.82rem', marginTop: 4 }}>{vals.length} คะแนน</div>
                                             </div>
@@ -2848,153 +2440,82 @@
             const GAS_URL_LOCAL = GAS_URL;
 
             const changePw = async () => {
-                if (!oldPw) {
-                    showErrorAlert('กรุณากรอกข้อมูล', '💔 กรุณากรอกรหัสผ่านเดิม');
-                    return;
-                }
-                if (newPw.length < 6) {
-                    showWarningAlert('รหัสผ่านสั้นเกินไป', '⚠️ รหัสผ่านต้องมีอย่างน้อย 6 ตัว');
-                    return;
-                }
+                if (!oldPw) { showErrorAlert('กรุณากรอกข้อมูล', '💔 กรุณากรอกรหัสผ่านเดิม'); return; }
+                if (newPw.length < 6) { showWarningAlert('รหัสผ่านสั้นเกินไป', '⚠️ รหัสผ่านต้องมีอย่างน้อย 6 ตัว'); return; }
 
                 try {
-                    // ตรวจสอบรหัสผ่านเดิม
                     const verifyResponse = await fetch(GAS_URL_LOCAL + '?action=verifyPassword&password=' + encodeURIComponent(oldPw));
                     const verifyResult = await verifyResponse.json();
 
-                    if (!verifyResult.success) {
-                        showErrorAlert('เปลี่ยนรหัสผ่านไม่สำเร็จ', '💔 รหัสผ่านเดิมไม่ถูกต้อง');
-                        return;
-                    }
+                    if (!verifyResult.success) { showErrorAlert('เปลี่ยนรหัสผ่านไม่สำเร็จ', '💔 รหัสผ่านเดิมไม่ถูกต้อง'); return; }
 
                     const colors = getThemeColors();
                     const confirmResult = await Swal.fire({
-                        title: 'เปลี่ยนรหัสผ่าน?',
-                        text: 'คุณแน่ใจหรือไม่ที่จะเปลี่ยนรหัสผ่าน?',
-                        icon: 'question',
-                        showCancelButton: true,
-                        confirmButtonColor: colors.p3,
-                        cancelButtonColor: colors.txt2,
-                        confirmButtonText: 'ใช่ เปลี่ยนเลย!',
-                        cancelButtonText: 'ยกเลิก',
-                        reverseButtons: true,
-                        background: colors.card,
-                        color: colors.txt,
+                        title: 'เปลี่ยนรหัสผ่าน?', text: 'คุณแน่ใจหรือไม่ที่จะเปลี่ยนรหัสผ่าน?', icon: 'question',
+                        showCancelButton: true, confirmButtonColor: colors.p3, cancelButtonColor: colors.txt2,
+                        confirmButtonText: 'ใช่ เปลี่ยนเลย!', cancelButtonText: 'ยกเลิก', reverseButtons: true, background: colors.card, color: colors.txt,
                     });
 
                     if (confirmResult.isConfirmed) {
                         const result = await updateSettings({ adminPassword: newPw });
-
-                        if (result.success) {
-                            setOldPw('');
-                            setNewPw('');
-                            showSuccessAlert('เปลี่ยนรหัสผ่านสำเร็จ', '🌸 รหัสผ่านถูกเปลี่ยนเรียบร้อยแล้ว');
-                        } else {
-                            showErrorAlert('เกิดข้อผิดพลาด', result.message || 'ไม่สามารถเปลี่ยนรหัสผ่านได้');
-                        }
+                        if (result.success) { setOldPw(''); setNewPw(''); showSuccessAlert('เปลี่ยนรหัสผ่านสำเร็จ', '🌸 รหัสผ่านถูกเปลี่ยนเรียบร้อยแล้ว'); }
+                        else { showErrorAlert('เกิดข้อผิดพลาด', result.message || 'ไม่สามารถเปลี่ยนรหัสผ่านได้'); }
                     }
-                } catch (error) {
-                    console.error('Change password error:', error);
-                    showErrorAlert('ข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
-                }
+                } catch (error) { console.error('Change password error:', error); showErrorAlert('ข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้'); }
             };
 
             const handleThemeChange = async (newTheme) => {
                 onThemeChange(newTheme);
-                try {
-                    await updateSettings({ theme: newTheme });
-                    const themeLabel = THEMES.find(t => t.id === newTheme)?.label || newTheme;
-                    showSuccessAlert('เปลี่ยนธีมสำเร็จ', `เปลี่ยนเป็นธีม ${themeLabel} แล้ว!`);
-                } catch (error) {
-                    console.error('Theme change error:', error);
-                }
+                try { await updateSettings({ theme: newTheme }); } catch (error) { console.error('Theme change error:', error); }
             };
 
             const clearData = () => {
                 showDeleteConfirm('⚠️ ลบข้อมูลทั้งหมด?', 'คุณแน่ใจหรือไม่ที่จะลบข้อมูลทั้งหมดจาก Google Sheets?<br><small style="color: #D04060">การกระทำนี้ไม่สามารถกู้คืนได้!</small>')
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            showWarningAlert('คำเตือน', 'กรุณาลบข้อมูลผ่าน Google Sheets โดยตรง หรือใช้เมนูใน Spreadsheet');
-                        }
-                    });
+                    .then((result) => { if (result.isConfirmed) { showWarningAlert('คำเตือน', 'กรุณาลบข้อมูลผ่าน Google Sheets โดยตรง หรือใช้เมนูใน Spreadsheet'); } });
             };
 
             const handleLogout = () => {
                 const colors = getThemeColors();
                 Swal.fire({
-                    title: 'ออกจากระบบ?',
-                    text: 'คุณแน่ใจหรือไม่ที่จะออกจากระบบ?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: colors.p3,
-                    cancelButtonColor: colors.txt2,
-                    confirmButtonText: '🚪 ใช่ ออกจากระบบ',
-                    cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true,
-                    background: colors.card,
-                    color: colors.txt,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        onLogout();
-                    }
-                });
+                    title: 'ออกจากระบบ?', text: 'คุณแน่ใจหรือไม่ที่จะออกจากระบบ?', icon: 'question',
+                    showCancelButton: true, confirmButtonColor: colors.p3, cancelButtonColor: colors.txt2,
+                    confirmButtonText: '🚪 ใช่ ออกจากระบบ', cancelButtonText: 'ยกเลิก', reverseButtons: true, background: colors.card, color: colors.txt,
+                }).then((result) => { if (result.isConfirmed) onLogout(); });
             };
 
             return (
                 <div className="stagger">
                     {toast && <Toast msg={toast.msg} type={toast.type} onDone={() => setToast(null)} />}
-
                     <div className="card" style={{ padding: 26, marginBottom: 14 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
-                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white' }}><Icon name="chart-pie" /></div>
-                            ธีมและสีสัน
+                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white' }}><Icon name="chart-pie" /></div>ธีมและสีสัน
                         </div>
                         <ThemePicker currentTheme={theme} onThemeChange={handleThemeChange} />
                     </div>
-
                     <div className="card" style={{ padding: 26, marginBottom: 14 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
-                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white' }}><Icon name="key" /></div>
-                            เปลี่ยนรหัสผ่าน
+                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white' }}><Icon name="key" /></div>เปลี่ยนรหัสผ่าน
                         </div>
-                        <div className="form-field">
-                            <label>รหัสผ่านเดิม</label>
-                            <input type="password" className="form-input" value={oldPw} onChange={e => setOldPw(e.target.value)} placeholder="••••••••" />
-                        </div>
-                        <div className="form-field">
-                            <label>รหัสผ่านใหม่</label>
-                            <input type="password" className="form-input" value={newPw} onChange={e => setNewPw(e.target.value)} placeholder="อย่างน้อย 6 ตัวอักษร" />
-                        </div>
+                        <div className="form-field"><label>รหัสผ่านเดิม</label><input type="password" className="form-input" value={oldPw} onChange={e => setOldPw(e.target.value)} placeholder="••••••••" /></div>
+                        <div className="form-field"><label>รหัสผ่านใหม่</label><input type="password" className="form-input" value={newPw} onChange={e => setNewPw(e.target.value)} placeholder="อย่างน้อย 6 ตัวอักษร" /></div>
                         <button className="btn btn-primary ripple" onClick={e => { addRipple(e); changePw(); }}><Icon name="key" /> บันทึกรหัสผ่านใหม่</button>
                     </div>
-
                     <div className="card" style={{ padding: 26, marginBottom: 14 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
-                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white' }}><Icon name="cloud" /></div>
-                            🔗 Google Sheets Connection
+                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white' }}><Icon name="cloud" /></div>🔗 Google Sheets Connection
                         </div>
-                        <p style={{ color: 'var(--txt2)', fontSize: '0.84rem', marginBottom: 16 }}>
-                            ✅ ข้อมูลทั้งหมดบันทึกใน Google Sheets ผ่าน Google Apps Script
-                        </p>
-                        <div className="url-box" style={{ marginBottom: 16 }}>
-                            <span style={{ flex: 1, overflowX: 'auto', whiteSpace: 'nowrap', fontSize: '0.75rem' }}>{GAS_URL_LOCAL}</span>
-                        </div>
-                        <button className="btn btn-ghost" onClick={() => window.open(GAS_URL_LOCAL + '?action=getStats', '_blank')}>
-                            <Icon name="arrow-up-right-from-square" /> ทดสอบการเชื่อมต่อ
-                        </button>
+                        <p style={{ color: 'var(--txt2)', fontSize: '0.84rem', marginBottom: 16 }}>✅ ข้อมูลทั้งหมดบันทึกใน Google Sheets ผ่าน Google Apps Script</p>
+                        <div className="url-box" style={{ marginBottom: 16 }}><span style={{ flex: 1, overflowX: 'auto', whiteSpace: 'nowrap', fontSize: '0.75rem' }}>{GAS_URL_LOCAL}</span></div>
+                        <button className="btn btn-ghost" onClick={() => window.open(GAS_URL_LOCAL + '?action=getStats', '_blank')}><Icon name="arrow-up-right-from-square" /> ทดสอบการเชื่อมต่อ</button>
                     </div>
-
                     <div className="card" style={{ padding: 26, marginBottom: 14, border: '2px solid rgba(208,64,96,0.2)' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: '#D04060', marginBottom: 20 }}>
-                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg,#FFAAB0,#FF6070)', color: 'white' }}><Icon name="triangle-exclamation" /></div>
-                            โซนอันตราย
+                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg,#FFAAB0,#FF6070)', color: 'white' }}><Icon name="triangle-exclamation" /></div>โซนอันตราย
                         </div>
                         <p style={{ color: 'var(--txt3)', fontSize: '0.84rem', marginBottom: 18 }}>การลบข้อมูลต้องทำผ่าน Google Sheets โดยตรง</p>
                         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                             <button className="btn btn-danger ripple" onClick={e => { addRipple(e); clearData(); }}><Icon name="trash-can" /> วิธีลบข้อมูล</button>
-                            <button className="btn btn-ghost" onClick={handleLogout} style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }}>
-                                <Icon name="arrow-right-from-bracket" /> ออกจากระบบ
-                            </button>
+                            <button className="btn btn-ghost" onClick={handleLogout} style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }}><Icon name="arrow-right-from-bracket" /> ออกจากระบบ</button>
                         </div>
                     </div>
                 </div>
@@ -3014,8 +2535,7 @@
                     <div className="bottom-nav-items">
                         {items.map(item => (
                             <div key={item.id} className={`bottom-nav-item ${page === item.id ? 'active' : ''}`} onClick={() => setPage(item.id)}>
-                                <div className="nav-icon-wrap"><Icon name={item.icon} /></div>
-                                <span>{item.label}</span>
+                                <div className="nav-icon-wrap"><Icon name={item.icon} /></div><span>{item.label}</span>
                             </div>
                         ))}
                     </div>
@@ -3033,33 +2553,15 @@
             const [uploading, setUploading] = useState({});
             const addRipple = useRipple();
 
-            if (!form) return (
-                <div style={{ textAlign: 'center', padding: 80 }}>
-                    <span style={{ fontSize: '4rem' }}>🌸</span>
-                    <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--p3)', marginTop: 12 }}>ไม่พบฟอร์มนี้</h2>
-                </div>
-            );
-            if (!form.active) return (
-                <div style={{ textAlign: 'center', padding: 80 }}>
-                    <span style={{ fontSize: '4rem' }}>🔒</span>
-                    <h2 style={{ marginTop: 12 }}>ฟอร์มปิดรับคำตอบ</h2>
-                </div>
-            );
+            if (!form) return <div style={{ textAlign: 'center', padding: 80 }}><span style={{ fontSize: '4rem' }}>🌸</span><h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--p3)', marginTop: 12 }}>ไม่พบฟอร์มนี้</h2></div>;
+            if (!form.active) return <div style={{ textAlign: 'center', padding: 80 }}><span style={{ fontSize: '4rem' }}>🔒</span><h2 style={{ marginTop: 12 }}>ฟอร์มปิดรับคำตอบ</h2></div>;
             if (submitted) return (
                 <div className="public-wrap" style={{ alignItems: 'center', justifyContent: 'center' }}>
                     <div style={{ textAlign: 'center', background: 'var(--card)', padding: 48, borderRadius: 40, maxWidth: 400, width: '100%' }}>
                         <span style={{ fontSize: '4rem' }}>🎉🌸</span>
                         <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--p3)', margin: '12px 0' }}>ส่งคำตอบแล้ว!</h2>
                         <p style={{ color: 'var(--txt2)', marginBottom: 24 }}>ขอบคุณที่ตอบแบบสอบถาม~</p>
-                        <button className="btn btn-primary ripple" onClick={e => {
-                            addRipple(e);
-                            setSubmitted(false);
-                            setAnswers({});
-                            setStars({});
-                            setFileUrls({});
-                        }}>
-                            <Icon name="paper-plane" /> ตอบอีกครั้ง
-                        </button>
+                        <button className="btn btn-primary ripple" onClick={e => { addRipple(e); setSubmitted(false); setAnswers({}); setStars({}); setFileUrls({}); }}><Icon name="paper-plane" /> ตอบอีกครั้ง</button>
                     </div>
                 </div>
             );
@@ -3069,7 +2571,6 @@
             const handleFileUpload = async (questionId, file) => {
                 if (!file) return;
                 setUploading(prev => ({ ...prev, [questionId]: true }));
-
                 try {
                     const reader = new FileReader();
                     reader.onload = async (event) => {
@@ -3078,267 +2579,90 @@
                             const response = await fetch(GAS_URL, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({
-                                    action: 'uploadFile',
-                                    data: {
-                                        formId: form.id,
-                                        formTitle: form.title,
-                                        questionId: questionId,
-                                        fileName: file.name,
-                                        fileContent: base64Content,
-                                        mimeType: file.type || 'application/octet-stream'
-                                    }
-                                })
+                                body: JSON.stringify({ action: 'uploadFile', data: { formId: form.id, formTitle: form.title, questionId, fileName: file.name, fileContent: base64Content, mimeType: file.type || 'application/octet-stream' } })
                             });
-
                             const result = await response.json();
                             if (result.success) {
                                 setFileUrls(prev => ({ ...prev, [questionId]: result.data.fileUrl }));
                                 setAnswers(a => ({ ...a, [questionId]: file.name }));
                                 showSuccessAlert('อัปโหลดสำเร็จ! 🎉', `ไฟล์ "${file.name}" อัปโหลดเรียบร้อยแล้ว`);
-                            } else {
-                                showErrorAlert('อัปโหลดล้มเหลว', result.message || 'เกิดข้อผิดพลาดในการอัปโหลด');
-                            }
-                        } catch (error) {
-                            console.error('❌ Upload error:', error);
-                            showErrorAlert('ข้อผิดพลาด', 'เกิดข้อผิดพลาดในการอัปโหลด: ' + error.message);
-                        } finally {
-                            setUploading(prev => ({ ...prev, [questionId]: false }));
-                        }
+                            } else { showErrorAlert('อัปโหลดล้มเหลว', result.message || 'เกิดข้อผิดพลาดในการอัปโหลด'); }
+                        } catch (error) { console.error('❌ Upload error:', error); showErrorAlert('ข้อผิดพลาด', 'เกิดข้อผิดพลาดในการอัปโหลด: ' + error.message); }
+                        finally { setUploading(prev => ({ ...prev, [questionId]: false })); }
                     };
-                    reader.onerror = () => {
-                        showErrorAlert('ข้อผิดพลาด', 'ไม่สามารถอ่านไฟล์ได้');
-                        setUploading(prev => ({ ...prev, [questionId]: false }));
-                    };
+                    reader.onerror = () => { showErrorAlert('ข้อผิดพลาด', 'ไม่สามารถอ่านไฟล์ได้'); setUploading(prev => ({ ...prev, [questionId]: false })); };
                     reader.readAsDataURL(file);
-                } catch (error) {
-                    console.error('❌ Upload error:', error);
-                    showErrorAlert('ข้อผิดพลาด', 'เกิดข้อผิดพลาดในการอัปโหลด: ' + error.message);
-                    setUploading(prev => ({ ...prev, [questionId]: false }));
-                }
+                } catch (error) { console.error('❌ Upload error:', error); showErrorAlert('ข้อผิดพลาด', 'เกิดข้อผิดพลาดในการอัปโหลด: ' + error.message); setUploading(prev => ({ ...prev, [questionId]: false })); }
             };
 
             const handleSubmit = () => {
                 const errs = {};
                 (form.questions || []).forEach(q => {
-                    if (q.required && !answers[q.id] && !stars[q.id] && q.type !== 'upload') {
-                        errs[q.id] = '🌸 กรุณาตอบด้วยนะ';
-                    }
-                    if (q.required && q.type === 'upload' && !fileUrls[q.id]) {
-                        errs[q.id] = '📁 กรุณาอัปโหลดไฟล์ด้วยนะ';
-                    }
+                    if (q.required && !answers[q.id] && !stars[q.id] && q.type !== 'upload') { errs[q.id] = '🌸 กรุณาตอบด้วยนะ'; }
+                    if (q.required && q.type === 'upload' && !fileUrls[q.id]) { errs[q.id] = '📁 กรุณาอัปโหลดไฟล์ด้วยนะ'; }
                 });
-
-                if (Object.keys(errs).length) {
-                    setErrors(errs);
-                    showWarningAlert('กรุณากรอกข้อมูลให้ครบ', 'มีคำถามที่จำเป็นยังไม่ได้ตอบนะคะ~');
-                    return;
-                }
-
+                if (Object.keys(errs).length) { setErrors(errs); showWarningAlert('กรุณากรอกข้อมูลให้ครบ', 'มีคำถามที่จำเป็นยังไม่ได้ตอบนะคะ~'); return; }
                 const combined = { ...answers };
                 Object.entries(stars).forEach(([k, v]) => combined[k] = `${v}/5`);
                 onSubmit(form.id, combined, fileUrls);
-
-                confetti({
-                    particleCount: 150,
-                    spread: 80,
-                    origin: { y: 0.6 },
-                    colors: ['#F8B4C8', '#C4B5F4', '#90E0C8', '#FFB085', '#90C8F0', '#FFE070']
-                });
+                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#F8B4C8', '#C4B5F4', '#90E0C8', '#FFB085', '#90C8F0', '#FFE070'] });
                 setSubmitted(true);
-
                 const colors = getThemeColors();
-                Swal.fire({
-                    title: '🎉 ส่งคำตอบสำเร็จ!',
-                    text: 'ขอบคุณที่ตอบแบบสอบถามนะคะ~',
-                    icon: 'success',
-                    confirmButtonColor: colors.p3,
-                    background: colors.card,
-                    color: colors.txt,
-                    timer: 3000,
-                    timerProgressBar: true,
-                });
+                Swal.fire({ title: '🎉 ส่งคำตอบสำเร็จ!', text: 'ขอบคุณที่ตอบแบบสอบถามนะคะ~', icon: 'success', confirmButtonColor: colors.p3, background: colors.card, color: colors.txt, timer: 3000, timerProgressBar: true });
             };
 
             return (
                 <div className="public-wrap" style={{ background: form.bgColor || 'var(--bg)' }}>
                     <div className="public-card card">
                         <div style={{ textAlign: 'center', marginBottom: 18 }}>
-                            {form.headerImage?.startsWith('http') ?
-                                <img src={form.headerImage} style={{ maxWidth: '100%', borderRadius: 20, marginBottom: 12 }} alt="" /> :
-                                <span style={{ fontSize: '3rem' }}>{form.headerImage || '🌸'}</span>
-                            }
+                            {form.headerImage?.startsWith('http') ? <img src={form.headerImage} style={{ maxWidth: '100%', borderRadius: 20, marginBottom: 12 }} alt="" /> : <span style={{ fontSize: '3rem' }}>{form.headerImage || '🌸'}</span>}
                         </div>
-                        <h1 style={{ fontFamily: 'var(--font-display)', color: accent, textAlign: 'center', marginBottom: 8 }}>
-                            {form.title}
-                        </h1>
-                        {form.description &&
-                            <p style={{ color: 'var(--txt2)', textAlign: 'center', marginBottom: 20 }}>
-                                {form.description}
-                            </p>
-                        }
+                        <h1 style={{ fontFamily: 'var(--font-display)', color: accent, textAlign: 'center', marginBottom: 8 }}>{form.title}</h1>
+                        {form.description && <p style={{ color: 'var(--txt2)', textAlign: 'center', marginBottom: 20 }}>{form.description}</p>}
                         <div className="divider" />
-
                         {(form.questions || []).map(q => (
                             <div key={q.id} style={{ marginBottom: 22 }}>
-                                <p style={{ fontWeight: 700, marginBottom: 8, fontSize: '0.95rem' }}>
-                                    {q.title} {q.required && <span style={{ color: '#D04060' }}>*</span>}
-                                </p>
-                                {errors[q.id] &&
-                                    <div style={{ color: '#D04060', fontSize: '0.82rem', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 5 }}>
-                                        <Icon name="circle-exclamation" /> {errors[q.id]}
-                                    </div>
-                                }
-
-                                {q.type === 'short' &&
-                                    <input className="form-input" placeholder={q.placeholder}
-                                        value={answers[q.id] || ''}
-                                        onChange={e => {
-                                            setAnswers(a => ({ ...a, [q.id]: e.target.value }));
-                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
-                                        }}
-                                    />
-                                }
-
-                                {q.type === 'paragraph' &&
-                                    <textarea className="form-input" rows={3} placeholder={q.placeholder}
-                                        value={answers[q.id] || ''}
-                                        onChange={e => {
-                                            setAnswers(a => ({ ...a, [q.id]: e.target.value }));
-                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
-                                        }}
-                                    />
-                                }
-
+                                <p style={{ fontWeight: 700, marginBottom: 8, fontSize: '0.95rem' }}>{q.title} {q.required && <span style={{ color: '#D04060' }}>*</span>}</p>
+                                {errors[q.id] && <div style={{ color: '#D04060', fontSize: '0.82rem', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 5 }}><Icon name="circle-exclamation" /> {errors[q.id]}</div>}
+                                {q.type === 'short' && <input className="form-input" placeholder={q.placeholder} value={answers[q.id] || ''} onChange={e => { setAnswers(a => ({ ...a, [q.id]: e.target.value })); setErrors(prev => ({ ...prev, [q.id]: undefined })); }} />}
+                                {q.type === 'paragraph' && <textarea className="form-input" rows={3} placeholder={q.placeholder} value={answers[q.id] || ''} onChange={e => { setAnswers(a => ({ ...a, [q.id]: e.target.value })); setErrors(prev => ({ ...prev, [q.id]: undefined })); }} />}
                                 {q.type === 'multiple' && (q.options || []).map(opt => (
-                                    <div key={opt}
-                                        className={`custom-radio ${answers[q.id] === opt ? 'selected' : ''}`}
-                                        onClick={() => {
-                                            setAnswers(a => ({ ...a, [q.id]: opt }));
-                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
-                                        }}>
-                                        <div className="radio-dot" /> {opt}
-                                    </div>
+                                    <div key={opt} className={`custom-radio ${answers[q.id] === opt ? 'selected' : ''}`} onClick={() => { setAnswers(a => ({ ...a, [q.id]: opt })); setErrors(prev => ({ ...prev, [q.id]: undefined })); }}><div className="radio-dot" /> {opt}</div>
                                 ))}
-
                                 {q.type === 'dropdown' && (
-                                    <select className="form-input"
-                                        value={answers[q.id] || ''}
-                                        onChange={e => {
-                                            setAnswers(a => ({ ...a, [q.id]: e.target.value }));
-                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
-                                        }}>
+                                    <select className="form-input" value={answers[q.id] || ''} onChange={e => { setAnswers(a => ({ ...a, [q.id]: e.target.value })); setErrors(prev => ({ ...prev, [q.id]: undefined })); }}>
                                         <option value="">-- เลือก --</option>
                                         {(q.options || []).map(o => <option key={o} value={o}>{o}</option>)}
                                     </select>
                                 )}
-
                                 {q.type === 'upload' && (
                                     <div style={{ border: '2px dashed var(--border)', borderRadius: 20, padding: 24 }}>
-                                        <input
-                                            type="file"
-                                            id={`file-${q.id}`}
-                                            style={{ display: 'none' }}
-                                            onChange={(e) => {
-                                                const file = e.target.files[0];
-                                                if (file) handleFileUpload(q.id, file);
-                                            }}
-                                        />
+                                        <input type="file" id={`file-${q.id}`} style={{ display: 'none' }} onChange={(e) => { const file = e.target.files[0]; if (file) handleFileUpload(q.id, file); }} />
                                         <div style={{ textAlign: 'center', color: 'var(--txt3)' }}>
                                             <Icon name="cloud-upload-alt" style={{ fontSize: '2rem', marginBottom: 8, display: 'block', color: 'var(--p1)' }} />
-                                            {uploading[q.id] ? (
-                                                <div>
-                                                    <Icon name="spinner" size="2rem" style={{ color: 'var(--p3)', marginBottom: 8 }} />
-                                                    <p style={{ color: 'var(--p3)', fontWeight: 600 }}>กำลังอัปโหลด... ⏳</p>
-                                                </div>
-                                            ) : fileUrls[q.id] ? (
-                                                <div>
-                                                    <p style={{ color: '#2BAF88', fontWeight: 600, marginBottom: 8 }}>✅ อัปโหลดไฟล์สำเร็จ!</p>
-                                                    <p style={{ fontSize: '0.85rem', marginBottom: 4, color: 'var(--txt2)' }}>📄 {answers[q.id] || 'ไฟล์ของคุณ'}</p>
+                                            {uploading[q.id] ? <div><Icon name="spinner" size="2rem" style={{ color: 'var(--p3)', marginBottom: 8 }} /><p style={{ color: 'var(--p3)', fontWeight: 600 }}>กำลังอัปโหลด... ⏳</p></div>
+                                                : fileUrls[q.id] ? <div><p style={{ color: '#2BAF88', fontWeight: 600, marginBottom: 8 }}>✅ อัปโหลดไฟล์สำเร็จ!</p><p style={{ fontSize: '0.85rem', marginBottom: 4, color: 'var(--txt2)' }}>📄 {answers[q.id] || 'ไฟล์ของคุณ'}</p>
                                                     <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 8, flexWrap: 'wrap' }}>
-                                                        <a href={fileUrls[q.id]} target="_blank" rel="noopener noreferrer"
-                                                            className="btn btn-ghost"
-                                                            style={{ padding: '6px 12px', fontSize: '0.8rem', textDecoration: 'none' }}>
-                                                            <Icon name="arrow-up-right-from-square" /> ดูไฟล์
-                                                        </a>
-                                                        <button className="btn btn-ghost"
-                                                            style={{ padding: '6px 12px', fontSize: '0.8rem' }}
-                                                            onClick={() => {
-                                                                setFileUrls(prev => { const newUrls = { ...prev }; delete newUrls[q.id]; return newUrls; });
-                                                                setAnswers(prev => { const newAnswers = { ...prev }; delete newAnswers[q.id]; return newAnswers; });
-                                                            }}>
-                                                            <Icon name="xmark" /> ลบและเลือกใหม่
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div>
-                                                    <button className="btn btn-ghost"
-                                                        style={{ marginBottom: 8 }}
-                                                        onClick={() => document.getElementById(`file-${q.id}`).click()}>
-                                                        <Icon name="cloud-upload-alt" /> เลือกไฟล์เพื่ออัปโหลด
-                                                    </button>
-                                                    <p style={{ fontSize: '0.8rem' }}>📁 รองรับไฟล์ทุกประเภท (สูงสุด 50MB)</p>
-                                                </div>
-                                            )}
+                                                        <a href={fileUrls[q.id]} target="_blank" rel="noopener noreferrer" className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: '0.8rem', textDecoration: 'none' }}><Icon name="arrow-up-right-from-square" /> ดูไฟล์</a>
+                                                        <button className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: '0.8rem' }} onClick={() => { setFileUrls(prev => { const newUrls = { ...prev }; delete newUrls[q.id]; return newUrls; }); setAnswers(prev => { const newAnswers = { ...prev }; delete newAnswers[q.id]; return newAnswers; }); }}><Icon name="xmark" /> ลบและเลือกใหม่</button>
+                                                    </div></div>
+                                                    : <div><button className="btn btn-ghost" style={{ marginBottom: 8 }} onClick={() => document.getElementById(`file-${q.id}`).click()}><Icon name="cloud-upload-alt" /> เลือกไฟล์เพื่ออัปโหลด</button><p style={{ fontSize: '0.8rem' }}>📁 รองรับไฟล์ทุกประเภท (สูงสุด 50MB)</p></div>}
                                         </div>
                                     </div>
                                 )}
-
                                 {q.type === 'rating' && (
                                     <div className="star-rating">
-                                        {[1, 2, 3, 4, 5].map(s => {
-                                            const current = hover[q.id] || stars[q.id] || 0;
-                                            const filled = s <= current;
-                                            return (
-                                                <span key={s} className="star"
-                                                    style={{ color: filled ? '#FFD060' : 'var(--border)', display: 'inline-flex' }}
-                                                    onMouseEnter={() => setHover(h => ({ ...h, [q.id]: s }))}
-                                                    onMouseLeave={() => setHover(h => ({ ...h, [q.id]: 0 }))}
-                                                    onClick={() => {
-                                                        setStars(st => ({ ...st, [q.id]: s }));
-                                                        setErrors(prev => ({ ...prev, [q.id]: undefined }));
-                                                    }}>
-                                                    <Icon name={filled ? 'star-filled' : 'star'}
-                                                        style={{ width: '1.3rem', height: '1.3rem' }} fill={filled} />
-                                                </span>
-                                            );
-                                        })}
+                                        {[1, 2, 3, 4, 5].map(s => { const current = hover[q.id] || stars[q.id] || 0; const filled = s <= current; return <span key={s} className="star" style={{ color: filled ? '#FFD060' : 'var(--border)', display: 'inline-flex' }} onMouseEnter={() => setHover(h => ({ ...h, [q.id]: s }))} onMouseLeave={() => setHover(h => ({ ...h, [q.id]: 0 }))} onClick={() => { setStars(st => ({ ...st, [q.id]: s })); setErrors(prev => ({ ...prev, [q.id]: undefined })); }}><Icon name={filled ? 'star-filled' : 'star'} style={{ width: '1.3rem', height: '1.3rem' }} fill={filled} /></span>; })}
                                         {stars[q.id] && <span style={{ marginLeft: 8, fontWeight: 600 }}>{stars[q.id]}/5</span>}
                                     </div>
                                 )}
-
-                                {q.type === 'date' &&
-                                    <input type="date" className="form-input"
-                                        value={answers[q.id] || ''}
-                                        onChange={e => {
-                                            setAnswers(a => ({ ...a, [q.id]: e.target.value }));
-                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
-                                        }}
-                                    />
-                                }
-
-                                {q.type === 'time' &&
-                                    <input type="time" className="form-input"
-                                        value={answers[q.id] || ''}
-                                        onChange={e => {
-                                            setAnswers(a => ({ ...a, [q.id]: e.target.value }));
-                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
-                                        }}
-                                    />
-                                }
+                                {q.type === 'date' && <input type="date" className="form-input" value={answers[q.id] || ''} onChange={e => { setAnswers(a => ({ ...a, [q.id]: e.target.value })); setErrors(prev => ({ ...prev, [q.id]: undefined })); }} />}
+                                {q.type === 'time' && <input type="time" className="form-input" value={answers[q.id] || ''} onChange={e => { setAnswers(a => ({ ...a, [q.id]: e.target.value })); setErrors(prev => ({ ...prev, [q.id]: undefined })); }} />}
                             </div>
                         ))}
-
                         <div className="divider" />
-                        <button className="btn btn-primary ripple"
-                            style={{ width: '100%', justifyContent: 'center', padding: '14px', fontSize: '0.96rem' }}
-                            onClick={e => { addRipple(e); handleSubmit(); }}>
-                            <Icon name="paper-plane" /> ส่งคำตอบ 🌸
-                        </button>
-                        <p style={{ textAlign: 'center', color: 'var(--txt3)', fontSize: '0.76rem', marginTop: 12 }}>
-                            สร้างด้วย <strong style={{ color: 'var(--p3)' }}>FormFlow</strong> (Sheet-based)
-                        </p>
+                        <button className="btn btn-primary ripple" style={{ width: '100%', justifyContent: 'center', padding: '14px', fontSize: '0.96rem' }} onClick={e => { addRipple(e); handleSubmit(); }}><Icon name="paper-plane" /> ส่งคำตอบ 🌸</button>
+                        <p style={{ textAlign: 'center', color: 'var(--txt3)', fontSize: '0.76rem', marginTop: 12 }}>สร้างด้วย <strong style={{ color: 'var(--p3)' }}>FormFlow</strong> (Sheet-based)</p>
                     </div>
                 </div>
             );
@@ -3353,43 +2677,18 @@
             const [urlModal, setUrlModal] = useState(null);
             const [showScroll, setShowScroll] = useState(false);
 
-            const {
-                forms, responses, loading, error,
-                addForm, updateForm, deleteForm, toggleFormActive,
-                addResponse, deleteResponse, updateSettings, verifyPassword, loadAllData
-            } = useStore();
+            const { forms, responses, loading, error, addForm, updateForm, deleteForm, toggleFormActive, addResponse, deleteResponse, updateSettings, verifyPassword, loadAllData } = useStore();
 
             const params = new URLSearchParams(location.search);
             const publicFormId = params.get('form');
 
             useEffect(() => { applyTheme(theme); }, [theme]);
+            useEffect(() => { const h = () => setShowScroll(scrollY > 300); addEventListener('scroll', h); return () => removeEventListener('scroll', h); }, []);
 
-            useEffect(() => {
-                const h = () => setShowScroll(scrollY > 300);
-                addEventListener('scroll', h);
-                return () => removeEventListener('scroll', h);
-            }, []);
+            const handleLogin = () => { sessionStorage.setItem('ff_auth', '1'); setLoggedIn(true); showSuccessAlert('เข้าสู่ระบบสำเร็จ!', 'ยินดีต้อนรับสู่ FormFlow นะคะ~ 🌸'); };
+            const handleLogout = () => { sessionStorage.removeItem('ff_auth'); setLoggedIn(false); };
 
-            const handleLogin = () => {
-                sessionStorage.setItem('ff_auth', '1');
-                setLoggedIn(true);
-                showSuccessAlert('เข้าสู่ระบบสำเร็จ!', 'ยินดีต้อนรับสู่ FormFlow นะคะ~ 🌸');
-            };
-
-            const handleLogout = () => {
-                sessionStorage.removeItem('ff_auth');
-                setLoggedIn(false);
-            };
-
-            const handleThemeChange = async (t) => {
-                setTheme(t);
-                applyTheme(t);
-                try {
-                    await updateSettings({ theme: t });
-                } catch (err) {
-                    console.error('Theme sync error:', err);
-                }
-            };
+            const handleThemeChange = async (t) => { setTheme(t); applyTheme(t); try { await updateSettings({ theme: t }); } catch (err) { console.error('Theme sync error:', err); } };
 
             const pageTitles = {
                 dashboard: <><Icon name="house-chimney" /> แดชบอร์ด</>,
@@ -3399,11 +2698,7 @@
                 settings: <><Icon name="sliders" /> ตั้งค่า</>
             };
 
-            if (publicFormId) {
-                const form = forms.find(f => f.id === publicFormId);
-                return <PublicForm form={form} onSubmit={addResponse} />;
-            }
-
+            if (publicFormId) { const form = forms.find(f => f.id === publicFormId); return <PublicForm form={form} onSubmit={addResponse} />; }
             if (!loggedIn) return <LoginScreen onLogin={handleLogin} verifyPassword={verifyPassword} />;
             if (loading) return <LoadingScreen />;
 
@@ -3415,13 +2710,7 @@
                     {urlModal && <UrlModal form={urlModal} onClose={() => setUrlModal(null)} />}
                     <Sidebar page={page} setPage={setPage} open={sidebarOpen} onClose={() => setSidebarOpen(false)} onLogout={handleLogout} />
                     <main className="main-content">
-                        <TopBar
-                            title={pageTitles[page] || 'FormFlow'}
-                            onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-                            theme={theme}
-                            onThemeChange={handleThemeChange}
-                            onLogout={handleLogout}
-                        />
+                        <TopBar title={pageTitles[page] || 'FormFlow'} onMenuClick={() => setSidebarOpen(!sidebarOpen)} theme={theme} onThemeChange={handleThemeChange} onLogout={handleLogout} />
                         {error && (
                             <div className="card" style={{ padding: 16, marginBottom: 20, background: 'rgba(255,96,112,0.1)', borderColor: 'rgba(208,64,96,0.3)', color: '#D04060' }}>
                                 <Icon name="triangle-exclamation" /> {error}
@@ -3429,23 +2718,13 @@
                             </div>
                         )}
                         {page === 'dashboard' && <DashboardPage forms={forms} responses={responses} />}
-                        {page === 'forms' && (
-                            <FormsPage forms={forms} responses={responses}
-                                onAdd={addForm}
-                                onEdit={updateForm}
-                                onDelete={deleteForm}
-                                onToggle={toggleFormActive}
-                                onViewUrl={f => setUrlModal(f)}
-                            />
-                        )}
+                        {page === 'forms' && <FormsPage forms={forms} responses={responses} onAdd={addForm} onEdit={updateForm} onDelete={deleteForm} onToggle={toggleFormActive} onViewUrl={f => setUrlModal(f)} />}
                         {page === 'responses' && <ResponsesPage forms={forms} responses={responses} onDeleteResponse={deleteResponse} />}
                         {page === 'analytics' && <AnalyticsPage forms={forms} responses={responses} />}
                         {page === 'settings' && <SettingsPage theme={theme} onThemeChange={handleThemeChange} onLogout={handleLogout} updateSettings={updateSettings} />}
                     </main>
                     <BottomNav page={page} setPage={setPage} />
-                    <div className={`scroll-top-btn ${showScroll ? 'visible' : ''}`} onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}>
-                        <Icon name="arrow-up" />
-                    </div>
+                    <div className={`scroll-top-btn ${showScroll ? 'visible' : ''}`} onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}><Icon name="arrow-up" /></div>
                 </>
             );
         }
