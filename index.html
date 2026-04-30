@@ -1561,6 +1561,18 @@
     <div id="root"></div>
     <div class="dot-grid"></div>
 
+    <!-- ✅ GAS URL ฝังใน HTML โดยตรง -->
+    <script>
+        // ตั้งค่า GAS URL อัตโนมัติถ้ายังไม่มี
+        const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbx7TREutcMGu-1UOX5bHgQWBF4-rxtynK0bBfB4cQItV6svqKu4XI0B72XNF8HPzWIXag/exec';
+        if (!localStorage.getItem('ff_gasurl')) {
+            localStorage.setItem('ff_gasurl', DEFAULT_GAS_URL);
+            console.log('🔗 ตั้งค่า GAS URL อัตโนมัติ:', DEFAULT_GAS_URL);
+        } else {
+            console.log('🔗 GAS URL ปัจจุบัน:', localStorage.getItem('ff_gasurl'));
+        }
+    </script>
+
     <script type="text/babel">
         const { useState, useEffect, useRef, useCallback, useMemo } = React;
 
@@ -1784,26 +1796,53 @@
                 saveResp(r);
                 updateForm(formId, { responseCount: (forms.find(f => f.id === formId)?.responseCount || 0) + 1 });
 
-                // Sync to GAS if URL is set
+                // ✅ Sync to GAS (URL ถูกตั้งค่าใน localStorage แล้ว)
                 const GAS_URL = localStorage.getItem('ff_gasurl');
                 if (GAS_URL) {
                     const form = forms.find(f => f.id === formId);
                     if (form) {
+                        const responseId = generateId();
+                        const submittedAt = new Date().toISOString();
+
+                        console.log('📤 กำลัง sync ไป GAS:', {
+                            url: GAS_URL,
+                            formId: formId,
+                            formTitle: form.title,
+                            questions: form.questions.length
+                        });
+
                         fetch(GAS_URL, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                                 action: 'saveResponse',
                                 data: {
+                                    responseId: responseId,
                                     formId: formId,
                                     formTitle: form.title,
+                                    submittedAt: submittedAt,
                                     questions: form.questions || [],
                                     answers: data,
-                                    fileUrls: fileUrls
+                                    fileUrls: fileUrls || {}
                                 }
                             })
-                        }).catch(err => console.log('GAS sync error:', err));
+                        })
+                            .then(response => response.json())
+                            .then(result => {
+                                if (result.success) {
+                                    console.log('✅ GAS sync success:', result);
+                                    console.log('📊 จำนวนคำถามที่บันทึก:', result.data.savedCount);
+                                } else {
+                                    console.warn('⚠️ GAS sync warning:', result.message);
+                                }
+                            })
+                            .catch(err => {
+                                console.error('❌ GAS sync error:', err);
+                                console.log('💾 ข้อมูลถูกบันทึกใน local storage แล้ว แต่ sync ไป GAS ไม่สำเร็จ');
+                            });
                     }
+                } else {
+                    console.warn('⚠️ ไม่พบ GAS URL');
                 }
             };
 
@@ -2740,8 +2779,14 @@
             };
 
             const saveGas = () => {
-                localStorage.setItem('ff_gasurl', gasUrl);
-                showSuccessAlert('บันทึก URL สำเร็จ', '✅ บันทึก URL เรียบร้อยแล้ว');
+                if (!gasUrl.trim()) {
+                    showWarningAlert('กรุณากรอก URL', '🔗 ใส่ GAS Web App URL ก่อนนะคะ');
+                    return;
+                }
+
+                localStorage.setItem('ff_gasurl', gasUrl.trim());
+                showSuccessAlert('บันทึก URL สำเร็จ', '✅ บันทึก Google Apps Script URL เรียบร้อยแล้ว');
+                console.log('🔗 GAS URL saved:', gasUrl.trim());
             };
 
             const clearData = () => {
@@ -2808,14 +2853,35 @@
                     <div className="card" style={{ padding: 26, marginBottom: 14 }}>
                         <div className="settings-card-header" style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
                             <div className="settings-icon" style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white', fontSize: '0.9rem' }}><Icon name="cloud" /></div>
-                            Google Apps Script
+                            🔗 Google Apps Script
                         </div>
-                        <p style={{ color: 'var(--txt2)', fontSize: '0.84rem', marginBottom: 16 }}>เชื่อมต่อกับ Google Sheets ผ่าน Web App URL</p>
+                        <p style={{ color: 'var(--txt2)', fontSize: '0.84rem', marginBottom: 16 }}>
+                            ✅ GAS URL ถูกตั้งค่าไว้แล้วในโค้ด
+                        </p>
                         <div className="form-field">
                             <label>GAS Web App URL</label>
-                            <input className="form-input" value={gasUrl} onChange={e => setGasUrl(e.target.value)} placeholder="https://script.google.com/macros/s/..." />
+                            <input
+                                className="form-input"
+                                value={gasUrl}
+                                onChange={e => setGasUrl(e.target.value)}
+                                placeholder="https://script.google.com/macros/s/..."
+                                style={{ fontFamily: 'monospace', fontSize: '0.8rem' }}
+                            />
                         </div>
-                        <button className="btn btn-primary ripple" onClick={e => { addRipple(e); saveGas(); }}><Icon name="floppy-disk" /> บันทึก URL</button>
+                        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                            <button className="btn btn-primary ripple" onClick={e => { addRipple(e); saveGas(); }}>
+                                <Icon name="floppy-disk" /> 💾 บันทึก URL
+                            </button>
+                            <button className="btn btn-ghost" onClick={() => {
+                                if (gasUrl) {
+                                    window.open(gasUrl + '?action=getStats', '_blank');
+                                } else {
+                                    showWarningAlert('ไม่มี URL', '⚠️ กรุณาใส่ GAS URL ก่อน');
+                                }
+                            }}>
+                                <Icon name="arrow-up-right-from-square" /> ทดสอบการเชื่อมต่อ
+                            </button>
+                        </div>
                     </div>
 
                     <div className="card" style={{ padding: 26, marginBottom: 14, border: '2px solid rgba(208,64,96,0.2)' }}>
@@ -2930,6 +2996,10 @@
                                 })
                             });
 
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+
                             const result = await response.json();
                             if (result.success) {
                                 setFileUrls(prev => ({ ...prev, [questionId]: result.data.fileUrl }));
@@ -2939,6 +3009,7 @@
                                 showErrorAlert('อัปโหลดล้มเหลว', result.message || 'เกิดข้อผิดพลาดในการอัปโหลด');
                             }
                         } catch (error) {
+                            console.error('❌ Upload error:', error);
                             showErrorAlert('ข้อผิดพลาด', 'เกิดข้อผิดพลาดในการอัปโหลด: ' + error.message);
                         } finally {
                             setUploading(prev => ({ ...prev, [questionId]: false }));
@@ -2950,6 +3021,7 @@
                     };
                     reader.readAsDataURL(file);
                 } catch (error) {
+                    console.error('❌ Upload error:', error);
                     showErrorAlert('ข้อผิดพลาด', 'เกิดข้อผิดพลาดในการอัปโหลด: ' + error.message);
                     setUploading(prev => ({ ...prev, [questionId]: false }));
                 }
