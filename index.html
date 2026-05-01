@@ -8,6 +8,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Mali:wght@400;600;700&family=Mitr:wght@300;400;500;600&display=swap"
         rel="stylesheet" />
+    <link rel="stylesheet" href="services/styles/nexo.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js">
@@ -20,1541 +21,6 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1">
     </script>
-
-    <style>
-        /* ============================================
-           PASTEL THEME SYSTEM
-        ============================================ */
-
-        /* 🌸 SAKURA (Pink) */
-        [data-theme="sakura"] {
-            --p1: #F8B4C8;
-            --p2: #F4A1B8;
-            --p3: #E879A0;
-            --bg: #FFF5F8;
-            --bg2: #FEE8F0;
-            --bg3: #FDDEE8;
-            --card: #FFFFFF;
-            --glass: rgba(255, 245, 248, 0.88);
-            --txt: #5C2D3C;
-            --txt2: #8B5A6A;
-            --txt3: #B8899A;
-            --border: #F5C8D8;
-            --border2: #FAE0EA;
-            --shadow: rgba(232, 121, 160, 0.12);
-            --sbg: linear-gradient(160deg, #FFF0F5 0%, #FFE4EE 50%, #FFF5F8 100%);
-            --badge-on-bg: rgba(232, 121, 160, 0.12);
-            --badge-on-c: #C0527A;
-            --badge-off-bg: rgba(139, 90, 106, 0.08);
-            --badge-off-c: #8B5A6A;
-        }
-
-        /* 🍬 CANDY (Lavender) */
-        [data-theme="candy"] {
-            --p1: #C4B5F4;
-            --p2: #B8A7F0;
-            --p3: #8B6FE8;
-            --bg: #F8F5FF;
-            --bg2: #EEE8FF;
-            --bg3: #E4DAFF;
-            --card: #FFFFFF;
-            --glass: rgba(248, 245, 255, 0.88);
-            --txt: #3D2B6B;
-            --txt2: #6B4F9A;
-            --txt3: #9B82C8;
-            --border: #D8CCFF;
-            --border2: #EAE4FF;
-            --shadow: rgba(139, 111, 232, 0.12);
-            --sbg: linear-gradient(160deg, #F5F0FF 0%, #EDE4FF 50%, #F8F5FF 100%);
-            --badge-on-bg: rgba(139, 111, 232, 0.12);
-            --badge-on-c: #6B4FCB;
-            --badge-off-bg: rgba(107, 79, 154, 0.08);
-            --badge-off-c: #6B4F9A;
-        }
-
-        /* 🍑 PEACH (Orange) */
-        [data-theme="peach"] {
-            --p1: #FFB085;
-            --p2: #FFA070;
-            --p3: #FF7040;
-            --bg: #FFF8F4;
-            --bg2: #FFEEE4;
-            --bg3: #FFE2D0;
-            --card: #FFFFFF;
-            --glass: rgba(255, 248, 244, 0.88);
-            --txt: #5C2810;
-            --txt2: #8B5030;
-            --txt3: #B88060;
-            --border: #FFD0B0;
-            --border2: #FFE4CC;
-            --shadow: rgba(255, 112, 64, 0.12);
-            --sbg: linear-gradient(160deg, #FFF5EE 0%, #FFE8D8 50%, #FFF8F4 100%);
-            --badge-on-bg: rgba(255, 112, 64, 0.12);
-            --badge-on-c: #C04820;
-            --badge-off-bg: rgba(139, 80, 48, 0.08);
-            --badge-off-c: #8B5030;
-        }
-
-        /* 🌿 MINT (Green) */
-        [data-theme="mint"] {
-            --p1: #90E0C8;
-            --p2: #7AD4B8;
-            --p3: #2BAF88;
-            --bg: #F2FFFE;
-            --bg2: #E0FBF4;
-            --bg3: #CCF7EC;
-            --card: #FFFFFF;
-            --glass: rgba(242, 255, 254, 0.88);
-            --txt: #1A4438;
-            --txt2: #3A7060;
-            --txt3: #70A890;
-            --border: #AAEEDD;
-            --border2: #C8F5E8;
-            --shadow: rgba(43, 175, 136, 0.12);
-            --sbg: linear-gradient(160deg, #EEFFF9 0%, #D8FBF0 50%, #F2FFFE 100%);
-            --badge-on-bg: rgba(43, 175, 136, 0.12);
-            --badge-on-c: #1A8868;
-            --badge-off-bg: rgba(58, 112, 96, 0.08);
-            --badge-off-c: #3A7060;
-        }
-
-        /* 🌊 SKY (Blue) */
-        [data-theme="sky"] {
-            --p1: #90C8F0;
-            --p2: #78B8EC;
-            --p3: #3090D8;
-            --bg: #F4FAFF;
-            --bg2: #E4F2FF;
-            --bg3: #D0E8FF;
-            --card: #FFFFFF;
-            --glass: rgba(244, 250, 255, 0.88);
-            --txt: #1A3050;
-            --txt2: #3A5878;
-            --txt3: #7098B8;
-            --border: #B0D8F4;
-            --border2: #CCEAFF;
-            --shadow: rgba(48, 144, 216, 0.12);
-            --sbg: linear-gradient(160deg, #F0F8FF 0%, #DCF0FF 50%, #F4FAFF 100%);
-            --badge-on-bg: rgba(48, 144, 216, 0.12);
-            --badge-on-c: #1870B8;
-            --badge-off-bg: rgba(58, 88, 120, 0.08);
-            --badge-off-c: #3A5878;
-        }
-
-        /* 🍋 LEMON (Yellow) */
-        [data-theme="lemon"] {
-            --p1: #FFE070;
-            --p2: #FFD840;
-            --p3: #F0C000;
-            --bg: #FFFDF0;
-            --bg2: #FFFAE0;
-            --bg3: #FFF5C0;
-            --card: #FFFFFF;
-            --glass: rgba(255, 253, 240, 0.88);
-            --txt: #4A3C00;
-            --txt2: #786020;
-            --txt3: #A89040;
-            --border: #FFE890;
-            --border2: #FFF2C0;
-            --shadow: rgba(240, 192, 0, 0.12);
-            --sbg: linear-gradient(160deg, #FFFBEE 0%, #FFF5CC 50%, #FFFDF0 100%);
-            --badge-on-bg: rgba(240, 192, 0, 0.15);
-            --badge-on-c: #B07800;
-            --badge-off-bg: rgba(120, 96, 32, 0.08);
-            --badge-off-c: #786020;
-        }
-
-        /* 🌙 DARK MODE (Midnight) */
-        [data-theme="dark"] {
-            --p1: #C4A8E8;
-            --p2: #B094DC;
-            --p3: #9070C8;
-            --bg: #1A1625;
-            --bg2: #231E32;
-            --bg3: #2D2840;
-            --card: #271F38;
-            --glass: rgba(35, 30, 50, 0.92);
-            --txt: #F0E8FF;
-            --txt2: #C8B8E8;
-            --txt3: #9080B8;
-            --border: #4A3870;
-            --border2: #3A2E58;
-            --shadow: rgba(0, 0, 0, 0.4);
-            --sbg: linear-gradient(160deg, #1E1830 0%, #251E38 50%, #1A1625 100%);
-            --badge-on-bg: rgba(196, 168, 232, 0.15);
-            --badge-on-c: #C4A8E8;
-            --badge-off-bg: rgba(144, 112, 200, 0.1);
-            --badge-off-c: #9080B8;
-        }
-
-        /* ============================================
-           GLOBAL BASE
-        ============================================ */
-        :root {
-            --sidebar-w: 260px;
-            --radius-sm: 14px;
-            --radius: 20px;
-            --radius-lg: 26px;
-            --radius-xl: 34px;
-            --font-display: 'Mali', 'Mitr', 'Noto Sans Thai', cursive;
-            --font-body: 'Noto Sans Thai', 'Mitr', sans-serif;
-            --ease: cubic-bezier(0.4, 0, 0.2, 1);
-            --trans: all 0.22s var(--ease);
-        }
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background: var(--bg);
-            color: var(--txt);
-            min-height: 100vh;
-            overflow-x: hidden;
-            line-height: 1.65;
-            -webkit-font-smoothing: antialiased;
-            transition: background 0.35s var(--ease), color 0.35s var(--ease);
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: var(--sbg);
-            z-index: -2;
-            transition: background 0.4s var(--ease);
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: radial-gradient(circle at 15% 20%, var(--p1) 0%, transparent 35%),
-                radial-gradient(circle at 85% 10%, var(--p2) 0%, transparent 30%),
-                radial-gradient(circle at 70% 80%, var(--p1) 0%, transparent 28%),
-                radial-gradient(circle at 10% 75%, var(--p2) 0%, transparent 25%);
-            opacity: 0.12;
-            z-index: -1;
-            pointer-events: none;
-            animation: blobShift 18s ease-in-out infinite alternate;
-        }
-
-        @keyframes blobShift {
-            0% {
-                transform: scale(1) translateX(0) translateY(0);
-            }
-
-            33% {
-                transform: scale(1.05) translateX(-2%) translateY(1%);
-            }
-
-            66% {
-                transform: scale(0.98) translateX(1%) translateY(-1%);
-            }
-
-            100% {
-                transform: scale(1.02) translateX(-1%) translateY(2%);
-            }
-        }
-
-        .dot-grid {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background-image: radial-gradient(var(--border) 1.5px, transparent 1.5px);
-            background-size: 28px 28px;
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        /* ============================================
-           SCROLLBAR
-        ============================================ */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--p1);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--p3);
-        }
-
-        /* ============================================
-           TYPOGRAPHY
-        ============================================ */
-        .font-display {
-            font-family: var(--font-display);
-        }
-
-        .text-primary {
-            color: var(--p3);
-        }
-
-        /* ============================================
-           BUTTONS
-        ============================================ */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 22px;
-            border: none;
-            border-radius: 50px;
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--trans);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--p1), var(--p3));
-            color: white;
-            box-shadow: 0 4px 16px var(--shadow), 0 0 0 0 var(--p1);
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 24px var(--shadow), 0 0 20px var(--p1);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-
-        .btn-ghost {
-            background: var(--bg2);
-            color: var(--txt2);
-            border: 2px solid var(--border);
-        }
-
-        .btn-ghost:hover {
-            background: var(--bg3);
-            border-color: var(--p1);
-            color: var(--p3);
-            transform: translateY(-2px);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #FFAAB0, #FF6070);
-            color: white;
-            box-shadow: 0 4px 14px rgba(255, 96, 112, 0.25);
-        }
-
-        .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 96, 112, 0.35);
-        }
-
-        .btn-icon {
-            width: 40px;
-            height: 40px;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: var(--bg2);
-            border: 2px solid var(--border);
-            color: var(--txt2);
-            cursor: pointer;
-            transition: var(--trans);
-            font-size: 0.9rem;
-        }
-
-        .btn-icon:hover {
-            background: var(--bg3);
-            border-color: var(--p1);
-            color: var(--p3);
-            transform: scale(1.1) rotate(8deg);
-        }
-
-        .ripple {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ripple-effect {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            transform: scale(0);
-            animation: ripple-anim 0.55s linear;
-            pointer-events: none;
-        }
-
-        @keyframes ripple-anim {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-
-        /* ============================================
-           CARDS
-        ============================================ */
-        .card {
-            background: var(--card);
-            border: 1.5px solid var(--border2);
-            border-radius: var(--radius-lg);
-            box-shadow: 0 2px 12px var(--shadow);
-            transition: var(--trans);
-        }
-
-        .card:hover {
-            box-shadow: 0 6px 24px var(--shadow);
-            transform: translateY(-2px);
-            border-color: var(--border);
-        }
-
-        .card-glass {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1.5px solid rgba(255, 255, 255, 0.5);
-            border-radius: var(--radius-lg);
-            box-shadow: 0 4px 20px var(--shadow);
-        }
-
-        /* ============================================
-           FORMS
-        ============================================ */
-        .form-field {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin-bottom: 18px;
-        }
-
-        .form-field label {
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--txt2);
-            letter-spacing: 0.01em;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px 18px;
-            background: var(--bg2);
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            color: var(--txt);
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            transition: var(--trans);
-            outline: none;
-        }
-
-        .form-input:focus {
-            border-color: var(--p1);
-            background: var(--card);
-            box-shadow: 0 0 0 4px var(--bg3), 0 4px 12px var(--shadow);
-        }
-
-        .form-input::placeholder {
-            color: var(--txt3);
-        }
-
-        textarea.form-input {
-            resize: vertical;
-            min-height: 80px;
-            border-radius: var(--radius-sm);
-        }
-
-        select.form-input {
-            cursor: pointer;
-        }
-
-        /* ============================================
-           LAYOUT
-        ============================================ */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: var(--sidebar-w);
-            z-index: 200;
-            display: flex;
-            flex-direction: column;
-            background: var(--glass);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-right: 2px solid var(--border);
-            box-shadow: 4px 0 24px var(--shadow);
-            transition: transform 0.35s var(--ease);
-            padding: 20px 14px;
-            gap: 2px;
-        }
-
-        .sidebar-logo {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1.6rem;
-            color: var(--p3);
-            padding: 12px 14px 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: -0.01em;
-        }
-
-        .sidebar-logo-icon {
-            background: linear-gradient(135deg, var(--p1), var(--p3));
-            color: white;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 16px;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 14px var(--shadow);
-            animation: logo-pulse 3s ease-in-out infinite;
-        }
-
-        @keyframes logo-pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-                box-shadow: 0 4px 14px var(--shadow);
-            }
-
-            50% {
-                transform: scale(1.08);
-                box-shadow: 0 6px 20px var(--shadow);
-            }
-        }
-
-        .sidebar-section-label {
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--txt3);
-            padding: 10px 16px 6px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 11px 18px;
-            border-radius: var(--radius);
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.92rem;
-            color: var(--txt2);
-            transition: var(--trans);
-            font-family: var(--font-display);
-        }
-
-        .nav-item:hover {
-            background: var(--bg2);
-            color: var(--txt);
-            transform: translateX(4px);
-        }
-
-        .nav-item.active {
-            background: linear-gradient(135deg, var(--p1), var(--p3));
-            color: white;
-            font-weight: 700;
-            box-shadow: 0 4px 16px var(--shadow);
-        }
-
-        .nav-item .nav-icon {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            background: rgba(255, 255, 255, 0.3);
-            transition: var(--trans);
-        }
-
-        .nav-item.active .nav-icon {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        .sidebar-footer {
-            margin-top: auto;
-            padding: 14px 16px;
-            border-top: 2px dashed var(--border);
-            font-size: 0.72rem;
-            color: var(--txt3);
-            text-align: center;
-            font-family: var(--font-display);
-        }
-
-        .main-content {
-            margin-left: var(--sidebar-w);
-            min-height: 100vh;
-            padding: 28px 32px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* ============================================
-           TOPBAR
-        ============================================ */
-        .topbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 28px;
-            padding: 14px 22px;
-            background: var(--glass);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-xl);
-            box-shadow: 0 2px 16px var(--shadow);
-        }
-
-        .page-title {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1.45rem;
-            color: var(--p3);
-            letter-spacing: -0.01em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .page-title .svg-icon {
-            width: 1.2em;
-            height: 1.2em;
-        }
-
-        /* ============================================
-           THEME PICKER
-        ============================================ */
-        .theme-picker-panel {
-            position: absolute;
-            right: 0;
-            top: 52px;
-            background: var(--glass);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 2px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            min-width: 300px;
-            box-shadow: 0 12px 40px var(--shadow);
-            z-index: 600;
-            animation: slideDown 0.2s var(--ease);
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px) scale(0.97);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .theme-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .theme-swatch {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            padding: 10px 6px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: var(--trans);
-            font-size: 0.72rem;
-            font-family: var(--font-display);
-            font-weight: 600;
-            color: var(--txt2);
-        }
-
-        .theme-swatch:hover {
-            background: var(--bg2);
-            border-color: var(--border);
-            transform: scale(1.05);
-        }
-
-        .theme-swatch.active {
-            border-color: var(--p3);
-            background: var(--bg2);
-        }
-
-        .theme-swatch-dot {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-            border: 3px solid white;
-        }
-
-        .custom-color-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 14px;
-            padding-top: 14px;
-            border-top: 1.5px dashed var(--border);
-        }
-
-        /* ============================================
-           STAT CARDS
-        ============================================ */
-        .stat-card {
-            padding: 22px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-number {
-            font-family: var(--font-display);
-            font-size: 2.4rem;
-            font-weight: 700;
-            line-height: 1;
-            letter-spacing: -0.03em;
-            color: var(--p3);
-        }
-
-        .stat-label {
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--txt2);
-            margin-top: 6px;
-            font-family: var(--font-display);
-        }
-
-        .stat-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.68rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--p1), var(--p2));
-            color: white;
-            margin-top: 8px;
-            letter-spacing: 0.03em;
-        }
-
-        .stat-icon {
-            position: absolute;
-            right: -8px;
-            bottom: -8px;
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            background: linear-gradient(135deg, var(--p1), var(--p3));
-            color: white;
-            opacity: 0.15;
-        }
-
-        /* ============================================
-           BADGES & CHIPS
-        ============================================ */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            font-family: var(--font-display);
-            letter-spacing: 0.02em;
-        }
-
-        .badge::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: currentColor;
-        }
-
-        .badge-on {
-            background: var(--badge-on-bg);
-            color: var(--badge-on-c);
-        }
-
-        .badge-off {
-            background: var(--badge-off-bg);
-            color: var(--badge-off-c);
-            opacity: 0.8;
-        }
-
-        .chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            background: var(--bg3);
-            color: var(--txt2);
-            border: 1.5px solid var(--border);
-            font-family: var(--font-display);
-        }
-
-        /* ============================================
-           TOGGLE
-        ============================================ */
-        .toggle {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 28px;
-        }
-
-        .toggle input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            inset: 0;
-            background: var(--border);
-            border-radius: 28px;
-            cursor: pointer;
-            transition: var(--trans);
-        }
-
-        .toggle-slider::before {
-            content: '';
-            position: absolute;
-            left: 4px;
-            top: 4px;
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            transition: var(--trans);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        }
-
-        .toggle input:checked+.toggle-slider {
-            background: linear-gradient(135deg, var(--p1), var(--p3));
-        }
-
-        .toggle input:checked+.toggle-slider::before {
-            transform: translateX(22px);
-        }
-
-        /* ============================================
-           BOTTOM NAV
-        ============================================ */
-        .bottom-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 300;
-            padding: 8px 12px 12px;
-            background: var(--glass);
-            backdrop-filter: blur(24px);
-            border-top: 1.5px solid var(--border);
-            box-shadow: 0 -4px 20px var(--shadow);
-        }
-
-        .bottom-nav-items {
-            display: flex;
-            width: 100%;
-        }
-
-        .bottom-nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding: 8px 6px;
-            cursor: pointer;
-            border-radius: var(--radius-sm);
-            color: var(--txt3);
-            transition: var(--trans);
-            font-size: 0.65rem;
-            font-weight: 700;
-            font-family: var(--font-display);
-        }
-
-        .bottom-nav-item .nav-icon-wrap {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: var(--trans);
-        }
-
-        .bottom-nav-item.active {
-            color: var(--p3);
-        }
-
-        .bottom-nav-item.active .nav-icon-wrap {
-            background: linear-gradient(135deg, var(--p1), var(--p3));
-            color: white;
-            box-shadow: 0 4px 12px var(--shadow);
-            transform: translateY(-4px) scale(1.1);
-        }
-
-        /* ============================================
-           LOGIN
-        ============================================ */
-        .login-wrap {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            position: relative;
-        }
-
-        .login-card {
-            width: 100%;
-            max-width: 420px;
-            padding: 44px 40px;
-            text-align: center;
-            background: var(--glass);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            border-radius: var(--radius-xl);
-            box-shadow: 0 20px 60px var(--shadow), 0 0 0 1px var(--border);
-            animation: float-card 5s ease-in-out infinite;
-        }
-
-        @keyframes float-card {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .login-logo {
-            font-family: var(--font-display);
-            font-size: 2.6rem;
-            font-weight: 700;
-            color: var(--p3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 6px;
-        }
-
-        .login-input {
-            width: 100%;
-            padding: 14px 22px;
-            background: var(--bg2);
-            border: 2px solid var(--border);
-            border-radius: 50px;
-            color: var(--txt);
-            font-family: var(--font-body);
-            font-size: 0.95rem;
-            outline: none;
-            transition: var(--trans);
-        }
-
-        .login-input:focus {
-            border-color: var(--p1);
-            background: var(--card);
-            box-shadow: 0 0 0 4px var(--bg3);
-        }
-
-        /* ============================================
-           MODALS
-        ============================================ */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            animation: fadeIn 0.18s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .modal-box {
-            width: 100%;
-            max-width: 620px;
-            max-height: 92vh;
-            overflow-y: auto;
-            padding: 32px;
-            border-radius: var(--radius-xl);
-            animation: slideUp 0.28s var(--ease);
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.97);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .modal-title {
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 22px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--p3);
-        }
-
-        /* ============================================
-           FORM CARDS (list)
-        ============================================ */
-        .form-card {
-            padding: 0;
-            overflow: hidden;
-            margin-bottom: 12px;
-        }
-
-        .form-card-inner {
-            padding: 18px 20px;
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .form-card-icon {
-            width: 52px;
-            height: 52px;
-            flex-shrink: 0;
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, var(--bg2), var(--bg3));
-            border: 2px solid var(--border);
-        }
-
-        .form-card-accent-bar {
-            height: 4px;
-            background: linear-gradient(90deg, var(--p1), var(--p3));
-        }
-
-        /* ============================================
-           QUESTION ITEMS
-        ============================================ */
-        .question-item {
-            padding: 14px 18px;
-            margin-bottom: 10px;
-            cursor: grab;
-            border-radius: var(--radius);
-            border-left: 4px solid var(--p1);
-            transition: var(--trans);
-        }
-
-        .question-item:hover {
-            border-left-color: var(--p3);
-        }
-
-        .q-type-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.68rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            background: linear-gradient(135deg, var(--p1)30, var(--p2)30);
-            color: var(--p3);
-            border: 1px solid var(--p1);
-        }
-
-        /* ============================================
-           PUBLIC FORM
-        ============================================ */
-        .public-wrap {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            padding: 32px 16px;
-        }
-
-        .public-card {
-            width: 100%;
-            max-width: 640px;
-            border-radius: var(--radius-xl);
-            padding: 36px;
-            animation: slideUp 0.35s var(--ease);
-        }
-
-        .custom-radio,
-        .custom-check {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: var(--trans);
-            border: 2px solid var(--border);
-            margin-bottom: 8px;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .custom-radio:hover,
-        .custom-check:hover {
-            background: var(--bg2);
-            border-color: var(--p1);
-        }
-
-        .custom-radio.selected,
-        .custom-check.selected {
-            background: var(--bg3);
-            border-color: var(--p3);
-        }
-
-        .custom-radio input,
-        .custom-check input {
-            display: none;
-        }
-
-        .radio-dot {
-            width: 20px;
-            height: 20px;
-            min-width: 20px;
-            border-radius: 50%;
-            border: 2px solid var(--border);
-            transition: var(--trans);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .custom-radio.selected .radio-dot {
-            border-color: var(--p3);
-            background: var(--p3);
-        }
-
-        .custom-radio.selected .radio-dot::after {
-            content: '';
-            width: 7px;
-            height: 7px;
-            background: white;
-            border-radius: 50%;
-        }
-
-        .check-box {
-            width: 20px;
-            height: 20px;
-            min-width: 20px;
-            border-radius: 6px;
-            border: 2px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--trans);
-        }
-
-        .custom-check.selected .check-box {
-            background: var(--p3);
-            border-color: var(--p3);
-        }
-
-        .custom-check.selected .check-box::after {
-            content: '✓';
-            color: white;
-            font-size: 0.65rem;
-            font-weight: 800;
-        }
-
-        .star-rating {
-            display: flex;
-            gap: 6px;
-        }
-
-        .star {
-            font-size: 2rem;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-
-        .star:hover {
-            transform: scale(1.35) rotate(12deg);
-        }
-
-        /* ============================================
-           URL BOX
-        ============================================ */
-        .url-box {
-            background: var(--bg2);
-            border: 2px dashed var(--border);
-            border-radius: var(--radius-lg);
-            padding: 14px 18px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            font-family: monospace;
-            font-size: 0.82rem;
-            color: var(--p3);
-            word-break: break-all;
-        }
-
-        /* ============================================
-           TOAST
-        ============================================ */
-        .toast-ff {
-            position: fixed;
-            top: 22px;
-            right: 22px;
-            z-index: 9999;
-            padding: 13px 22px;
-            border-radius: 50px;
-            color: white;
-            font-weight: 700;
-            font-size: 0.88rem;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            animation: toast-in 0.3s var(--ease);
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            font-family: var(--font-display);
-            backdrop-filter: blur(4px);
-        }
-
-        @keyframes toast-in {
-            from {
-                opacity: 0;
-                transform: translateX(60px) scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
-        }
-
-        /* ============================================
-           SCROLL PROGRESS + SCROLL TOP
-        ============================================ */
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--p1), var(--p3), var(--p1));
-            background-size: 200% 100%;
-            animation: progress-shimmer 2s linear infinite;
-            z-index: 9999;
-            border-radius: 0 3px 3px 0;
-        }
-
-        @keyframes progress-shimmer {
-            to {
-                background-position: -200% 0;
-            }
-        }
-
-        .scroll-top-btn {
-            position: fixed;
-            bottom: 88px;
-            right: 28px;
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--p1), var(--p3));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 16px var(--shadow);
-            z-index: 999;
-            transition: all 0.3s var(--ease);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px) scale(0.8);
-            font-size: 1rem;
-        }
-
-        .scroll-top-btn.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
-        }
-
-        .scroll-top-btn:hover {
-            transform: translateY(-4px) scale(1.12);
-        }
-
-        /* ============================================
-           SIDEBAR OVERLAY
-        ============================================ */
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 199;
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(4px);
-        }
-
-        .sidebar-overlay.show {
-            display: block;
-        }
-
-        /* ============================================
-           DIVIDER
-        ============================================ */
-        .divider {
-            height: 1.5px;
-            background: linear-gradient(90deg, transparent, var(--border), transparent);
-            margin: 22px 0;
-        }
-
-        /* ============================================
-           ANIMATIONS
-        ============================================ */
-        @keyframes pageEnter {
-            from {
-                opacity: 0;
-                transform: scale(0.96) translateY(8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        .stagger>* {
-            animation: pageEnter 0.38s var(--ease) both;
-        }
-
-        .stagger>*:nth-child(2) {
-            animation-delay: 0.06s;
-        }
-
-        .stagger>*:nth-child(3) {
-            animation-delay: 0.12s;
-        }
-
-        .stagger>*:nth-child(4) {
-            animation-delay: 0.18s;
-        }
-
-        .stagger>*:nth-child(5) {
-            animation-delay: 0.22s;
-        }
-
-        @keyframes bounceIn {
-            0% {
-                transform: scale(0.7);
-                opacity: 0;
-            }
-
-            60% {
-                transform: scale(1.08);
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .bounce-in {
-            animation: bounceIn 0.45s var(--ease);
-        }
-
-        .floating-decor {
-            position: fixed;
-            pointer-events: none;
-            z-index: 0;
-            animation: floatUp 10s linear infinite;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(0) rotate(0deg) scale(0.8);
-                opacity: 0.6;
-            }
-
-            100% {
-                transform: translateY(-110vh) rotate(720deg) scale(1.3);
-                opacity: 0;
-            }
-        }
-
-        /* ============================================
-           CHART
-        ============================================ */
-        .chart-wrap {
-            position: relative;
-            height: 240px;
-        }
-
-        /* ============================================
-           SWAL OVERRIDES
-        ============================================ */
-        .swal2-popup {
-            font-family: var(--font-display), sans-serif !important;
-            border-radius: var(--radius-xl) !important;
-            background: var(--card) !important;
-            color: var(--txt) !important;
-            border: 2px solid var(--border) !important;
-        }
-
-        .swal2-confirm {
-            border-radius: 50px !important;
-            background: linear-gradient(135deg, var(--p1), var(--p3)) !important;
-            font-family: var(--font-display) !important;
-            box-shadow: 0 4px 14px var(--shadow) !important;
-        }
-
-        /* ============================================
-           RESPONSIVE
-        ============================================ */
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding: 16px 16px 100px;
-            }
-
-            .bottom-nav {
-                display: flex;
-            }
-
-            .chart-grid {
-                grid-template-columns: 1fr !important;
-            }
-        }
-
-        input[type="color"] {
-            -webkit-appearance: none;
-            border: 2px solid var(--border);
-            background: var(--bg2);
-            width: 42px;
-            height: 38px;
-            cursor: pointer;
-            padding: 2px;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .svg-icon {
-            display: inline-block;
-            vertical-align: middle;
-            width: 1em;
-            height: 1em;
-            stroke: currentColor;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            fill: none;
-            flex-shrink: 0;
-        }
-
-        .svg-icon-fill {
-            fill: currentColor;
-            stroke: none;
-        }
-
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .spinner-svg {
-            animation: spin 1s linear infinite;
-        }
-    </style>
 </head>
 
 <body>
@@ -1658,7 +124,6 @@
             { value: 'paragraph', label: 'ข้อความยาว', icon: 'align-left' },
             { value: 'multiple', label: 'หลายตัวเลือก', icon: 'circle-dot' },
             { value: 'dropdown', label: 'เมนูเลื่อนลง', icon: 'chevron-down' },
-            { value: 'upload', label: 'อัปโหลดไฟล์', icon: 'cloud-upload-alt' },
             { value: 'rating', label: 'ให้คะแนน', icon: 'star' },
             { value: 'date', label: 'วันที่', icon: 'calendar-days' },
             { value: 'time', label: 'เวลา', icon: 'clock-rotate-left' },
@@ -1762,120 +227,96 @@
             }, []);
         }
 
-        /* Store with GAS sync */
+        /* ============================================
+           GAS CONFIG — เชื่อมต่อ Google Apps Script
+        ============================================ */
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbyd3saUpA4KajuPTVUwyu-geMcQHUh75Bu7tTlsFm69UvWd3rpyeD84SWegS0P6PO9nYw/exec';
+        const GAS_TOKEN = 'FormFlow_Secret_2024_XyZ!@#';  // ต้องตรงกับ SECRET_TOKEN ใน code.gs
+
+        /* Helper: POST ไปยัง GAS */
+        async function gasPost(payload) {
+            const res = await fetch(GAS_URL, {
+                method: 'POST',
+                body: JSON.stringify({ ...payload, token: GAS_TOKEN }),
+            });
+            return res.json();
+        }
+
+        /* Helper: GET จาก GAS */
+        async function gasGet(params = {}) {
+            const qs = new URLSearchParams({ ...params, token: GAS_TOKEN }).toString();
+            const res = await fetch(`${GAS_URL}?${qs}`);
+            return res.json();
+        }
+
+        /* Store พร้อม GAS Integration */
         function useStore() {
-            const [forms, setForms] = useState(() => { try { return JSON.parse(localStorage.getItem('ff_forms') || '[]'); } catch { return []; } });
-            const [responses, setResponses] = useState(() => { try { return JSON.parse(localStorage.getItem('ff_responses') || '{}'); } catch { return {}; } });
+            const [forms, setForms] = useState([]);
+            const [responses, setResponses] = useState({});
+            const [gasLoading, setGasLoading] = useState(true);
+            const [gasError, setGasError] = useState(null);
 
-            const saveForms = useCallback(f => { setForms(f); localStorage.setItem('ff_forms', JSON.stringify(f)); }, []);
-            const saveResp = useCallback(r => { setResponses(r); localStorage.setItem('ff_responses', JSON.stringify(r)); }, []);
+            /* โหลดข้อมูลจาก Google Sheets ทุกครั้งที่เปิดหน้า */
+            useEffect(() => {
+                let cancelled = false;
+                setGasLoading(true);
+                setGasError(null);
+                gasGet({ action: 'getAll' })
+                    .then(data => {
+                        if (cancelled) return;
+                        if (data.error) { setGasError(data.error); return; }
+                        if (Array.isArray(data.forms)) setForms(data.forms);
+                        if (data.responses && typeof data.responses === 'object') setResponses(data.responses);
+                    })
+                    .catch(err => { if (!cancelled) setGasError(err.message); })
+                    .finally(() => { if (!cancelled) setGasLoading(false); });
+                return () => { cancelled = true; };
+            }, []);
 
-            const GAS_URL = useMemo(() => localStorage.getItem('ff_gasurl') || '', []);
+            /* บันทึก Forms → Sheets แล้วอัพเดต State */
+            const saveForms = useCallback(async (f) => {
+                setForms(f);
+                await gasPost({ action: 'saveForms', forms: f });
+            }, []);
 
-            const syncFormToGAS = useCallback(async (form) => {
-                if (!GAS_URL) return;
-                try {
-                    await fetch(GAS_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ action: 'saveForm', formData: form })
-                    });
-                } catch (err) {
-                    console.warn('Form sync error:', err);
-                }
-            }, [GAS_URL]);
+            /* บันทึก Responses → Sheets แล้วอัพเดต State */
+            const saveResp = useCallback(async (r) => {
+                setResponses(r);
+                await gasPost({ action: 'saveResponses', responses: r });
+            }, []);
 
-            const deleteFormFromGAS = useCallback(async (formId) => {
-                if (!GAS_URL) return;
-                try {
-                    await fetch(GAS_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ action: 'deleteForm', formId })
-                    });
-                } catch (err) {
-                    console.warn('Delete form sync error:', err);
-                }
-            }, [GAS_URL]);
-
-            const loadFormsFromGAS = useCallback(async () => {
-                if (!GAS_URL) return;
-                try {
-                    const resp = await fetch(GAS_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ action: 'getForms' })
-                    });
-                    const data = await resp.json();
-                    if (data.success && data.data) {
-                        setForms(data.data);
-                        localStorage.setItem('ff_forms', JSON.stringify(data.data));
-                    }
-                } catch (err) {
-                    console.warn('Error loading forms from GAS:', err);
-                }
-            }, [GAS_URL]);
-
-            const addForm = useCallback((form) => {
+            const addForm = useCallback(async (form) => {
                 const n = { ...form, id: generateId(), createdAt: new Date().toISOString(), active: true, responseCount: 0 };
                 const updated = [...forms, n];
-                saveForms(updated);
-                syncFormToGAS(n);
+                await saveForms(updated);
                 return n;
-            }, [forms, saveForms, syncFormToGAS]);
+            }, [forms, saveForms]);
 
-            const updateForm = useCallback((id, d) => {
-                const updated = forms.map(f => {
-                    if (f.id === id) {
-                        const updatedForm = { ...f, ...d };
-                        syncFormToGAS(updatedForm);
-                        return updatedForm;
-                    }
-                    return f;
-                });
-                saveForms(updated);
-            }, [forms, saveForms, syncFormToGAS]);
+            const updateForm = useCallback(async (id, d) => {
+                const updated = forms.map(f => f.id === id ? { ...f, ...d } : f);
+                await saveForms(updated);
+            }, [forms, saveForms]);
 
-            const deleteForm = useCallback((id) => {
-                saveForms(forms.filter(f => f.id !== id));
-                const r = { ...responses };
-                delete r[id];
-                saveResp(r);
-                deleteFormFromGAS(id);
-            }, [forms, responses, saveForms, saveResp, deleteFormFromGAS]);
+            const deleteForm = useCallback(async (id) => {
+                const updatedForms = forms.filter(f => f.id !== id);
+                const updatedResp = { ...responses };
+                delete updatedResp[id];
+                setForms(updatedForms);
+                setResponses(updatedResp);
+                await gasPost({ action: 'saveAll', forms: updatedForms, responses: updatedResp });
+            }, [forms, responses]);
 
-            const addResponse = useCallback((formId, data, fileUrls = {}) => {
+            const addResponse = useCallback(async (formId, data) => {
                 const r = { ...responses };
                 if (!r[formId]) r[formId] = [];
-                r[formId] = [...r[formId], {
-                    id: generateId(),
-                    submittedAt: new Date().toISOString(),
-                    data,
-                    fileUrls
-                }];
-                saveResp(r);
-                const form = forms.find(f => f.id === formId);
-                if (form) updateForm(formId, { responseCount: (form.responseCount || 0) + 1 });
+                r[formId] = [...r[formId], { id: generateId(), submittedAt: new Date().toISOString(), data }];
+                const updatedForms = forms.map(f => f.id === formId ? { ...f, responseCount: (f.responseCount || 0) + 1 } : f);
+                setResponses(r);
+                setForms(updatedForms);
+                await gasPost({ action: 'saveAll', forms: updatedForms, responses: r });
+            }, [responses, forms]);
 
-                if (GAS_URL) {
-                    fetch(GAS_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            action: 'saveResponse',
-                            data: {
-                                formId: formId,
-                                formTitle: form?.title || '',
-                                questions: form?.questions || [],
-                                answers: data,
-                                fileUrls: fileUrls
-                            }
-                        })
-                    }).catch(err => console.log('Response sync error:', err));
-                }
-            }, [responses, forms, saveResp, updateForm, GAS_URL]);
-
-            return { forms, responses, addForm, updateForm, deleteForm, addResponse, loadFormsFromGAS };
+            return { forms, responses, addForm, updateForm, deleteForm, addResponse, gasLoading, gasError };
         }
 
         /* ——— COMPONENTS ——— */
@@ -1925,20 +366,35 @@
             const [err, setErr] = useState('');
             const [loading, setLoading] = useState(false);
             const addRipple = useRipple();
-            const PASS = localStorage.getItem('ff_adminpw') || 'admin1234';
 
-            const handleLogin = e => {
-                e.preventDefault(); setLoading(true);
-                setTimeout(() => {
+            const handleLogin = async e => {
+                e.preventDefault();
+                setLoading(true);
+                setErr('');
+                try {
+                    // ดึง password จาก Google Sheets
+                    const data = await gasGet({ action: 'getAll' });
+                    const PASS = (data.settings?.adminpw) || 'admin1234';
+                    // แคชไว้ใช้ใน SettingsPage
+                    sessionStorage.setItem('ff_adminpw_cache', PASS);
                     if (pw === PASS) {
                         confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 }, colors: ['#F8B4C8', '#C4B5F4', '#90E0C8', '#FFB085', '#FFE070'] });
                         onLogin();
                     } else {
                         setErr('💔 รหัสผ่านไม่ถูกต้อง ลองใหม่นะคะ~');
-                        setLoading(false);
                         showErrorAlert('เข้าสู่ระบบไม่สำเร็จ', 'รหัสผ่านไม่ถูกต้องนะคะ ลองใหม่อีกครั้ง~');
                     }
-                }, 600);
+                } catch (ex) {
+                    // fallback: ถ้าเชื่อมต่อไม่ได้ ใช้ค่า default
+                    const PASS = sessionStorage.getItem('ff_adminpw_cache') || 'admin1234';
+                    if (pw === PASS) {
+                        onLogin();
+                    } else {
+                        setErr('💔 รหัสผ่านไม่ถูกต้อง / เชื่อมต่อ Sheets ไม่ได้');
+                    }
+                } finally {
+                    setLoading(false);
+                }
             };
 
             return (
@@ -2110,9 +566,6 @@
                         <span className="page-title">{title}</span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, position: 'relative' }}>
-                        <button className="btn-icon" onClick={() => setShowTheme(!showTheme)} title="เปลี่ยนธีม">
-                            <Icon name="chart-pie" />
-                        </button>
                         <button className="btn-icon" onClick={handleLogout} title="ออกจากระบบ">
                             <Icon name="arrow-right-from-bracket" />
                         </button>
@@ -2150,20 +603,20 @@
                     <div className="modal-box card">
                         <div className="modal-title">
                             <Icon name={isEdit ? 'pen-to-square' : 'plus'} />
-                            {isEdit ? '✏️ แก้ไขคำถาม' : '✨ เพิ่มคำถามใหม่'}
+                            {isEdit ? 'แก้ไขคำถาม' : 'เพิ่มคำถามใหม่'}
                         </div>
                         <div className="form-field">
-                            <label>💖 ชื่อคำถาม *</label>
+                            <label>ชื่อคำถาม *</label>
                             <input className="form-input" placeholder="เช่น คุณชอบอะไรมากที่สุด?" value={data.title} onChange={e => set('title', e.target.value)} />
                         </div>
                         <div className="form-field">
-                            <label>📋 ประเภทคำถาม</label>
+                            <label>ประเภทคำถาม</label>
                             <select className="form-input" value={data.type} onChange={e => set('type', e.target.value)}>
                                 {QUESTION_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
                             </select>
                         </div>
                         <div className="form-field">
-                            <label>💬 ข้อความแนะนำ</label>
+                            <label>ข้อความแนะนำ</label>
                             <input className="form-input" placeholder="ข้อความแสดงในช่อง" value={data.placeholder} onChange={e => set('placeholder', e.target.value)} />
                         </div>
                         {needsOpts && (
@@ -2237,30 +690,30 @@
                     <div className="modal-box card">
                         <div className="modal-title">
                             <Icon name={isEdit ? 'pen-to-square' : 'file-circle-plus'} />
-                            {isEdit ? '🍂 แก้ไขฟอร์ม' : '✨ สร้างฟอร์มใหม่'}
+                            {isEdit ? 'แก้ไขฟอร์ม' : 'สร้างฟอร์มใหม่'}
                         </div>
                         <div className="form-field">
-                            <label>💖 ชื่อฟอร์ม *</label>
+                            <label>ชื่อฟอร์ม *</label>
                             <input className="form-input" placeholder="เช่น แบบสำรวจขนมหวาน 🍰" value={data.title} onChange={e => set('title', e.target.value)} />
                         </div>
                         <div className="form-field">
-                            <label>📝 คำอธิบาย</label>
+                            <label>คำอธิบาย</label>
                             <textarea className="form-input" placeholder="อธิบายรายละเอียดฟอร์ม..." value={data.description} onChange={e => set('description', e.target.value)} />
                         </div>
                         <div className="form-field">
-                            <label>🖼️ รูปภาพส่วนหัว (URL หรืออีโมจิ)</label>
+                            <label>รูปภาพส่วนหัว (URL หรืออีโมจิ)</label>
                             <input className="form-input" placeholder="https://... หรือ 🍰" value={data.headerImage} onChange={e => set('headerImage', e.target.value)} />
                         </div>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                             <div className="form-field">
-                                <label>🎨 สีหลัก</label>
+                                <label>สีหลัก</label>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                     <input type="color" value={data.accentColor} onChange={e => set('accentColor', e.target.value)} />
                                     <span style={{ color: 'var(--txt3)', fontSize: '0.8rem', fontFamily: 'monospace' }}>{data.accentColor}</span>
                                 </div>
                             </div>
                             <div className="form-field">
-                                <label>🌈 สีพื้นหลัง</label>
+                                <label>สีพื้นหลัง</label>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                     <input type="color" value={data.bgColor} onChange={e => set('bgColor', e.target.value)} />
                                     <span style={{ color: 'var(--txt3)', fontSize: '0.8rem', fontFamily: 'monospace' }}>{data.bgColor}</span>
@@ -2269,11 +722,11 @@
                         </div>
                         <div className="divider" />
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-                            <span style={{ fontWeight: 600, fontSize: '0.88rem', fontFamily: 'var(--font-display)', color: 'var(--txt2)' }}>📬 เปิดรับคำตอบ</span>
+                            <span style={{ fontWeight: 600, fontSize: '0.88rem', fontFamily: 'var(--font-display)', color: 'var(--txt2)' }}>เปิดรับคำตอบ</span>
                             <label className="toggle"><input type="checkbox" checked={data.active} onChange={e => set('active', e.target.checked)} /><span className="toggle-slider" /></label>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-                            <span style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--txt)' }}>❓ คำถาม ({data.questions.length})</span>
+                            <span style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--txt)' }}>คำถาม ({data.questions.length})</span>
                             <button className="btn btn-primary ripple" style={{ padding: '7px 14px', fontSize: '0.8rem' }} onClick={e => { addRipple(e); setQModal({}); }}>
                                 <Icon name="plus" /> เพิ่มคำถาม
                             </button>
@@ -2579,7 +1032,7 @@
             return (
                 <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
                     <div className="modal-box card" style={{ maxWidth: 480 }}>
-                        <div className="modal-title"><Icon name="link" /> 🔗 ลิงก์ฟอร์มสาธารณะ</div>
+                        <div className="modal-title"><Icon name="link" />ลิงก์ฟอร์มสาธารณะ</div>
                         <p style={{ color: 'var(--txt2)', marginBottom: 14, fontSize: '0.88rem' }}>แชร์ลิงก์นี้ให้ผู้ตอบแบบสอบถาม</p>
                         <div className="url-box">
                             <span style={{ flex: 1, overflowX: 'auto', whiteSpace: 'nowrap' }}>{url}</span>
@@ -2659,11 +1112,6 @@
                                         <p style={{ fontWeight: 700, fontSize: '0.76rem', color: 'var(--txt3)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 4 }}>{q.title}</p>
                                         <p style={{ fontWeight: 500, fontSize: '0.9rem' }}>
                                             {viewResp.data[q.id] || <em style={{ color: 'var(--txt3)' }}>ไม่ได้ตอบ</em>}
-                                            {viewResp.fileUrls?.[q.id] && (
-                                                <a href={viewResp.fileUrls[q.id]} target="_blank" rel="noopener noreferrer" style={{ display: 'block', color: 'var(--p3)', textDecoration: 'underline', marginTop: 4, fontSize: '0.8rem' }}>
-                                                    📎 ดูไฟล์ที่อัปโหลด
-                                                </a>
-                                            )}
                                         </p>
                                     </div>
                                 ))}
@@ -2770,11 +1218,21 @@
 
         function SettingsPage({ theme, onThemeChange, onLogout }) {
             const [oldPw, setOldPw] = useState(''); const [newPw, setNewPw] = useState('');
-            const [toast, setToast] = useState(null); const [gasUrl, setGasUrl] = useState(localStorage.getItem('ff_gasurl') || '');
+            const [toast, setToast] = useState(null);
+            const [settingsLoading, setSettingsLoading] = useState(false);
             const addRipple = useRipple();
 
+            /* โหลด password จาก Sheets ครั้งแรก */
+            useEffect(() => {
+                gasGet({ action: 'getAll' }).then(data => {
+                    if (data.settings?.adminpw) {
+                        sessionStorage.setItem('ff_adminpw_cache', data.settings.adminpw);
+                    }
+                }).catch(() => { });
+            }, []);
+
             const changePw = () => {
-                const cur = localStorage.getItem('ff_adminpw') || 'admin1234';
+                const cur = sessionStorage.getItem('ff_adminpw_cache') || 'admin1234';
                 if (oldPw !== cur) {
                     showErrorAlert('เปลี่ยนรหัสผ่านไม่สำเร็จ', '💔 รหัสผ่านเดิมไม่ถูกต้อง');
                     return;
@@ -2797,28 +1255,33 @@
                     reverseButtons: true,
                     background: colors.card,
                     color: colors.txt,
-                }).then((result) => {
+                }).then(async (result) => {
                     if (result.isConfirmed) {
-                        localStorage.setItem('ff_adminpw', newPw);
-                        setOldPw('');
-                        setNewPw('');
-                        showSuccessAlert('เปลี่ยนรหัสผ่านสำเร็จ', '🌸 รหัสผ่านถูกเปลี่ยนเรียบร้อยแล้ว');
+                        setSettingsLoading(true);
+                        try {
+                            const existing = await gasGet({ action: 'getAll' });
+                            const settings = existing.settings || {};
+                            settings.adminpw = newPw;
+                            await gasPost({ action: 'saveSettings', settings });
+                            sessionStorage.setItem('ff_adminpw_cache', newPw);
+                            setOldPw('');
+                            setNewPw('');
+                            showSuccessAlert('เปลี่ยนรหัสผ่านสำเร็จ', '🌸 รหัสผ่านถูกบันทึกลง Google Sheets แล้ว');
+                        } catch (e) {
+                            showErrorAlert('เกิดข้อผิดพลาด', 'ไม่สามารถบันทึกลง Google Sheets ได้');
+                        } finally {
+                            setSettingsLoading(false);
+                        }
                     }
                 });
             };
 
-            const saveGas = () => {
-                localStorage.setItem('ff_gasurl', gasUrl);
-                showSuccessAlert('บันทึก URL สำเร็จ', '✅ บันทึก URL เรียบร้อยแล้ว');
-            };
-
             const clearData = () => {
                 showDeleteConfirm('⚠️ ลบข้อมูลทั้งหมด?', 'คุณแน่ใจหรือไม่ที่จะลบข้อมูลทั้งหมด?<br><small style="color: #D04060">การกระทำนี้ไม่สามารถกู้คืนได้!</small>')
-                    .then((result) => {
+                    .then(async (result) => {
                         if (result.isConfirmed) {
-                            localStorage.removeItem('ff_forms');
-                            localStorage.removeItem('ff_responses');
-                            showSuccessAlert('ลบข้อมูลแล้ว', 'ข้อมูลทั้งหมดถูกลบเรียบร้อยแล้ว กำลังรีเฟรชหน้า...');
+                            await gasPost({ action: 'saveAll', forms: [], responses: {}, settings: {} });
+                            showSuccessAlert('ลบข้อมูลแล้ว', 'ข้อมูลทั้งหมดถูกลบจาก Google Sheets แล้ว กำลังรีเฟรช...');
                             setTimeout(() => location.reload(), 1500);
                         }
                     });
@@ -2873,19 +1336,6 @@
                         <button className="btn btn-primary ripple" onClick={e => { addRipple(e); changePw(); }}><Icon name="key" /> บันทึกรหัสผ่านใหม่</button>
                     </div>
 
-                    <div className="card" style={{ padding: 26, marginBottom: 14 }}>
-                        <div className="settings-card-header" style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
-                            <div className="settings-icon" style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white', fontSize: '0.9rem' }}><Icon name="cloud" /></div>
-                            Google Apps Script
-                        </div>
-                        <p style={{ color: 'var(--txt2)', fontSize: '0.84rem', marginBottom: 16 }}>เชื่อมต่อกับ Google Sheets ผ่าน Web App URL</p>
-                        <div className="form-field">
-                            <label>GAS Web App URL</label>
-                            <input className="form-input" value={gasUrl} onChange={e => setGasUrl(e.target.value)} placeholder="https://script.google.com/macros/s/..." />
-                        </div>
-                        <button className="btn btn-primary ripple" onClick={e => { addRipple(e); saveGas(); }}><Icon name="floppy-disk" /> บันทึก URL</button>
-                    </div>
-
                     <div className="card" style={{ padding: 26, marginBottom: 14, border: '2px solid rgba(208,64,96,0.2)' }}>
                         <div className="settings-card-header" style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: '#D04060', marginBottom: 20 }}>
                             <div className="settings-icon" style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg,#FFAAB0,#FF6070)', color: 'white', fontSize: '0.9rem' }}><Icon name="triangle-exclamation" /></div>
@@ -2909,10 +1359,7 @@
             const [hover, setHover] = useState({});
             const [submitted, setSubmitted] = useState(false);
             const [errors, setErrors] = useState({});
-            const [fileUrls, setFileUrls] = useState({});
-            const [uploading, setUploading] = useState({});
             const addRipple = useRipple();
-            const GAS_URL = localStorage.getItem('ff_gasurl') || '';
 
             if (!form) return (
                 <div style={{ textAlign: 'center', padding: 80 }}>
@@ -2937,7 +1384,6 @@
                             setSubmitted(false);
                             setAnswers({});
                             setStars({});
-                            setFileUrls({});
                         }}>
                             <Icon name="paper-plane" /> ตอบอีกครั้ง
                         </button>
@@ -2947,68 +1393,11 @@
 
             const accent = form.accentColor || 'var(--p3)';
 
-            const handleFileUpload = async (questionId, file) => {
-                if (!GAS_URL) {
-                    showErrorAlert('ไม่ได้ตั้งค่า GAS URL', '⚠️ กรุณาตั้งค่า Google Apps Script URL ในหน้า Settings ก่อน');
-                    return;
-                }
-                if (!file) return;
-                setUploading(prev => ({ ...prev, [questionId]: true }));
-
-                try {
-                    const reader = new FileReader();
-                    reader.onload = async (event) => {
-                        try {
-                            const base64Content = event.target.result.split(',')[1];
-                            const response = await fetch(GAS_URL, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({
-                                    action: 'uploadFile',
-                                    data: {
-                                        formId: form.id,
-                                        formTitle: form.title,
-                                        questionId: questionId,
-                                        fileName: file.name,
-                                        fileContent: base64Content,
-                                        mimeType: file.type || 'application/octet-stream'
-                                    }
-                                })
-                            });
-
-                            const result = await response.json();
-                            if (result.success) {
-                                setFileUrls(prev => ({ ...prev, [questionId]: result.data.fileUrl }));
-                                setAnswers(a => ({ ...a, [questionId]: file.name }));
-                                showSuccessAlert('อัปโหลดสำเร็จ! 🎉', `ไฟล์ "${file.name}" อัปโหลดเรียบร้อยแล้ว`);
-                            } else {
-                                showErrorAlert('อัปโหลดล้มเหลว', result.message || 'เกิดข้อผิดพลาดในการอัปโหลด');
-                            }
-                        } catch (error) {
-                            showErrorAlert('ข้อผิดพลาด', 'เกิดข้อผิดพลาดในการอัปโหลด: ' + error.message);
-                        } finally {
-                            setUploading(prev => ({ ...prev, [questionId]: false }));
-                        }
-                    };
-                    reader.onerror = () => {
-                        showErrorAlert('ข้อผิดพลาด', 'ไม่สามารถอ่านไฟล์ได้');
-                        setUploading(prev => ({ ...prev, [questionId]: false }));
-                    };
-                    reader.readAsDataURL(file);
-                } catch (error) {
-                    showErrorAlert('ข้อผิดพลาด', 'เกิดข้อผิดพลาดในการอัปโหลด: ' + error.message);
-                    setUploading(prev => ({ ...prev, [questionId]: false }));
-                }
-            };
-
             const handleSubmit = () => {
                 const errs = {};
                 (form.questions || []).forEach(q => {
-                    if (q.required && !answers[q.id] && !stars[q.id] && q.type !== 'upload') {
+                    if (q.required && !answers[q.id] && !stars[q.id]) {
                         errs[q.id] = '🌸 กรุณาตอบด้วยนะ';
-                    }
-                    if (q.required && q.type === 'upload' && !fileUrls[q.id]) {
-                        errs[q.id] = '📁 กรุณาอัปโหลดไฟล์ด้วยนะ';
                     }
                 });
 
@@ -3020,7 +1409,7 @@
 
                 const combined = { ...answers };
                 Object.entries(stars).forEach(([k, v]) => combined[k] = `${v}/5`);
-                onSubmit(form.id, combined, fileUrls);
+                onSubmit(form.id, combined);
 
                 confetti({
                     particleCount: 150,
@@ -3116,79 +1505,6 @@
                                     </select>
                                 )}
 
-                                {q.type === 'upload' && (
-                                    <div style={{ border: '2px dashed var(--border)', borderRadius: 20, padding: 24 }}>
-                                        <input
-                                            type="file"
-                                            id={`file-${q.id}`}
-                                            style={{ display: 'none' }}
-                                            onChange={(e) => {
-                                                const file = e.target.files[0];
-                                                if (file) handleFileUpload(q.id, file);
-                                            }}
-                                        />
-                                        <div style={{ textAlign: 'center', color: 'var(--txt3)' }}>
-                                            <Icon name="cloud-upload-alt"
-                                                style={{ fontSize: '2rem', marginBottom: 8, display: 'block', color: 'var(--p1)' }}
-                                            />
-                                            {uploading[q.id] ? (
-                                                <div>
-                                                    <Icon name="spinner" size="2rem" style={{ color: 'var(--p3)', marginBottom: 8 }} />
-                                                    <p style={{ color: 'var(--p3)', fontWeight: 600 }}>กำลังอัปโหลด... ⏳</p>
-                                                </div>
-                                            ) : fileUrls[q.id] ? (
-                                                <div>
-                                                    <p style={{ color: '#2BAF88', fontWeight: 600, marginBottom: 8 }}>
-                                                        ✅ อัปโหลดไฟล์สำเร็จ!
-                                                    </p>
-                                                    <p style={{ fontSize: '0.85rem', marginBottom: 4, color: 'var(--txt2)' }}>
-                                                        📄 {answers[q.id] || 'ไฟล์ของคุณ'}
-                                                    </p>
-                                                    <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 8, flexWrap: 'wrap' }}>
-                                                        <a href={fileUrls[q.id]} target="_blank" rel="noopener noreferrer"
-                                                            className="btn btn-ghost"
-                                                            style={{ padding: '6px 12px', fontSize: '0.8rem', textDecoration: 'none' }}>
-                                                            <Icon name="arrow-up-right-from-square" /> ดูไฟล์
-                                                        </a>
-                                                        <button className="btn btn-ghost"
-                                                            style={{ padding: '6px 12px', fontSize: '0.8rem' }}
-                                                            onClick={() => {
-                                                                setFileUrls(prev => {
-                                                                    const newUrls = { ...prev };
-                                                                    delete newUrls[q.id];
-                                                                    return newUrls;
-                                                                });
-                                                                setAnswers(prev => {
-                                                                    const newAnswers = { ...prev };
-                                                                    delete newAnswers[q.id];
-                                                                    return newAnswers;
-                                                                });
-                                                                const fileInput = document.getElementById(`file-${q.id}`);
-                                                                if (fileInput) fileInput.value = '';
-                                                            }}>
-                                                            <Icon name="xmark" /> ลบและเลือกใหม่
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div>
-                                                    <button className="btn btn-ghost"
-                                                        style={{ marginBottom: 8 }}
-                                                        onClick={() => {
-                                                            const fileInput = document.getElementById(`file-${q.id}`);
-                                                            if (fileInput) fileInput.click();
-                                                        }}>
-                                                        <Icon name="cloud-upload-alt" /> เลือกไฟล์เพื่ออัปโหลด
-                                                    </button>
-                                                    <p style={{ fontSize: '0.8rem' }}>
-                                                        📁 รองรับไฟล์ทุกประเภท (สูงสุด 50MB)
-                                                    </p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                )}
-
                                 {q.type === 'rating' && (
                                     <div className="star-rating">
                                         {[1, 2, 3, 4, 5].map(s => {
@@ -3277,23 +1593,50 @@
             const [loggedIn, setLoggedIn] = useState(() => sessionStorage.getItem('ff_auth') === '1');
             const [page, setPage] = useState('dashboard');
             const [sidebarOpen, setSidebarOpen] = useState(false);
-            const [theme, setTheme] = useState(() => localStorage.getItem('ff_theme') || 'sakura');
+            const [theme, setTheme] = useState('sakura');
             const [accent, setAccent] = useState('');
             const [toast, setToast] = useState(null);
             const [urlModal, setUrlModal] = useState(null);
             const [showScroll, setShowScroll] = useState(false);
-            const { forms, responses, addForm, updateForm, deleteForm, addResponse, loadFormsFromGAS } = useStore();
+            const { forms, responses, addForm, updateForm, deleteForm, addResponse, gasLoading, gasError } = useStore();
 
             const params = new URLSearchParams(location.search);
             const publicFormId = params.get('form');
 
-            useEffect(() => { applyTheme(theme); }, [theme]);
+            /* ✅ ฟังก์ชันจัดการเปลี่ยนธีมพร้อมบันทึกลง Google Sheets */
+            const handleThemeChange = useCallback(async (newTheme) => {
+                setTheme(newTheme); // อัปเดต state ทันทีเพื่อให้ UI เปลี่ยนเร็ว
 
-            useEffect(() => {
-                if (loggedIn) {
-                    loadFormsFromGAS();
+                try {
+                    // ดึง settings ปัจจุบันจาก Google Sheets
+                    const existing = await gasGet({ action: 'getAll' });
+                    const settings = existing.settings || {};
+
+                    // อัปเดต theme ใน settings
+                    settings.theme = newTheme;
+
+                    // บันทึกลง Google Sheets
+                    await gasPost({ action: 'saveSettings', settings });
+                } catch (e) {
+                    console.error('ไม่สามารถบันทึกธีมลง Google Sheets ได้:', e);
+                    // ไม่ต้องแสดง error ให้ผู้ใช้เห็น เพราะธีมถูกเปลี่ยนในหน้าเว็บแล้ว
                 }
-            }, [loggedIn, loadFormsFromGAS]);
+            }, []);
+
+            /* โหลด theme จาก Google Sheets เมื่อเริ่มต้น */
+            useEffect(() => {
+                gasGet({ action: 'getAll' }).then(data => {
+                    if (data.settings?.theme) {
+                        setTheme(data.settings.theme);
+                        applyTheme(data.settings.theme);
+                    }
+                    if (data.settings?.adminpw) {
+                        sessionStorage.setItem('ff_adminpw_cache', data.settings.adminpw);
+                    }
+                }).catch(() => { });
+            }, []);
+
+            useEffect(() => { applyTheme(theme); }, [theme]);
 
             useEffect(() => {
                 const h = () => setShowScroll(scrollY > 300);
@@ -3320,7 +1663,7 @@
 
             if (publicFormId) {
                 const form = forms.find(f => f.id === publicFormId);
-                return <PublicForm form={form} onSubmit={(id, d, fileUrls) => { addResponse(id, d, fileUrls); }} />;
+                return <PublicForm form={form} onSubmit={(id, d) => { addResponse(id, d); }} />;
             }
             if (!loggedIn) return <LoginScreen onLogin={handleLogin} />;
 
@@ -3329,14 +1672,40 @@
                     <ScrollProgress />
                     <FloatingDecorations />
                     {toast && <Toast msg={toast.msg} type={toast.type} onDone={() => setToast(null)} />}
+
+                    {/* === LOADING OVERLAY === */}
+                    {gasLoading && (
+                        <div className="loading-overlay" id="loadingOverlay">
+                            <div className="spinner"></div>
+                            <span style={{
+                                color: 'var(--txt3)',
+                                fontSize: '0.75rem',
+                                letterSpacing: '0.1em',
+                                marginTop: '12px',
+                                fontFamily: 'var(--font-display)'
+                            }}>LOADING</span>
+                        </div>
+                    )}
+
+                    {gasError && (
+                        <div style={{
+                            position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9999,
+                            background: '#FF6070', color: '#fff', textAlign: 'center',
+                            padding: '6px 12px', fontSize: '0.82rem'
+                        }}>
+                            ⚠️ เชื่อมต่อ Google Sheets ไม่ได้: {gasError}
+                        </div>
+                    )}
                     {urlModal && <UrlModal form={urlModal} onClose={() => setUrlModal(null)} />}
                     <Sidebar page={page} setPage={setPage} open={sidebarOpen} onClose={() => setSidebarOpen(false)} onLogout={handleLogout} />
                     <main className="main-content">
                         <TopBar
                             title={pageTitles[page] || 'FormFlow'}
                             onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-                            theme={theme} onThemeChange={setTheme}
-                            accent={accent} onAccentChange={setAccent}
+                            theme={theme}
+                            onThemeChange={handleThemeChange} /* ✅ ใช้ handleThemeChange แทน setTheme */
+                            accent={accent}
+                            onAccentChange={setAccent}
                             onLogout={handleLogout}
                         />
                         {page === 'dashboard' && <DashboardPage forms={forms} responses={responses} />}
@@ -3351,7 +1720,7 @@
                         )}
                         {page === 'responses' && <ResponsesPage forms={forms} responses={responses} />}
                         {page === 'analytics' && <AnalyticsPage forms={forms} responses={responses} />}
-                        {page === 'settings' && <SettingsPage theme={theme} onThemeChange={setTheme} onLogout={handleLogout} />}
+                        {page === 'settings' && <SettingsPage theme={theme} onThemeChange={handleThemeChange} onLogout={handleLogout} />} {/* ✅ ใช้ handleThemeChange แทน setTheme */}
                     </main>
                     <BottomNav page={page} setPage={setPage} />
                     <div className={`scroll-top-btn ${showScroll ? 'visible' : ''}`} onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}>
