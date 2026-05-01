@@ -298,7 +298,7 @@
         /* ============================================
            GAS CONFIG — เชื่อมต่อ Google Apps Script
         ============================================ */
-        const GAS_URL = 'https://script.google.com/macros/s/AKfycbzjebIKqR0G91MKXODUhbZgdpq6gsUaPLaZ05kFEAvAgc7syI1kbeeupB79LZm1GYnVoQ/exec';
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbw-Y0JKGP-4I5B1SYBUPxxKr2URNiOof5im0vL4XL1oDmUCeHqqRr8BNjpFKAIYO4n_XQ/exec';
         const GAS_TOKEN = 'FormFlow_Secret_2024_XyZ!@#';
 
         async function gasPost(payload) {
@@ -317,19 +317,41 @@
 
         // ฟังก์ชันอัปโหลดไฟล์ไปยัง GAS
         async function uploadFileToGAS(formId, questionId, file) {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('formId', formId);
-            formData.append('questionId', questionId);
-            formData.append('fileName', file.name);
-            formData.append('token', GAS_TOKEN);
-            formData.append('action', 'uploadFile');
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
 
-            const res = await fetch(GAS_URL, {
-                method: 'POST',
-                body: formData
+                reader.onload = async function (e) {
+                    try {
+                        const base64Data = e.target.result;
+
+                        const payload = {
+                            token: GAS_TOKEN,
+                            action: 'uploadFile',
+                            formId: formId,
+                            questionId: questionId,
+                            fileName: file.name,
+                            fileData: base64Data,
+                            mimeType: file.type
+                        };
+
+                        const res = await fetch(GAS_URL, {
+                            method: 'POST',
+                            body: JSON.stringify(payload)
+                        });
+
+                        const result = await res.json();
+                        resolve(result);
+                    } catch (err) {
+                        reject(err);
+                    }
+                };
+
+                reader.onerror = function () {
+                    reject(new Error('ไม่สามารถอ่านไฟล์ได้'));
+                };
+
+                reader.readAsDataURL(file);
             });
-            return res.json();
         }
 
         // ฟังก์ชันดาวน์โหลดไฟล์
