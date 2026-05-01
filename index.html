@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🌸 FormFlow — Cute Form Builder (Google Sheets)</title>
+    <title>🌸 FormFlow — Cute Form Builder</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Mali:wght@400;600;700&family=Mitr:wght@300;400;500;600&display=swap"
         rel="stylesheet" />
@@ -23,8 +23,10 @@
 
     <style>
         /* ============================================
-           PASTEL THEME SYSTEM (คงเดิมทั้งหมด)
+           PASTEL THEME SYSTEM
         ============================================ */
+
+        /* 🌸 SAKURA (Pink) */
         [data-theme="sakura"] {
             --p1: #F8B4C8;
             --p2: #F4A1B8;
@@ -47,6 +49,7 @@
             --badge-off-c: #8B5A6A;
         }
 
+        /* 🍬 CANDY (Lavender) */
         [data-theme="candy"] {
             --p1: #C4B5F4;
             --p2: #B8A7F0;
@@ -69,6 +72,7 @@
             --badge-off-c: #6B4F9A;
         }
 
+        /* 🍑 PEACH (Orange) */
         [data-theme="peach"] {
             --p1: #FFB085;
             --p2: #FFA070;
@@ -91,6 +95,7 @@
             --badge-off-c: #8B5030;
         }
 
+        /* 🌿 MINT (Green) */
         [data-theme="mint"] {
             --p1: #90E0C8;
             --p2: #7AD4B8;
@@ -113,6 +118,7 @@
             --badge-off-c: #3A7060;
         }
 
+        /* 🌊 SKY (Blue) */
         [data-theme="sky"] {
             --p1: #90C8F0;
             --p2: #78B8EC;
@@ -135,6 +141,7 @@
             --badge-off-c: #3A5878;
         }
 
+        /* 🍋 LEMON (Yellow) */
         [data-theme="lemon"] {
             --p1: #FFE070;
             --p2: #FFD840;
@@ -157,6 +164,7 @@
             --badge-off-c: #786020;
         }
 
+        /* 🌙 DARK MODE (Midnight) */
         [data-theme="dark"] {
             --p1: #C4A8E8;
             --p2: #B094DC;
@@ -180,7 +188,7 @@
         }
 
         /* ============================================
-           GLOBAL BASE (คงเดิมทั้งหมด)
+           GLOBAL BASE
         ============================================ */
         :root {
             --sidebar-w: 260px;
@@ -268,6 +276,9 @@
             pointer-events: none;
         }
 
+        /* ============================================
+           SCROLLBAR
+        ============================================ */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -286,6 +297,9 @@
             background: var(--p3);
         }
 
+        /* ============================================
+           TYPOGRAPHY
+        ============================================ */
         .font-display {
             font-family: var(--font-display);
         }
@@ -294,7 +308,9 @@
             color: var(--p3);
         }
 
-        /* Buttons */
+        /* ============================================
+           BUTTONS
+        ============================================ */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -327,12 +343,6 @@
 
         .btn-primary:active {
             transform: translateY(0);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
         }
 
         .btn-ghost {
@@ -403,7 +413,9 @@
             }
         }
 
-        /* Cards */
+        /* ============================================
+           CARDS
+        ============================================ */
         .card {
             background: var(--card);
             border: 1.5px solid var(--border2);
@@ -427,7 +439,9 @@
             box-shadow: 0 4px 20px var(--shadow);
         }
 
-        /* Forms */
+        /* ============================================
+           FORMS
+        ============================================ */
         .form-field {
             display: flex;
             flex-direction: column;
@@ -476,7 +490,9 @@
             cursor: pointer;
         }
 
-        /* Layout */
+        /* ============================================
+           LAYOUT
+        ============================================ */
         .sidebar {
             position: fixed;
             left: 0;
@@ -606,7 +622,9 @@
             z-index: 1;
         }
 
-        /* Topbar */
+        /* ============================================
+           TOPBAR
+        ============================================ */
         .topbar {
             display: flex;
             align-items: center;
@@ -632,7 +650,14 @@
             gap: 8px;
         }
 
-        /* Theme Picker */
+        .page-title .svg-icon {
+            width: 1.2em;
+            height: 1.2em;
+        }
+
+        /* ============================================
+           THEME PICKER
+        ============================================ */
         .theme-picker-panel {
             position: absolute;
             right: 0;
@@ -702,7 +727,18 @@
             border: 3px solid white;
         }
 
-        /* Stat Cards */
+        .custom-color-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1.5px dashed var(--border);
+        }
+
+        /* ============================================
+           STAT CARDS
+        ============================================ */
         .stat-card {
             padding: 22px;
             position: relative;
@@ -726,6 +762,20 @@
             font-family: var(--font-display);
         }
 
+        .stat-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--p1), var(--p2));
+            color: white;
+            margin-top: 8px;
+            letter-spacing: 0.03em;
+        }
+
         .stat-icon {
             position: absolute;
             right: -8px;
@@ -742,7 +792,9 @@
             opacity: 0.15;
         }
 
-        /* Badges */
+        /* ============================================
+           BADGES & CHIPS
+        ============================================ */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -788,7 +840,9 @@
             font-family: var(--font-display);
         }
 
-        /* Toggle */
+        /* ============================================
+           TOGGLE
+        ============================================ */
         .toggle {
             position: relative;
             display: inline-block;
@@ -832,7 +886,9 @@
             transform: translateX(22px);
         }
 
-        /* Bottom Nav */
+        /* ============================================
+           BOTTOM NAV
+        ============================================ */
         .bottom-nav {
             display: none;
             position: fixed;
@@ -890,7 +946,9 @@
             transform: translateY(-4px) scale(1.1);
         }
 
-        /* Login */
+        /* ============================================
+           LOGIN
+        ============================================ */
         .login-wrap {
             min-height: 100vh;
             display: flex;
@@ -957,7 +1015,9 @@
             box-shadow: 0 0 0 4px var(--bg3);
         }
 
-        /* Modals */
+        /* ============================================
+           MODALS
+        ============================================ */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -1015,7 +1075,9 @@
             color: var(--p3);
         }
 
-        /* Form Cards */
+        /* ============================================
+           FORM CARDS (list)
+        ============================================ */
         .form-card {
             padding: 0;
             overflow: hidden;
@@ -1048,7 +1110,9 @@
             background: linear-gradient(90deg, var(--p1), var(--p3));
         }
 
-        /* Question Items */
+        /* ============================================
+           QUESTION ITEMS
+        ============================================ */
         .question-item {
             padding: 14px 18px;
             margin-bottom: 10px;
@@ -1077,7 +1141,9 @@
             border: 1px solid var(--p1);
         }
 
-        /* Public Form */
+        /* ============================================
+           PUBLIC FORM
+        ============================================ */
         .public-wrap {
             min-height: 100vh;
             display: flex;
@@ -1189,7 +1255,9 @@
             transform: scale(1.35) rotate(12deg);
         }
 
-        /* URL Box */
+        /* ============================================
+           URL BOX
+        ============================================ */
         .url-box {
             background: var(--bg2);
             border: 2px dashed var(--border);
@@ -1205,7 +1273,9 @@
             word-break: break-all;
         }
 
-        /* Toast */
+        /* ============================================
+           TOAST
+        ============================================ */
         .toast-ff {
             position: fixed;
             top: 22px;
@@ -1237,7 +1307,9 @@
             }
         }
 
-        /* Scroll */
+        /* ============================================
+           SCROLL PROGRESS + SCROLL TOP
+        ============================================ */
         .scroll-progress {
             position: fixed;
             top: 0;
@@ -1288,6 +1360,9 @@
             transform: translateY(-4px) scale(1.12);
         }
 
+        /* ============================================
+           SIDEBAR OVERLAY
+        ============================================ */
         .sidebar-overlay {
             display: none;
             position: fixed;
@@ -1301,13 +1376,18 @@
             display: block;
         }
 
+        /* ============================================
+           DIVIDER
+        ============================================ */
         .divider {
             height: 1.5px;
             background: linear-gradient(90deg, transparent, var(--border), transparent);
             margin: 22px 0;
         }
 
-        /* Animations */
+        /* ============================================
+           ANIMATIONS
+        ============================================ */
         @keyframes pageEnter {
             from {
                 opacity: 0;
@@ -1379,11 +1459,17 @@
             }
         }
 
+        /* ============================================
+           CHART
+        ============================================ */
         .chart-wrap {
             position: relative;
             height: 240px;
         }
 
+        /* ============================================
+           SWAL OVERRIDES
+        ============================================ */
         .swal2-popup {
             font-family: var(--font-display), sans-serif !important;
             border-radius: var(--radius-xl) !important;
@@ -1399,6 +1485,9 @@
             box-shadow: 0 4px 14px var(--shadow) !important;
         }
 
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -1465,36 +1554,6 @@
         .spinner-svg {
             animation: spin 1s linear infinite;
         }
-
-        /* Loading overlay */
-        .loading-overlay {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 60vh;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .loading-text {
-            color: var(--txt2);
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: 1rem;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
     </style>
 </head>
 
@@ -1554,8 +1613,7 @@
             'calendar': 'M8 2v4 M16 2v4 M3 10h18 M19 6H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z',
             'arrow-up-right-from-square': 'M7 17L17 7 M7 7h10v10',
             'file-circle-plus': 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M12 18v-6 M9 15h6',
-            'copy': 'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1 M9 21h9a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-9a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z',
-            'database': 'M12 2C8 2 4 3.5 4 6s4 4 8 4 8-1.5 8-4-4-4-8-4z M4 6v4c0 2.5 4 4 8 4s8-1.5 8-4V6 M4 10v4c0 2.5 4 4 8 4s8-1.5 8-4v-4'
+            'copy': 'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1 M9 21h9a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-9a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z'
         };
 
         function Icon({ name, size = '1em', className = '', style = {}, fill = false }) {
@@ -1629,7 +1687,9 @@
         const showSuccessAlert = (title, text) => {
             const colors = getThemeColors();
             return Swal.fire({
-                icon: 'success', title, text,
+                icon: 'success',
+                title: title,
+                text: text,
                 confirmButtonColor: colors.p3,
                 background: colors.card,
                 color: colors.txt,
@@ -1639,7 +1699,9 @@
         const showErrorAlert = (title, text) => {
             const colors = getThemeColors();
             return Swal.fire({
-                icon: 'error', title, text,
+                icon: 'error',
+                title: title,
+                text: text,
                 confirmButtonColor: '#FF6070',
                 background: colors.card,
                 color: colors.txt,
@@ -1649,7 +1711,9 @@
         const showWarningAlert = (title, text) => {
             const colors = getThemeColors();
             return Swal.fire({
-                icon: 'warning', title, text,
+                icon: 'warning',
+                title: title,
+                text: text,
                 confirmButtonColor: colors.p3,
                 background: colors.card,
                 color: colors.txt,
@@ -1659,7 +1723,9 @@
         const showInfoAlert = (title, text) => {
             const colors = getThemeColors();
             return Swal.fire({
-                icon: 'info', title, text,
+                icon: 'info',
+                title: title,
+                text: text,
                 confirmButtonColor: colors.p3,
                 background: colors.card,
                 color: colors.txt,
@@ -1669,7 +1735,8 @@
         const showDeleteConfirm = (title, text) => {
             const colors = getThemeColors();
             return Swal.fire({
-                title, html: text,
+                title: title,
+                html: text,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#FF6070',
@@ -1695,231 +1762,123 @@
             }, []);
         }
 
-        // ============================================
-        // GOOGLE APPS SCRIPT API
-        // ============================================
-        function useGasApi() {
-            const getUrl = useCallback(() => {
-                return sessionStorage.getItem('ff_gasurl') || '';
-            }, []);
+        /* Store with GAS sync */
+        function useStore() {
+            const [forms, setForms] = useState(() => { try { return JSON.parse(localStorage.getItem('ff_forms') || '[]'); } catch { return []; } });
+            const [responses, setResponses] = useState(() => { try { return JSON.parse(localStorage.getItem('ff_responses') || '{}'); } catch { return {}; } });
 
-            const callApi = useCallback(async (action, data = {}) => {
-                const url = getUrl();
-                if (!url) throw new Error('❌ ยังไม่ได้ตั้งค่า Google Apps Script URL กรุณาไปที่หน้าตั้งค่า');
+            const saveForms = useCallback(f => { setForms(f); localStorage.setItem('ff_forms', JSON.stringify(f)); }, []);
+            const saveResp = useCallback(r => { setResponses(r); localStorage.setItem('ff_responses', JSON.stringify(r)); }, []);
 
+            const GAS_URL = useMemo(() => localStorage.getItem('ff_gasurl') || '', []);
+
+            const syncFormToGAS = useCallback(async (form) => {
+                if (!GAS_URL) return;
                 try {
-                    const response = await fetch(url, {
+                    await fetch(GAS_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ action, data })
+                        body: JSON.stringify({ action: 'saveForm', formData: form })
                     });
+                } catch (err) {
+                    console.warn('Form sync error:', err);
+                }
+            }, [GAS_URL]);
 
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            const deleteFormFromGAS = useCallback(async (formId) => {
+                if (!GAS_URL) return;
+                try {
+                    await fetch(GAS_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'deleteForm', formId })
+                    });
+                } catch (err) {
+                    console.warn('Delete form sync error:', err);
+                }
+            }, [GAS_URL]);
+
+            const loadFormsFromGAS = useCallback(async () => {
+                if (!GAS_URL) return;
+                try {
+                    const resp = await fetch(GAS_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'getForms' })
+                    });
+                    const data = await resp.json();
+                    if (data.success && data.data) {
+                        setForms(data.data);
+                        localStorage.setItem('ff_forms', JSON.stringify(data.data));
                     }
+                } catch (err) {
+                    console.warn('Error loading forms from GAS:', err);
+                }
+            }, [GAS_URL]);
 
-                    const result = await response.json();
+            const addForm = useCallback((form) => {
+                const n = { ...form, id: generateId(), createdAt: new Date().toISOString(), active: true, responseCount: 0 };
+                const updated = [...forms, n];
+                saveForms(updated);
+                syncFormToGAS(n);
+                return n;
+            }, [forms, saveForms, syncFormToGAS]);
 
-                    if (!result.success && result.error) {
-                        throw new Error(result.error);
+            const updateForm = useCallback((id, d) => {
+                const updated = forms.map(f => {
+                    if (f.id === id) {
+                        const updatedForm = { ...f, ...d };
+                        syncFormToGAS(updatedForm);
+                        return updatedForm;
                     }
+                    return f;
+                });
+                saveForms(updated);
+            }, [forms, saveForms, syncFormToGAS]);
 
-                    return result;
-                } catch (err) {
-                    if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
-                        throw new Error('🔌 ไม่สามารถเชื่อมต่อกับ Google Apps Script ได้ กรุณาตรวจสอบ URL และการเชื่อมต่ออินเทอร์เน็ต');
-                    }
-                    throw err;
-                }
-            }, [getUrl]);
+            const deleteForm = useCallback((id) => {
+                saveForms(forms.filter(f => f.id !== id));
+                const r = { ...responses };
+                delete r[id];
+                saveResp(r);
+                deleteFormFromGAS(id);
+            }, [forms, responses, saveForms, saveResp, deleteFormFromGAS]);
 
-            return { callApi, getUrl };
-        }
+            const addResponse = useCallback((formId, data, fileUrls = {}) => {
+                const r = { ...responses };
+                if (!r[formId]) r[formId] = [];
+                r[formId] = [...r[formId], {
+                    id: generateId(),
+                    submittedAt: new Date().toISOString(),
+                    data,
+                    fileUrls
+                }];
+                saveResp(r);
+                const form = forms.find(f => f.id === formId);
+                if (form) updateForm(formId, { responseCount: (form.responseCount || 0) + 1 });
 
-        // ============================================
-        // DATA STORE (Google Sheets)
-        // ============================================
-        function useStore() {
-            const { callApi, getUrl } = useGasApi();
-            const [forms, setForms] = useState([]);
-            const [responses, setResponses] = useState({});
-            const [loading, setLoading] = useState(true);
-            const [error, setError] = useState(null);
-            const [initialized, setInitialized] = useState(false);
-
-            const loadData = useCallback(async () => {
-                const url = getUrl();
-                if (!url) {
-                    setLoading(false);
-                    setError('กรุณาตั้งค่า Google Apps Script URL ในหน้าตั้งค่า');
-                    return;
-                }
-
-                try {
-                    setLoading(true);
-                    setError(null);
-
-                    const [formsResult, responsesResult] = await Promise.all([
-                        callApi('getForms'),
-                        callApi('getResponses')
-                    ]);
-
-                    setForms(formsResult.data || []);
-                    setResponses(responsesResult.data || {});
-                    setInitialized(true);
-                } catch (err) {
-                    console.error('Load data error:', err);
-                    setError(err.message);
-                } finally {
-                    setLoading(false);
-                }
-            }, [callApi, getUrl]);
-
-            useEffect(() => {
-                loadData();
-            }, [loadData]);
-
-            const addForm = useCallback(async (form) => {
-                try {
-                    setError(null);
-                    const newForm = {
-                        ...form,
-                        id: generateId(),
-                        createdAt: new Date().toISOString(),
-                        active: form.active !== undefined ? form.active : true,
-                        responseCount: 0,
-                    };
-                    await callApi('saveForm', newForm);
-                    await loadData();
-                    return newForm;
-                } catch (err) {
-                    setError(err.message);
-                    throw err;
-                }
-            }, [callApi, loadData]);
-
-            const updateForm = useCallback(async (id, data) => {
-                try {
-                    setError(null);
-                    await callApi('updateForm', { id, ...data });
-                    await loadData();
-                } catch (err) {
-                    setError(err.message);
-                    throw err;
-                }
-            }, [callApi, loadData]);
-
-            const deleteForm = useCallback(async (id) => {
-                try {
-                    setError(null);
-                    await callApi('deleteForm', { id });
-                    await loadData();
-                } catch (err) {
-                    setError(err.message);
-                    throw err;
-                }
-            }, [callApi, loadData]);
-
-            const addResponse = useCallback(async (formId, data, fileUrls = {}) => {
-                try {
-                    setError(null);
-                    const responseData = {
-                        id: generateId(),
-                        formId,
-                        submittedAt: new Date().toISOString(),
-                        data,
-                        fileUrls,
-                    };
-                    await callApi('saveResponse', responseData);
-                    await loadData();
-                    return responseData;
-                } catch (err) {
-                    setError(err.message);
-                    throw err;
-                }
-            }, [callApi, loadData]);
-
-            const uploadFile = useCallback(async (formId, questionId, file) => {
-                try {
-                    setError(null);
-                    const reader = new FileReader();
-                    return new Promise((resolve, reject) => {
-                        reader.onload = async (event) => {
-                            try {
-                                const base64Content = event.target.result.split(',')[1];
-                                const result = await callApi('uploadFile', {
-                                    formId,
-                                    questionId,
-                                    fileName: file.name,
-                                    fileContent: base64Content,
-                                    mimeType: file.type || 'application/octet-stream'
-                                });
-                                resolve(result.data.fileUrl);
-                            } catch (err) {
-                                reject(err);
+                if (GAS_URL) {
+                    fetch(GAS_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: 'saveResponse',
+                            data: {
+                                formId: formId,
+                                formTitle: form?.title || '',
+                                questions: form?.questions || [],
+                                answers: data,
+                                fileUrls: fileUrls
                             }
-                        };
-                        reader.onerror = () => reject(new Error('ไม่สามารถอ่านไฟล์ได้'));
-                        reader.readAsDataURL(file);
-                    });
-                } catch (err) {
-                    setError(err.message);
-                    throw err;
+                        })
+                    }).catch(err => console.log('Response sync error:', err));
                 }
-            }, [callApi]);
+            }, [responses, forms, saveResp, updateForm, GAS_URL]);
 
-            const deleteResponse = useCallback(async (formId, responseId) => {
-                try {
-                    setError(null);
-                    await callApi('deleteResponse', { formId, responseId });
-                    await loadData();
-                } catch (err) {
-                    setError(err.message);
-                    throw err;
-                }
-            }, [callApi, loadData]);
-
-            const clearAllData = useCallback(async () => {
-                try {
-                    setError(null);
-                    await callApi('clearAllData');
-                    await loadData();
-                } catch (err) {
-                    setError(err.message);
-                    throw err;
-                }
-            }, [callApi, loadData]);
-
-            const saveSettings = useCallback(async (settings) => {
-                try {
-                    setError(null);
-                    await callApi('saveSettings', settings);
-                } catch (err) {
-                    setError(err.message);
-                    throw err;
-                }
-            }, [callApi]);
-
-            const getSettings = useCallback(async () => {
-                try {
-                    setError(null);
-                    const result = await callApi('getSettings');
-                    return result.data || {};
-                } catch (err) {
-                    setError(err.message);
-                    throw err;
-                }
-            }, [callApi]);
-
-            return {
-                forms, responses, loading, error, initialized,
-                addForm, updateForm, deleteForm, addResponse, uploadFile,
-                deleteResponse, clearAllData, saveSettings, getSettings,
-                refreshData: loadData
-            };
+            return { forms, responses, addForm, updateForm, deleteForm, addResponse, loadFormsFromGAS };
         }
 
-        // ——— COMPONENTS ———
+        /* ——— COMPONENTS ——— */
 
         function Toast({ msg, type = 'success', onDone }) {
             useEffect(() => { const t = setTimeout(onDone, 3200); return () => clearTimeout(t); }, []);
@@ -1966,11 +1925,10 @@
             const [err, setErr] = useState('');
             const [loading, setLoading] = useState(false);
             const addRipple = useRipple();
-            const PASS = sessionStorage.getItem('ff_adminpw') || 'admin1234';
+            const PASS = localStorage.getItem('ff_adminpw') || 'admin1234';
 
             const handleLogin = e => {
-                e.preventDefault();
-                setLoading(true);
+                e.preventDefault(); setLoading(true);
                 setTimeout(() => {
                     if (pw === PASS) {
                         confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 }, colors: ['#F8B4C8', '#C4B5F4', '#90E0C8', '#FFB085', '#FFE070'] });
@@ -1991,9 +1949,6 @@
                         <div className="login-logo">FormFlow</div>
                         <p style={{ color: 'var(--txt2)', marginBottom: 30, fontSize: '0.92rem', fontFamily: 'var(--font-display)' }}>
                             ✨ ระบบสร้างและจัดการแบบฟอร์มอัจฉริยะ
-                        </p>
-                        <p style={{ color: 'var(--txt3)', fontSize: '0.8rem', marginBottom: 20, background: 'var(--bg2)', padding: '8px 16px', borderRadius: 20, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                            <Icon name="database" /> ข้อมูลทั้งหมดเก็บใน Google Sheets
                         </p>
                         <form onSubmit={handleLogin}>
                             <div style={{ marginBottom: 16 }}>
@@ -2072,13 +2027,13 @@
                                 ออกจากระบบ
                             </div>
                         </div>
-                        <div className="sidebar-footer">🌸 FormFlow on Google Sheets</div>
+                        <div className="sidebar-footer">🌸 FormFlow v3.0 Pastel</div>
                     </nav>
                 </>
             );
         }
 
-        function ThemePicker({ currentTheme, onThemeChange }) {
+        function ThemePicker({ currentTheme, onThemeChange, accent, onAccentChange }) {
             return (
                 <div>
                     <div className="theme-preview-bar" />
@@ -2100,19 +2055,30 @@
                                         background: colors.card,
                                         color: colors.txt,
                                     });
-                                    Toast.fire({ icon: 'success', title: `เปลี่ยนเป็นธีม ${t.label} แล้ว!` });
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: `เปลี่ยนเป็นธีม ${t.label} แล้ว!`
+                                    });
                                 }}>
-                                <div className="theme-swatch-dot" style={{ background: `linear-gradient(135deg, ${t.dot[0]}, ${t.dot[1]})` }} />
+                                <div className="theme-swatch-dot" style={{
+                                    background: `linear-gradient(135deg, ${t.dot[0]}, ${t.dot[1]})`
+                                }} />
                                 <span style={{ fontSize: '0.68rem' }}>{t.label}</span>
                             </div>
                         ))}
+                    </div>
+                    <div className="custom-color-row">
+                        <span style={{ fontSize: '0.72rem', color: 'var(--txt3)', fontWeight: 700 }}>กำหนดเอง:</span>
+                        <input type="color" value={accent} onChange={e => onAccentChange(e.target.value)} />
+                        <span style={{ fontSize: '0.75rem', color: 'var(--txt3)', fontFamily: 'monospace' }}>{accent}</span>
                     </div>
                 </div>
             );
         }
 
-        function TopBar({ title, onMenuClick, theme, onThemeChange, onLogout }) {
+        function TopBar({ title, onMenuClick, theme, onThemeChange, accent, onAccentChange, onLogout }) {
             const [showTheme, setShowTheme] = useState(false);
+            const addRipple = useRipple();
 
             const handleLogout = () => {
                 const colors = getThemeColors();
@@ -2129,7 +2095,9 @@
                     background: colors.card,
                     color: colors.txt,
                 }).then((result) => {
-                    if (result.isConfirmed) onLogout();
+                    if (result.isConfirmed) {
+                        onLogout();
+                    }
                 });
             };
 
@@ -2150,7 +2118,7 @@
                         </button>
                         {showTheme && (
                             <div className="theme-picker-panel">
-                                <ThemePicker currentTheme={theme} onThemeChange={t => { onThemeChange(t); setShowTheme(false); }} />
+                                <ThemePicker currentTheme={theme} onThemeChange={t => { onThemeChange(t); setShowTheme(false); }} accent={accent} onAccentChange={onAccentChange} />
                             </div>
                         )}
                     </div>
@@ -2161,8 +2129,7 @@
         function QuestionModal({ question, onSave, onClose }) {
             const isEdit = !!question?.id;
             const [data, setData] = useState({
-                title: question?.title || '',
-                type: question?.type || 'short',
+                title: question?.title || '', type: question?.type || 'short',
                 required: question?.required || false,
                 options: question?.options || ['ตัวเลือกที่ 1'],
                 placeholder: question?.placeholder || '',
@@ -2170,7 +2137,6 @@
             const set = (k, v) => setData(d => ({ ...d, [k]: v }));
             const needsOpts = ['multiple', 'dropdown'].includes(data.type);
             const addRipple = useRipple();
-
             const handleSave = () => {
                 if (!data.title.trim()) {
                     showWarningAlert('กรุณากรอกข้อมูล', '💬 ใส่ชื่อคำถามด้วยนะ~');
@@ -2179,7 +2145,6 @@
                 onSave(data);
                 onClose();
             };
-
             return (
                 <div className="modal-overlay" style={{ zIndex: 1100 }} onClick={e => e.target === e.currentTarget && onClose()}>
                     <div className="modal-box card">
@@ -2229,20 +2194,17 @@
             );
         }
 
-        function FormModal({ form, onSave, onClose, loading }) {
+        function FormModal({ form, onSave, onClose }) {
             const isEdit = !!form?.id;
             const [data, setData] = useState({
-                title: form?.title || '',
-                description: form?.description || '',
+                title: form?.title || '', description: form?.description || '',
                 accentColor: form?.accentColor || '#F8B4C8',
                 bgColor: form?.bgColor || '#FFF5F8',
                 headerImage: form?.headerImage || '',
-                questions: form?.questions || [],
-                active: form?.active !== undefined ? form.active : true,
+                questions: form?.questions || [], active: form?.active !== undefined ? form.active : true,
             });
             const [qModal, setQModal] = useState(null);
             const [dragIdx, setDragIdx] = useState(null);
-            const [saving, setSaving] = useState(false);
             const addRipple = useRipple();
             const set = (k, v) => setData(d => ({ ...d, [k]: v }));
             const addQ = q => { set('questions', [...data.questions, { id: generateId(), ...q }]); setQModal(null); };
@@ -2257,33 +2219,19 @@
                         }
                     });
             };
-
-            const handleSave = async () => {
+            const handleSave = () => {
                 if (!data.title.trim()) {
                     showWarningAlert('กรุณากรอกข้อมูล', '💬 ต้องมีชื่อฟอร์มนะ~');
                     return;
                 }
-                setSaving(true);
-                try {
-                    await onSave(data);
-                } catch (err) {
-                    showErrorAlert('เกิดข้อผิดพลาด', err.message);
-                } finally {
-                    setSaving(false);
-                }
+                onSave(data);
             };
-
             const dragStart = idx => setDragIdx(idx);
             const dragOver = (e, idx) => {
-                e.preventDefault();
-                if (dragIdx === null || dragIdx === idx) return;
-                const qs = [...data.questions];
-                const [m] = qs.splice(dragIdx, 1);
-                qs.splice(idx, 0, m);
-                set('questions', qs);
-                setDragIdx(idx);
+                e.preventDefault(); if (dragIdx === null || dragIdx === idx) return;
+                const qs = [...data.questions]; const [m] = qs.splice(dragIdx, 1); qs.splice(idx, 0, m);
+                set('questions', qs); setDragIdx(idx);
             };
-
             return (
                 <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
                     <div className="modal-box card">
@@ -2306,11 +2254,17 @@
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                             <div className="form-field">
                                 <label>🎨 สีหลัก</label>
-                                <input type="color" value={data.accentColor} onChange={e => set('accentColor', e.target.value)} />
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                    <input type="color" value={data.accentColor} onChange={e => set('accentColor', e.target.value)} />
+                                    <span style={{ color: 'var(--txt3)', fontSize: '0.8rem', fontFamily: 'monospace' }}>{data.accentColor}</span>
+                                </div>
                             </div>
                             <div className="form-field">
                                 <label>🌈 สีพื้นหลัง</label>
-                                <input type="color" value={data.bgColor} onChange={e => set('bgColor', e.target.value)} />
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                    <input type="color" value={data.bgColor} onChange={e => set('bgColor', e.target.value)} />
+                                    <span style={{ color: 'var(--txt3)', fontSize: '0.8rem', fontFamily: 'monospace' }}>{data.bgColor}</span>
+                                </div>
                             </div>
                         </div>
                         <div className="divider" />
@@ -2357,10 +2311,8 @@
                         ))}
                         <div className="divider" />
                         <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
-                            <button className="btn btn-ghost" onClick={onClose} disabled={saving}><Icon name="xmark" /> ยกเลิก</button>
-                            <button className="btn btn-primary ripple" onClick={e => { addRipple(e); handleSave(); }} disabled={saving}>
-                                {saving ? <><Icon name="spinner" /> กำลังบันทึก...</> : <><Icon name="floppy-disk" /> บันทึกฟอร์ม</>}
-                            </button>
+                            <button className="btn btn-ghost" onClick={onClose}><Icon name="xmark" /> ยกเลิก</button>
+                            <button className="btn btn-primary ripple" onClick={e => { addRipple(e); handleSave(); }}><Icon name="floppy-disk" /> บันทึกฟอร์ม</button>
                         </div>
                     </div>
                     {qModal !== null && (
@@ -2373,43 +2325,34 @@
         function DashboardPage({ forms, responses }) {
             const totalForms = forms.length;
             const activeForms = forms.filter(f => f.active).length;
-            const totalResp = Object.values(responses).reduce((s, a) => s + (Array.isArray(a) ? a.length : 0), 0);
+            const totalResp = Object.values(responses).reduce((s, a) => s + a.length, 0);
             const thisMonth = Object.values(responses).flat().filter(r => new Date(r.submittedAt).getMonth() === new Date().getMonth()).length;
-
             const stats = [
                 { label: 'ฟอร์มทั้งหมด', val: totalForms, icon: 'file-heart' },
                 { label: 'เปิดใช้งาน', val: activeForms, icon: 'circle-check' },
                 { label: 'คำตอบทั้งหมด', val: totalResp, icon: 'inbox' },
                 { label: 'เดือนนี้', val: thisMonth, icon: 'calendar-days' },
             ];
-
             const chartRef = useRef(null), chartRef2 = useRef(null), c1 = useRef(null), c2 = useRef(null);
-
             useEffect(() => {
                 if (!chartRef.current) return;
                 c1.current?.destroy();
                 const months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
                 const counts = Array(12).fill(0);
-                Object.values(responses).flat().forEach(r => { if (r && r.submittedAt) counts[new Date(r.submittedAt).getMonth]++; });
+                Object.values(responses).flat().forEach(r => counts[new Date(r.submittedAt).getMonth()]++);
                 const style = getComputedStyle(document.documentElement);
                 const p1 = style.getPropertyValue('--p1').trim() || '#F8B4C8';
                 const p3 = style.getPropertyValue('--p3').trim() || '#E879A0';
                 c1.current = new Chart(chartRef.current, {
                     type: 'bar',
                     data: {
-                        labels: months,
-                        datasets: [{
-                            label: 'คำตอบ',
-                            data: counts,
-                            backgroundColor: `${p1}88`,
-                            borderColor: p3,
-                            borderWidth: 2,
-                            borderRadius: 10
+                        labels: months, datasets: [{
+                            label: 'คำตอบ', data: counts,
+                            backgroundColor: `${p1}88`, borderColor: p3, borderWidth: 2, borderRadius: 10
                         }]
                     },
                     options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
+                        responsive: true, maintainAspectRatio: false,
                         plugins: { legend: { display: false } },
                         scales: {
                             y: { beginAtZero: true, grid: { color: 'rgba(128,128,128,0.08)' }, ticks: { color: 'var(--txt3)' } },
@@ -2419,7 +2362,6 @@
                 });
                 return () => c1.current?.destroy();
             }, [responses]);
-
             useEffect(() => {
                 if (!chartRef2.current || forms.length === 0) return;
                 c2.current?.destroy();
@@ -2427,27 +2369,15 @@
                 c2.current = new Chart(chartRef2.current, {
                     type: 'doughnut',
                     data: {
-                        labels: forms.map(f => f.title && f.title.length > 14 ? f.title.slice(0, 14) + '…' : (f.title || 'ไม่มีชื่อ')),
+                        labels: forms.map(f => f.title.length > 14 ? f.title.slice(0, 14) + '…' : f.title),
                         datasets: [{
-                            data: forms.map(f => {
-                                const r = responses[f.id];
-                                return Array.isArray(r) ? r.length || 1 : 1;
-                            }),
-                            backgroundColor: forms.map((_, i) => colors[i % colors.length]),
-                            borderWidth: 3,
-                            borderColor: 'rgba(255,255,255,0.8)',
-                            hoverOffset: 14
+                            data: forms.map(f => (responses[f.id] || []).length || 1),
+                            backgroundColor: colors.slice(0, forms.length), borderWidth: 3, borderColor: 'rgba(255,255,255,0.8)', hoverOffset: 14
                         }]
                     },
                     options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: { color: 'var(--txt2)', padding: 14, font: { size: 11 }, usePointStyle: true, pointStyleWidth: 8 }
-                            }
-                        }
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { color: 'var(--txt2)', padding: 14, font: { size: 11 }, usePointStyle: true, pointStyleWidth: 8 } } }
                     }
                 });
                 return () => c2.current?.destroy();
@@ -2480,11 +2410,7 @@
                             </h3>
                             <div className="chart-wrap">
                                 {forms.length > 0 ? <canvas ref={chartRef2} /> :
-                                    <div style={{ textAlign: 'center', padding: 40, color: 'var(--txt3)' }}>
-                                        <Icon name="chart-pie" size="3.5rem" />
-                                        <p style={{ marginTop: 8 }}>ยังไม่มีข้อมูล</p>
-                                    </div>
-                                }
+                                    <div className="empty-state"><div className="empty-state-emoji"><Icon name="chart-pie" size="3.5rem" /></div><div className="empty-state-sub">ยังไม่มีข้อมูล</div></div>}
                             </div>
                         </div>
                     </div>
@@ -2493,21 +2419,16 @@
                             <Icon name="clock-rotate-left" />ฟอร์มล่าสุด
                         </h3>
                         {forms.length === 0 ? (
-                            <div style={{ textAlign: 'center', padding: 40, color: 'var(--txt3)' }}>
-                                <Icon name="file-heart" size="3.5rem" />
-                                <p style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--txt2)', marginTop: 8 }}>ยังไม่มีฟอร์ม</p>
-                            </div>
+                            <div className="empty-state"><div className="empty-state-emoji"><Icon name="file-heart" size="3.5rem" /></div><div className="empty-state-title">ยังไม่มีฟอร์ม</div></div>
                         ) : forms.slice().reverse().slice(0, 5).map(f => (
                             <div key={f.id} className="card" style={{ padding: '14px 18px', marginBottom: 10, borderLeft: `4px solid ${f.accentColor || 'var(--p3)'}` }}>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
                                     <div>
-                                        <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{f.title || 'ไม่มีชื่อ'}</div>
+                                        <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{f.title}</div>
                                         <div style={{ color: 'var(--txt3)', fontSize: '0.78rem', marginTop: 3 }}>
-                                            <Icon name="inbox" style={{ marginRight: 4 }} />
-                                            {Array.isArray(responses[f.id]) ? responses[f.id].length : 0} คำตอบ
+                                            <Icon name="inbox" style={{ marginRight: 4 }} />{(responses[f.id] || []).length} คำตอบ
                                             <span style={{ margin: '0 8px' }}>·</span>
-                                            <Icon name="list-check" style={{ marginRight: 4 }} />
-                                            {(f.questions || []).length} คำถาม
+                                            <Icon name="list-check" style={{ marginRight: 4 }} />{(f.questions || []).length} คำถาม
                                         </div>
                                     </div>
                                     <span className={`badge ${f.active ? 'badge-on' : 'badge-off'}`}>{f.active ? 'เปิด' : 'ปิด'}</span>
@@ -2519,43 +2440,31 @@
             );
         }
 
-        function FormsPage({ forms, responses, onAdd, onEdit, onDelete, onToggle, onViewUrl, loading }) {
+        function FormsPage({ forms, responses, onAdd, onEdit, onDelete, onToggle, onViewUrl }) {
             const [search, setSearch] = useState('');
             const [showModal, setShowModal] = useState(false);
             const [editForm, setEditForm] = useState(null);
-            const [saving, setSaving] = useState(false);
             const addRipple = useRipple();
-            const filtered = forms.filter(f => (f.title || '').toLowerCase().includes(search.toLowerCase()));
+            const filtered = forms.filter(f => f.title.toLowerCase().includes(search.toLowerCase()));
 
-            const handleSave = async (data) => {
-                setSaving(true);
-                try {
-                    if (editForm?.id) {
-                        await onEdit(editForm.id, data);
-                        showSuccessAlert('อัปเดตฟอร์มแล้ว!', `ฟอร์ม "${data.title}" ถูกอัปเดตเรียบร้อยแล้ว 🌸`);
-                    } else {
-                        await onAdd(data);
-                        showSuccessAlert('สร้างฟอร์มสำเร็จ!', `ฟอร์ม "${data.title}" ถูกสร้างเรียบร้อยแล้ว ✨`);
-                    }
-                    setShowModal(false);
-                    setEditForm(null);
-                } catch (err) {
-                    showErrorAlert('เกิดข้อผิดพลาด', err.message);
-                } finally {
-                    setSaving(false);
+            const handleSave = data => {
+                if (editForm?.id) {
+                    onEdit(editForm.id, data);
+                    showSuccessAlert('อัปเดตฟอร์มแล้ว!', `ฟอร์ม "${data.title}" ถูกอัปเดตเรียบร้อยแล้ว 🌸`);
+                } else {
+                    onAdd(data);
+                    showSuccessAlert('สร้างฟอร์มสำเร็จ!', `ฟอร์ม "${data.title}" ถูกสร้างเรียบร้อยแล้ว ✨`);
                 }
+                setShowModal(false);
+                setEditForm(null);
             };
 
             const handleDelete = (form) => {
                 showDeleteConfirm('ลบฟอร์ม?', `คุณแน่ใจหรือไม่ที่จะลบ "${form.title}"?<br><small style="color: var(--txt3)">การกระทำนี้จะลบคำตอบทั้งหมดด้วยและไม่สามารถกู้คืนได้</small>`)
-                    .then(async (result) => {
+                    .then((result) => {
                         if (result.isConfirmed) {
-                            try {
-                                await onDelete(form.id);
-                                showSuccessAlert('ลบฟอร์มแล้ว', `ฟอร์ม "${form.title}" ถูกลบเรียบร้อยแล้ว`);
-                            } catch (err) {
-                                showErrorAlert('เกิดข้อผิดพลาด', err.message);
-                            }
+                            onDelete(form.id);
+                            showSuccessAlert('ลบฟอร์มแล้ว', `ฟอร์ม "${form.title}" ถูกลบเรียบร้อยแล้ว`);
                         }
                     });
             };
@@ -2577,14 +2486,10 @@
                     reverseButtons: true,
                     background: colors.card,
                     color: colors.txt,
-                }).then(async (result) => {
+                }).then((result) => {
                     if (result.isConfirmed) {
-                        try {
-                            await onToggle(form.id, newStatus);
-                            showSuccessAlert(`${action}รับคำตอบแล้ว`, `ฟอร์ม "${form.title}" ${action}รับคำตอบเรียบร้อยแล้ว`);
-                        } catch (err) {
-                            showErrorAlert('เกิดข้อผิดพลาด', err.message);
-                        }
+                        onToggle(form.id, newStatus);
+                        showSuccessAlert(`${action}รับคำตอบแล้ว`, `ฟอร์ม "${form.title}" ${action}รับคำตอบเรียบร้อยแล้ว`);
                     }
                 });
             };
@@ -2596,15 +2501,15 @@
                             <Icon name="magnifying-glass" style={{ position: 'absolute', left: 18, top: '50%', transform: 'translateY(-50%)', color: 'var(--txt3)' }} />
                             <input className="form-input" style={{ paddingLeft: 46 }} placeholder="🔍 ค้นหาฟอร์ม..." value={search} onChange={e => setSearch(e.target.value)} />
                         </div>
-                        <button className="btn btn-primary ripple" onClick={e => { addRipple(e); setEditForm(null); setShowModal(true); }} disabled={loading}>
+                        <button className="btn btn-primary ripple" onClick={e => { addRipple(e); setEditForm(null); setShowModal(true); }}>
                             <Icon name="plus" /> สร้างฟอร์มใหม่
                         </button>
                     </div>
                     {filtered.length === 0 ? (
-                        <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}>
-                            <Icon name="file-heart" size="3.5rem" />
-                            <p style={{ fontWeight: 700, marginTop: 10 }}>{search ? 'ไม่พบฟอร์มที่ค้นหา' : 'ยังไม่มีฟอร์ม'}</p>
-                            <p style={{ fontSize: '0.85rem' }}>{search ? 'ลองค้นหาด้วยคำอื่น' : 'คลิก "สร้างฟอร์มใหม่" เพื่อเริ่มต้น~'}</p>
+                        <div className="empty-state" style={{ textAlign: 'center', padding: 60 }}>
+                            <div className="empty-state-emoji"><Icon name="file-heart" size="3.5rem" /></div>
+                            <div className="empty-state-title" style={{ fontWeight: 700, marginTop: 10 }}>{search ? 'ไม่พบฟอร์มที่ค้นหา' : 'ยังไม่มีฟอร์ม'}</div>
+                            <div className="empty-state-sub" style={{ color: 'var(--txt3)' }}>{search ? 'ลองค้นหาด้วยคำอื่น' : 'คลิก "สร้างฟอร์มใหม่" เพื่อเริ่มต้น~'}</div>
                         </div>
                     ) : (
                         <div className="stagger">
@@ -2613,21 +2518,18 @@
                                     <div className="form-card-accent-bar" style={{ background: `linear-gradient(90deg,${f.accentColor || 'var(--p1)'},${f.accentColor || 'var(--p3)'})` }} />
                                     <div className="form-card-inner">
                                         <div className="form-card-icon">
-                                            {f.headerImage && f.headerImage.startsWith('http') ?
-                                                <img src={f.headerImage} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: 12 }} alt="" /> :
-                                                (f.headerImage || <Icon name="file-heart" size="1.5rem" />)
-                                            }
+                                            {f.headerImage?.startsWith('http') ? <img src={f.headerImage} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: 12 }} alt="" /> : (f.headerImage || <Icon name="file-heart" size="1.5rem" />)}
                                         </div>
                                         <div style={{ flex: 1, minWidth: 0 }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>
-                                                <span style={{ fontWeight: 700, fontSize: '0.96rem' }}>{f.title || 'ไม่มีชื่อ'}</span>
+                                                <span style={{ fontWeight: 700, fontSize: '0.96rem' }}>{f.title}</span>
                                                 <span className={`badge ${f.active ? 'badge-on' : 'badge-off'}`}>{f.active ? 'เปิดรับคำตอบ' : 'ปิดรับคำตอบ'}</span>
                                             </div>
                                             {f.description && <p style={{ color: 'var(--txt2)', fontSize: '0.82rem', marginBottom: 8 }}>{f.description}</p>}
                                             <div style={{ display: 'flex', gap: 14, fontSize: '0.78rem', color: 'var(--txt3)', flexWrap: 'wrap' }}>
                                                 <span><Icon name="list-check" style={{ marginRight: 4 }} />{(f.questions || []).length} คำถาม</span>
-                                                <span><Icon name="inbox" style={{ marginRight: 4 }} />{Array.isArray(responses[f.id]) ? responses[f.id].length : 0} คำตอบ</span>
-                                                <span><Icon name="calendar" style={{ marginRight: 4 }} />{f.createdAt ? new Date(f.createdAt).toLocaleDateString('th-TH') : 'ไม่ระบุ'}</span>
+                                                <span><Icon name="inbox" style={{ marginRight: 4 }} />{(responses[f.id] || []).length} คำตอบ</span>
+                                                <span><Icon name="calendar" style={{ marginRight: 4 }} />{new Date(f.createdAt).toLocaleDateString('th-TH')}</span>
                                             </div>
                                         </div>
                                         <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
@@ -2637,7 +2539,8 @@
                                                 <span className="toggle-slider" />
                                             </label>
                                             <button className="btn-icon" title="แก้ไข" onClick={() => { setEditForm(f); setShowModal(true); }}><Icon name="pen-to-square" /></button>
-                                            <button className="btn-icon" style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }} title="ลบ" onClick={() => handleDelete(f)}>
+                                            <button className="btn-icon" style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }} title="ลบ"
+                                                onClick={() => handleDelete(f)}>
                                                 <Icon name="trash-can" />
                                             </button>
                                         </div>
@@ -2646,7 +2549,7 @@
                             ))}
                         </div>
                     )}
-                    {showModal && <FormModal form={editForm} onSave={handleSave} onClose={() => { setShowModal(false); setEditForm(null); }} loading={saving} />}
+                    {showModal && <FormModal form={editForm} onSave={handleSave} onClose={() => { setShowModal(false); setEditForm(null); }} />}
                 </div>
             );
         }
@@ -2654,7 +2557,6 @@
         function UrlModal({ form, onClose }) {
             const url = getFormUrl(form.id);
             const [copied, setCopied] = useState(false);
-
             const copy = () => {
                 navigator.clipboard?.writeText(url);
                 setCopied(true);
@@ -2669,9 +2571,11 @@
                     background: colors.card,
                     color: colors.txt,
                 });
-                Toast.fire({ icon: 'success', title: '📋 คัดลอกลิงก์แล้ว!' });
+                Toast.fire({
+                    icon: 'success',
+                    title: '📋 คัดลอกลิงก์แล้ว!'
+                });
             };
-
             return (
                 <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
                     <div className="modal-box card" style={{ maxWidth: 480 }}>
@@ -2694,24 +2598,17 @@
             );
         }
 
-        function ResponsesPage({ forms, responses, onDeleteResponse }) {
+        function ResponsesPage({ forms, responses }) {
             const [selForm, setSelForm] = useState(forms[0]?.id || '');
             const [viewResp, setViewResp] = useState(null);
             const form = forms.find(f => f.id === selForm);
             const resps = responses[selForm] || [];
 
             const handleDeleteResponse = (response) => {
-                const idx = Array.isArray(resps) ? resps.indexOf(response) + 1 : '?';
-                showDeleteConfirm('ลบคำตอบ?', `คุณแน่ใจหรือไม่ที่จะลบคำตอบที่ ${idx}?<br><small style="color: var(--txt3)">การกระทำนี้ไม่สามารถย้อนกลับได้</small>`)
-                    .then(async (result) => {
+                showDeleteConfirm('ลบคำตอบ?', `คุณแน่ใจหรือไม่ที่จะลบคำตอบที่ ${resps.indexOf(response) + 1}?<br><small style="color: var(--txt3)">การกระทำนี้ไม่สามารถย้อนกลับได้</small>`)
+                    .then((result) => {
                         if (result.isConfirmed) {
-                            try {
-                                await onDeleteResponse(selForm, response.id);
-                                if (viewResp?.id === response.id) setViewResp(null);
-                                showSuccessAlert('ลบคำตอบแล้ว', 'คำตอบถูกลบเรียบร้อยแล้ว');
-                            } catch (err) {
-                                showErrorAlert('เกิดข้อผิดพลาด', err.message);
-                            }
+                            showSuccessAlert('ลบคำตอบแล้ว', 'คำตอบถูกลบเรียบร้อยแล้ว');
                         }
                     });
             };
@@ -2720,20 +2617,13 @@
                 <div>
                     <div style={{ marginBottom: 18 }}>
                         <select className="form-input" value={selForm} onChange={e => setSelForm(e.target.value)} style={{ maxWidth: 320 }}>
-                            {forms.length === 0 ? <option>— ยังไม่มีฟอร์ม —</option> : forms.map(f => <option key={f.id} value={f.id}>{f.title || 'ไม่มีชื่อ'}</option>)}
+                            {forms.length === 0 ? <option>— ยังไม่มีฟอร์ม —</option> : forms.map(f => <option key={f.id} value={f.id}>{f.title}</option>)}
                         </select>
                     </div>
                     {!form ? (
-                        <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}>
-                            <Icon name="inbox" size="3.5rem" />
-                            <p>เลือกฟอร์มเพื่อดูคำตอบ</p>
-                        </div>
-                    ) : !Array.isArray(resps) || resps.length === 0 ? (
-                        <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}>
-                            <Icon name="inbox" size="3.5rem" />
-                            <p style={{ fontWeight: 700, marginTop: 8 }}>ยังไม่มีคำตอบ</p>
-                            <p style={{ fontSize: '0.85rem' }}>รอให้ผู้ใช้ส่งคำตอบมา~</p>
-                        </div>
+                        <div className="empty-state" style={{ textAlign: 'center', padding: 60 }}><div className="empty-state-emoji"><Icon name="inbox" size="3.5rem" /></div><div className="empty-state-sub">เลือกฟอร์มเพื่อดูคำตอบ</div></div>
+                    ) : resps.length === 0 ? (
+                        <div className="empty-state" style={{ textAlign: 'center', padding: 60 }}><div className="empty-state-emoji"><Icon name="inbox" size="3.5rem" /></div><div className="empty-state-title">ยังไม่มีคำตอบ</div><div className="empty-state-sub">รอให้ผู้ใช้ส่งคำตอบมา~</div></div>
                     ) : (
                         <div className="stagger">
                             {resps.map((r, i) => (
@@ -2742,7 +2632,7 @@
                                         <div onClick={() => setViewResp(r)} style={{ flex: 1 }}>
                                             <span style={{ fontWeight: 700 }}><Icon name="inbox" style={{ marginRight: 6 }} />คำตอบที่ {i + 1}</span>
                                             <span style={{ color: 'var(--txt3)', fontSize: '0.78rem', marginLeft: 12 }}>
-                                                <Icon name="clock-rotate-left" style={{ marginRight: 4 }} />{r.submittedAt ? new Date(r.submittedAt).toLocaleString('th-TH') : 'ไม่ระบุเวลา'}
+                                                <Icon name="clock-rotate-left" style={{ marginRight: 4 }} />{new Date(r.submittedAt).toLocaleString('th-TH')}
                                             </span>
                                         </div>
                                         <div style={{ display: 'flex', gap: 5 }}>
@@ -2763,14 +2653,12 @@
                         <div className="modal-overlay" onClick={e => e.target === e.currentTarget && setViewResp(null)}>
                             <div className="modal-box card">
                                 <div className="modal-title"><Icon name="file-lines" /> 📋 รายละเอียดคำตอบ</div>
-                                <p style={{ color: 'var(--txt3)', fontSize: '0.82rem', marginBottom: 22 }}>
-                                    ส่งเมื่อ {viewResp.submittedAt ? new Date(viewResp.submittedAt).toLocaleString('th-TH') : 'ไม่ระบุ'}
-                                </p>
+                                <p style={{ color: 'var(--txt3)', fontSize: '0.82rem', marginBottom: 22 }}>ส่งเมื่อ {new Date(viewResp.submittedAt).toLocaleString('th-TH')}</p>
                                 {(form.questions || []).map(q => (
                                     <div key={q.id} style={{ marginBottom: 14, padding: '12px 16px', background: 'var(--bg2)', borderRadius: 'var(--radius-sm)' }}>
-                                        <p style={{ fontWeight: 700, fontSize: '0.76rem', color: 'var(--txt3)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 4 }}>{q.title || '(ไม่มีชื่อคำถาม)'}</p>
+                                        <p style={{ fontWeight: 700, fontSize: '0.76rem', color: 'var(--txt3)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 4 }}>{q.title}</p>
                                         <p style={{ fontWeight: 500, fontSize: '0.9rem' }}>
-                                            {viewResp.data?.[q.id] || <em style={{ color: 'var(--txt3)' }}>ไม่ได้ตอบ</em>}
+                                            {viewResp.data[q.id] || <em style={{ color: 'var(--txt3)' }}>ไม่ได้ตอบ</em>}
                                             {viewResp.fileUrls?.[q.id] && (
                                                 <a href={viewResp.fileUrls[q.id]} target="_blank" rel="noopener noreferrer" style={{ display: 'block', color: 'var(--p3)', textDecoration: 'underline', marginTop: 4, fontSize: '0.8rem' }}>
                                                     📎 ดูไฟล์ที่อัปโหลด
@@ -2781,7 +2669,10 @@
                                 ))}
                                 <div style={{ marginTop: 10, display: 'flex', gap: 10 }}>
                                     <button className="btn btn-ghost" onClick={() => setViewResp(null)}><Icon name="xmark" /> ปิด</button>
-                                    <button className="btn btn-danger" onClick={() => handleDeleteResponse(viewResp)}>
+                                    <button className="btn btn-danger" onClick={() => {
+                                        setViewResp(null);
+                                        handleDeleteResponse(viewResp);
+                                    }}>
                                         <Icon name="trash-can" /> ลบคำตอบนี้
                                     </button>
                                 </div>
@@ -2797,76 +2688,48 @@
             const form = forms.find(f => f.id === selForm);
             const resps = responses[selForm] || [];
             const chartRefs = useRef({}), charts = useRef({});
-
             useEffect(() => {
                 if (!form) return;
                 (form.questions || []).filter(q => ['multiple', 'dropdown'].includes(q.type)).forEach(q => {
-                    const canvas = chartRefs.current[q.id];
-                    if (!canvas) return;
+                    const canvas = chartRefs.current[q.id]; if (!canvas) return;
                     charts.current[q.id]?.destroy();
-                    const counts = {};
-                    (q.options || []).forEach(o => counts[o] = 0);
-                    (Array.isArray(resps) ? resps : []).forEach(r => {
-                        const v = r.data?.[q.id];
-                        if (v && counts[v] !== undefined) counts[v]++;
-                    });
+                    const counts = {}; (q.options || []).forEach(o => counts[o] = 0);
+                    resps.forEach(r => { const v = r.data[q.id]; if (v && counts[v] !== undefined) counts[v]++; });
                     const style = getComputedStyle(document.documentElement);
                     const p1 = style.getPropertyValue('--p1').trim() || '#F8B4C8';
                     const p3 = style.getPropertyValue('--p3').trim() || '#E879A0';
                     charts.current[q.id] = new Chart(canvas, {
                         type: 'bar',
-                        data: {
-                            labels: Object.keys(counts),
-                            datasets: [{
-                                data: Object.values(counts),
-                                backgroundColor: `${p1}aa`,
-                                borderColor: p3,
-                                borderWidth: 2,
-                                borderRadius: 10
-                            }]
-                        },
+                        data: { labels: Object.keys(counts), datasets: [{ data: Object.values(counts), backgroundColor: `${p1}aa`, borderColor: p3, borderWidth: 2, borderRadius: 10 }] },
                         options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: { legend: { display: false } },
-                            scales: {
-                                y: { beginAtZero: true, ticks: { color: 'var(--txt3)' }, grid: { color: 'rgba(128,128,128,0.06)' } },
-                                x: { ticks: { color: 'var(--txt3)' }, grid: { display: false } }
-                            }
+                            responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+                            scales: { y: { beginAtZero: true, ticks: { color: 'var(--txt3)' }, grid: { color: 'rgba(128,128,128,0.06)' } }, x: { ticks: { color: 'var(--txt3)' }, grid: { display: false } } }
                         }
                     });
                 });
                 return () => Object.values(charts.current).forEach(c => c?.destroy());
-            }, [selForm, resps, form]);
-
-            const respArray = Array.isArray(resps) ? resps : [];
-            const totalQuestions = (form?.questions || []).length;
-            const completeRate = respArray.length > 0 && totalQuestions > 0
-                ? Math.round(respArray.filter(r => Object.keys(r.data || {}).length === totalQuestions).length / respArray.length * 100)
-                : 0;
-
+            }, [selForm, resps]);
             return (
                 <div>
                     <div style={{ marginBottom: 18 }}>
                         <select className="form-input" value={selForm} onChange={e => setSelForm(e.target.value)} style={{ maxWidth: 320 }}>
-                            {forms.length === 0 ? <option>— ยังไม่มีฟอร์ม —</option> : forms.map(f => <option key={f.id} value={f.id}>{f.title || 'ไม่มีชื่อ'}</option>)}
+                            {forms.length === 0 ? <option>— ยังไม่มีฟอร์ม —</option> : forms.map(f => <option key={f.id} value={f.id}>{f.title}</option>)}
                         </select>
                     </div>
                     {!form ? (
-                        <div style={{ textAlign: 'center', padding: 60, color: 'var(--txt3)' }}>
-                            <Icon name="chart-pie" size="3.5rem" />
-                            <p>เลือกฟอร์มเพื่อดูการวิเคราะห์</p>
-                        </div>
+                        <div className="empty-state" style={{ textAlign: 'center', padding: 60 }}><div className="empty-state-emoji"><Icon name="chart-pie" size="3.5rem" /></div><div className="empty-state-sub">เลือกฟอร์มเพื่อดูการวิเคราะห์</div></div>
                     ) : (
                         <div className="stagger">
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(150px,1fr))', gap: 14, marginBottom: 20 }}>
                                 {[
-                                    { label: 'คำตอบทั้งหมด', val: respArray.length, icon: 'inbox' },
-                                    { label: 'จำนวนคำถาม', val: totalQuestions, icon: 'circle-question' },
-                                    { label: 'อัตราตอบครบ', val: `${completeRate}%`, icon: 'circle-check' },
+                                    { label: 'คำตอบทั้งหมด', val: resps.length, icon: 'inbox' },
+                                    { label: 'จำนวนคำถาม', val: (form.questions || []).length, icon: 'circle-question' },
+                                    { label: 'อัตราตอบครบ', val: `${resps.length > 0 ? Math.round(resps.filter(r => Object.keys(r.data).length === (form.questions || []).length).length / resps.length * 100) : 0}%`, icon: 'circle-check' },
                                 ].map((s, i) => (
                                     <div key={i} className="card stat-card">
-                                        <div style={{ fontSize: '1.4rem', marginBottom: 4 }}><Icon name={s.icon} size="1.4em" /></div>
+                                        <div style={{ fontSize: '1.4rem', marginBottom: 4 }}>
+                                            <Icon name={s.icon} size="1.4em" />
+                                        </div>
                                         <div className="stat-number" style={{ fontSize: '2rem' }}>{s.val}</div>
                                         <div className="stat-label">{s.label}</div>
                                     </div>
@@ -2874,16 +2737,16 @@
                             </div>
                             {(form.questions || []).filter(q => ['multiple', 'dropdown'].includes(q.type)).map(q => (
                                 <div key={q.id} className="card" style={{ padding: 22, marginBottom: 14 }}>
-                                    <h4 style={{ fontWeight: 700, marginBottom: 18, color: 'var(--p3)', fontFamily: 'var(--font-display)' }}>{q.title || '(ไม่มีชื่อ)'}</h4>
+                                    <h4 style={{ fontWeight: 700, marginBottom: 18, color: 'var(--p3)', fontFamily: 'var(--font-display)' }}>{q.title}</h4>
                                     <div className="chart-wrap"><canvas ref={el => chartRefs.current[q.id] = el} /></div>
                                 </div>
                             ))}
                             {(form.questions || []).filter(q => q.type === 'rating').map(q => {
-                                const vals = respArray.map(r => parseInt(r.data?.[q.id]) || 0).filter(v => v > 0);
+                                const vals = resps.map(r => parseInt(r.data[q.id]) || 0).filter(v => v > 0);
                                 const avg = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
                                 return (
                                     <div key={q.id} className="card" style={{ padding: 22, marginBottom: 14 }}>
-                                        <h4 style={{ fontWeight: 700, marginBottom: 14, color: 'var(--p3)', fontFamily: 'var(--font-display)' }}>{q.title || '(ไม่มีชื่อ)'}</h4>
+                                        <h4 style={{ fontWeight: 700, marginBottom: 14, color: 'var(--p3)', fontFamily: 'var(--font-display)' }}>{q.title}</h4>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
                                             <div style={{ fontSize: '2.4rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--p3)' }}>{avg.toFixed(1)}</div>
                                             <div>
@@ -2905,16 +2768,13 @@
             );
         }
 
-        function SettingsPage({ theme, onThemeChange, onLogout, refreshData, clearAllData, saveSettings, getSettings }) {
-            const [oldPw, setOldPw] = useState('');
-            const [newPw, setNewPw] = useState('');
-            const [gasUrl, setGasUrl] = useState(sessionStorage.getItem('ff_gasurl') || '');
-            const [toast, setToast] = useState(null);
-            const [saving, setSaving] = useState(false);
+        function SettingsPage({ theme, onThemeChange, onLogout }) {
+            const [oldPw, setOldPw] = useState(''); const [newPw, setNewPw] = useState('');
+            const [toast, setToast] = useState(null); const [gasUrl, setGasUrl] = useState(localStorage.getItem('ff_gasurl') || '');
             const addRipple = useRipple();
 
             const changePw = () => {
-                const cur = sessionStorage.getItem('ff_adminpw') || 'admin1234';
+                const cur = localStorage.getItem('ff_adminpw') || 'admin1234';
                 if (oldPw !== cur) {
                     showErrorAlert('เปลี่ยนรหัสผ่านไม่สำเร็จ', '💔 รหัสผ่านเดิมไม่ถูกต้อง');
                     return;
@@ -2939,7 +2799,7 @@
                     color: colors.txt,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        sessionStorage.setItem('ff_adminpw', newPw);
+                        localStorage.setItem('ff_adminpw', newPw);
                         setOldPw('');
                         setNewPw('');
                         showSuccessAlert('เปลี่ยนรหัสผ่านสำเร็จ', '🌸 รหัสผ่านถูกเปลี่ยนเรียบร้อยแล้ว');
@@ -2947,34 +2807,19 @@
                 });
             };
 
-            const saveGas = async () => {
-                if (!gasUrl.trim()) {
-                    showWarningAlert('กรุณากรอก URL', '⚠️ กรุณากรอก Google Apps Script URL');
-                    return;
-                }
-                setSaving(true);
-                try {
-                    sessionStorage.setItem('ff_gasurl', gasUrl);
-                    await saveSettings({ gasUrl });
-                    showSuccessAlert('บันทึก URL สำเร็จ', '✅ บันทึก URL เรียบร้อยแล้ว กำลังโหลดข้อมูล...');
-                    await refreshData();
-                } catch (err) {
-                    showErrorAlert('เกิดข้อผิดพลาด', err.message);
-                } finally {
-                    setSaving(false);
-                }
+            const saveGas = () => {
+                localStorage.setItem('ff_gasurl', gasUrl);
+                showSuccessAlert('บันทึก URL สำเร็จ', '✅ บันทึก URL เรียบร้อยแล้ว');
             };
 
-            const handleClearData = () => {
-                showDeleteConfirm('⚠️ ลบข้อมูลทั้งหมด?', 'คุณแน่ใจหรือไม่ที่จะลบข้อมูลทั้งหมดใน Google Sheets?<br><small style="color: #D04060">การกระทำนี้ไม่สามารถกู้คืนได้!</small>')
-                    .then(async (result) => {
+            const clearData = () => {
+                showDeleteConfirm('⚠️ ลบข้อมูลทั้งหมด?', 'คุณแน่ใจหรือไม่ที่จะลบข้อมูลทั้งหมด?<br><small style="color: #D04060">การกระทำนี้ไม่สามารถกู้คืนได้!</small>')
+                    .then((result) => {
                         if (result.isConfirmed) {
-                            try {
-                                await clearAllData();
-                                showSuccessAlert('ลบข้อมูลแล้ว', 'ข้อมูลทั้งหมดใน Google Sheets ถูกลบเรียบร้อยแล้ว');
-                            } catch (err) {
-                                showErrorAlert('เกิดข้อผิดพลาด', err.message);
-                            }
+                            localStorage.removeItem('ff_forms');
+                            localStorage.removeItem('ff_responses');
+                            showSuccessAlert('ลบข้อมูลแล้ว', 'ข้อมูลทั้งหมดถูกลบเรียบร้อยแล้ว กำลังรีเฟรชหน้า...');
+                            setTimeout(() => location.reload(), 1500);
                         }
                     });
             };
@@ -2994,7 +2839,9 @@
                     background: colors.card,
                     color: colors.txt,
                 }).then((result) => {
-                    if (result.isConfirmed) onLogout();
+                    if (result.isConfirmed) {
+                        onLogout();
+                    }
                 });
             };
 
@@ -3003,39 +2850,16 @@
                     {toast && <Toast msg={toast.msg} type={toast.type} onDone={() => setToast(null)} />}
 
                     <div className="card" style={{ padding: 26, marginBottom: 14 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
-                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white', fontSize: '0.9rem' }}><Icon name="chart-pie" /></div>
+                        <div className="settings-card-header" style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
+                            <div className="settings-icon" style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white', fontSize: '0.9rem' }}><Icon name="chart-pie" /></div>
                             ธีมและสีสัน
                         </div>
-                        <ThemePicker currentTheme={theme} onThemeChange={onThemeChange} />
+                        <ThemePicker currentTheme={theme} onThemeChange={onThemeChange} accent={''} onAccentChange={() => { }} />
                     </div>
 
                     <div className="card" style={{ padding: 26, marginBottom: 14 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
-                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white', fontSize: '0.9rem' }}><Icon name="cloud" /></div>
-                            เชื่อมต่อ Google Sheets
-                        </div>
-                        <p style={{ color: 'var(--txt2)', fontSize: '0.84rem', marginBottom: 16 }}>
-                            ตั้งค่า Google Apps Script Web App URL เพื่อเชื่อมต่อกับ Google Sheets
-                        </p>
-                        <div className="form-field">
-                            <label>🔗 GAS Web App URL</label>
-                            <input className="form-input" value={gasUrl} onChange={e => setGasUrl(e.target.value)}
-                                placeholder="https://script.google.com/macros/s/..." />
-                        </div>
-                        <button className="btn btn-primary ripple" onClick={e => { addRipple(e); saveGas(); }} disabled={saving}>
-                            {saving ? <><Icon name="spinner" /> กำลังบันทึก...</> : <><Icon name="floppy-disk" /> บันทึก URL และเชื่อมต่อ</>}
-                        </button>
-                        {gasUrl && (
-                            <div style={{ marginTop: 12, padding: '10px 14px', background: 'rgba(43,175,136,0.1)', borderRadius: 12, fontSize: '0.8rem', color: '#2BAF88', display: 'flex', alignItems: 'center', gap: 8 }}>
-                                <Icon name="circle-check" /> เชื่อมต่อกับ Google Sheets แล้ว
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="card" style={{ padding: 26, marginBottom: 14 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
-                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white', fontSize: '0.9rem' }}><Icon name="key" /></div>
+                        <div className="settings-card-header" style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
+                            <div className="settings-icon" style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white', fontSize: '0.9rem' }}><Icon name="key" /></div>
                             เปลี่ยนรหัสผ่าน
                         </div>
                         <div className="form-field">
@@ -3049,20 +2873,379 @@
                         <button className="btn btn-primary ripple" onClick={e => { addRipple(e); changePw(); }}><Icon name="key" /> บันทึกรหัสผ่านใหม่</button>
                     </div>
 
+                    <div className="card" style={{ padding: 26, marginBottom: 14 }}>
+                        <div className="settings-card-header" style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: 'var(--p3)', marginBottom: 20 }}>
+                            <div className="settings-icon" style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--p1), var(--p3))', color: 'white', fontSize: '0.9rem' }}><Icon name="cloud" /></div>
+                            Google Apps Script
+                        </div>
+                        <p style={{ color: 'var(--txt2)', fontSize: '0.84rem', marginBottom: 16 }}>เชื่อมต่อกับ Google Sheets ผ่าน Web App URL</p>
+                        <div className="form-field">
+                            <label>GAS Web App URL</label>
+                            <input className="form-input" value={gasUrl} onChange={e => setGasUrl(e.target.value)} placeholder="https://script.google.com/macros/s/..." />
+                        </div>
+                        <button className="btn btn-primary ripple" onClick={e => { addRipple(e); saveGas(); }}><Icon name="floppy-disk" /> บันทึก URL</button>
+                    </div>
+
                     <div className="card" style={{ padding: 26, marginBottom: 14, border: '2px solid rgba(208,64,96,0.2)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: '#D04060', marginBottom: 20 }}>
-                            <div style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg,#FFAAB0,#FF6070)', color: 'white', fontSize: '0.9rem' }}><Icon name="triangle-exclamation" /></div>
+                        <div className="settings-card-header" style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.02rem', color: '#D04060', marginBottom: 20 }}>
+                            <div className="settings-icon" style={{ width: 36, height: 36, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg,#FFAAB0,#FF6070)', color: 'white', fontSize: '0.9rem' }}><Icon name="triangle-exclamation" /></div>
                             โซนอันตราย
                         </div>
-                        <p style={{ color: 'var(--txt3)', fontSize: '0.84rem', marginBottom: 18 }}>การลบข้อมูลจะลบทุกอย่างใน Google Sheets และไม่สามารถกู้คืนได้</p>
+                        <p style={{ color: 'var(--txt3)', fontSize: '0.84rem', marginBottom: 18 }}>การลบข้อมูลจะไม่สามารถกู้คืนได้</p>
                         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                            <button className="btn btn-danger ripple" onClick={e => { addRipple(e); handleClearData(); }}>
-                                <Icon name="trash-can" /> ลบข้อมูลทั้งหมดใน Sheets
-                            </button>
+                            <button className="btn btn-danger ripple" onClick={e => { addRipple(e); clearData(); }}><Icon name="trash-can" /> ลบข้อมูลทั้งหมด</button>
                             <button className="btn btn-ghost" onClick={handleLogout} style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }}>
                                 <Icon name="arrow-right-from-bracket" /> ออกจากระบบ
                             </button>
                         </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function PublicForm({ form, onSubmit }) {
+            const [answers, setAnswers] = useState({});
+            const [stars, setStars] = useState({});
+            const [hover, setHover] = useState({});
+            const [submitted, setSubmitted] = useState(false);
+            const [errors, setErrors] = useState({});
+            const [fileUrls, setFileUrls] = useState({});
+            const [uploading, setUploading] = useState({});
+            const addRipple = useRipple();
+            const GAS_URL = localStorage.getItem('ff_gasurl') || '';
+
+            if (!form) return (
+                <div style={{ textAlign: 'center', padding: 80 }}>
+                    <span style={{ fontSize: '4rem' }}>🌸</span>
+                    <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--p3)', marginTop: 12 }}>ไม่พบฟอร์มนี้</h2>
+                </div>
+            );
+            if (!form.active) return (
+                <div style={{ textAlign: 'center', padding: 80 }}>
+                    <span style={{ fontSize: '4rem' }}>🔒</span>
+                    <h2 style={{ marginTop: 12 }}>ฟอร์มปิดรับคำตอบ</h2>
+                </div>
+            );
+            if (submitted) return (
+                <div className="public-wrap" style={{ alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ textAlign: 'center', background: 'var(--card)', padding: 48, borderRadius: 40, maxWidth: 400, width: '100%' }}>
+                        <span style={{ fontSize: '4rem' }}>🎉🌸</span>
+                        <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--p3)', margin: '12px 0' }}>ส่งคำตอบแล้ว!</h2>
+                        <p style={{ color: 'var(--txt2)', marginBottom: 24 }}>ขอบคุณที่ตอบแบบสอบถาม~</p>
+                        <button className="btn btn-primary ripple" onClick={e => {
+                            addRipple(e);
+                            setSubmitted(false);
+                            setAnswers({});
+                            setStars({});
+                            setFileUrls({});
+                        }}>
+                            <Icon name="paper-plane" /> ตอบอีกครั้ง
+                        </button>
+                    </div>
+                </div>
+            );
+
+            const accent = form.accentColor || 'var(--p3)';
+
+            const handleFileUpload = async (questionId, file) => {
+                if (!GAS_URL) {
+                    showErrorAlert('ไม่ได้ตั้งค่า GAS URL', '⚠️ กรุณาตั้งค่า Google Apps Script URL ในหน้า Settings ก่อน');
+                    return;
+                }
+                if (!file) return;
+                setUploading(prev => ({ ...prev, [questionId]: true }));
+
+                try {
+                    const reader = new FileReader();
+                    reader.onload = async (event) => {
+                        try {
+                            const base64Content = event.target.result.split(',')[1];
+                            const response = await fetch(GAS_URL, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    action: 'uploadFile',
+                                    data: {
+                                        formId: form.id,
+                                        formTitle: form.title,
+                                        questionId: questionId,
+                                        fileName: file.name,
+                                        fileContent: base64Content,
+                                        mimeType: file.type || 'application/octet-stream'
+                                    }
+                                })
+                            });
+
+                            const result = await response.json();
+                            if (result.success) {
+                                setFileUrls(prev => ({ ...prev, [questionId]: result.data.fileUrl }));
+                                setAnswers(a => ({ ...a, [questionId]: file.name }));
+                                showSuccessAlert('อัปโหลดสำเร็จ! 🎉', `ไฟล์ "${file.name}" อัปโหลดเรียบร้อยแล้ว`);
+                            } else {
+                                showErrorAlert('อัปโหลดล้มเหลว', result.message || 'เกิดข้อผิดพลาดในการอัปโหลด');
+                            }
+                        } catch (error) {
+                            showErrorAlert('ข้อผิดพลาด', 'เกิดข้อผิดพลาดในการอัปโหลด: ' + error.message);
+                        } finally {
+                            setUploading(prev => ({ ...prev, [questionId]: false }));
+                        }
+                    };
+                    reader.onerror = () => {
+                        showErrorAlert('ข้อผิดพลาด', 'ไม่สามารถอ่านไฟล์ได้');
+                        setUploading(prev => ({ ...prev, [questionId]: false }));
+                    };
+                    reader.readAsDataURL(file);
+                } catch (error) {
+                    showErrorAlert('ข้อผิดพลาด', 'เกิดข้อผิดพลาดในการอัปโหลด: ' + error.message);
+                    setUploading(prev => ({ ...prev, [questionId]: false }));
+                }
+            };
+
+            const handleSubmit = () => {
+                const errs = {};
+                (form.questions || []).forEach(q => {
+                    if (q.required && !answers[q.id] && !stars[q.id] && q.type !== 'upload') {
+                        errs[q.id] = '🌸 กรุณาตอบด้วยนะ';
+                    }
+                    if (q.required && q.type === 'upload' && !fileUrls[q.id]) {
+                        errs[q.id] = '📁 กรุณาอัปโหลดไฟล์ด้วยนะ';
+                    }
+                });
+
+                if (Object.keys(errs).length) {
+                    setErrors(errs);
+                    showWarningAlert('กรุณากรอกข้อมูลให้ครบ', 'มีคำถามที่จำเป็นยังไม่ได้ตอบนะคะ~');
+                    return;
+                }
+
+                const combined = { ...answers };
+                Object.entries(stars).forEach(([k, v]) => combined[k] = `${v}/5`);
+                onSubmit(form.id, combined, fileUrls);
+
+                confetti({
+                    particleCount: 150,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#F8B4C8', '#C4B5F4', '#90E0C8', '#FFB085', '#90C8F0', '#FFE070']
+                });
+                setSubmitted(true);
+
+                const colors = getThemeColors();
+                Swal.fire({
+                    title: '🎉 ส่งคำตอบสำเร็จ!',
+                    text: 'ขอบคุณที่ตอบแบบสอบถามนะคะ~',
+                    icon: 'success',
+                    confirmButtonColor: colors.p3,
+                    background: colors.card,
+                    color: colors.txt,
+                    timer: 3000,
+                    timerProgressBar: true,
+                });
+            };
+
+            return (
+                <div className="public-wrap" style={{ background: form.bgColor || 'var(--bg)' }}>
+                    <div className="public-card card">
+                        <div style={{ textAlign: 'center', marginBottom: 18 }}>
+                            {form.headerImage?.startsWith('http') ?
+                                <img src={form.headerImage} style={{ maxWidth: '100%', borderRadius: 20, marginBottom: 12 }} alt="" /> :
+                                <span style={{ fontSize: '3rem' }}>{form.headerImage || '🌸'}</span>
+                            }
+                        </div>
+                        <h1 style={{ fontFamily: 'var(--font-display)', color: accent, textAlign: 'center', marginBottom: 8 }}>
+                            {form.title}
+                        </h1>
+                        {form.description &&
+                            <p style={{ color: 'var(--txt2)', textAlign: 'center', marginBottom: 20 }}>
+                                {form.description}
+                            </p>
+                        }
+                        <div className="divider" />
+
+                        {(form.questions || []).map(q => (
+                            <div key={q.id} style={{ marginBottom: 22 }}>
+                                <p style={{ fontWeight: 700, marginBottom: 8, fontSize: '0.95rem' }}>
+                                    {q.title} {q.required && <span style={{ color: '#D04060' }}>*</span>}
+                                </p>
+                                {errors[q.id] &&
+                                    <div style={{ color: '#D04060', fontSize: '0.82rem', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 5 }}>
+                                        <Icon name="circle-exclamation" /> {errors[q.id]}
+                                    </div>
+                                }
+
+                                {q.type === 'short' &&
+                                    <input className="form-input" placeholder={q.placeholder}
+                                        value={answers[q.id] || ''}
+                                        onChange={e => {
+                                            setAnswers(a => ({ ...a, [q.id]: e.target.value }));
+                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
+                                        }}
+                                    />
+                                }
+
+                                {q.type === 'paragraph' &&
+                                    <textarea className="form-input" rows={3} placeholder={q.placeholder}
+                                        value={answers[q.id] || ''}
+                                        onChange={e => {
+                                            setAnswers(a => ({ ...a, [q.id]: e.target.value }));
+                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
+                                        }}
+                                    />
+                                }
+
+                                {q.type === 'multiple' && (q.options || []).map(opt => (
+                                    <div key={opt}
+                                        className={`custom-radio ${answers[q.id] === opt ? 'selected' : ''}`}
+                                        onClick={() => {
+                                            setAnswers(a => ({ ...a, [q.id]: opt }));
+                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
+                                        }}>
+                                        <div className="radio-dot" /> {opt}
+                                    </div>
+                                ))}
+
+                                {q.type === 'dropdown' && (
+                                    <select className="form-input"
+                                        value={answers[q.id] || ''}
+                                        onChange={e => {
+                                            setAnswers(a => ({ ...a, [q.id]: e.target.value }));
+                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
+                                        }}>
+                                        <option value="">-- เลือก --</option>
+                                        {(q.options || []).map(o => <option key={o} value={o}>{o}</option>)}
+                                    </select>
+                                )}
+
+                                {q.type === 'upload' && (
+                                    <div style={{ border: '2px dashed var(--border)', borderRadius: 20, padding: 24 }}>
+                                        <input
+                                            type="file"
+                                            id={`file-${q.id}`}
+                                            style={{ display: 'none' }}
+                                            onChange={(e) => {
+                                                const file = e.target.files[0];
+                                                if (file) handleFileUpload(q.id, file);
+                                            }}
+                                        />
+                                        <div style={{ textAlign: 'center', color: 'var(--txt3)' }}>
+                                            <Icon name="cloud-upload-alt"
+                                                style={{ fontSize: '2rem', marginBottom: 8, display: 'block', color: 'var(--p1)' }}
+                                            />
+                                            {uploading[q.id] ? (
+                                                <div>
+                                                    <Icon name="spinner" size="2rem" style={{ color: 'var(--p3)', marginBottom: 8 }} />
+                                                    <p style={{ color: 'var(--p3)', fontWeight: 600 }}>กำลังอัปโหลด... ⏳</p>
+                                                </div>
+                                            ) : fileUrls[q.id] ? (
+                                                <div>
+                                                    <p style={{ color: '#2BAF88', fontWeight: 600, marginBottom: 8 }}>
+                                                        ✅ อัปโหลดไฟล์สำเร็จ!
+                                                    </p>
+                                                    <p style={{ fontSize: '0.85rem', marginBottom: 4, color: 'var(--txt2)' }}>
+                                                        📄 {answers[q.id] || 'ไฟล์ของคุณ'}
+                                                    </p>
+                                                    <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 8, flexWrap: 'wrap' }}>
+                                                        <a href={fileUrls[q.id]} target="_blank" rel="noopener noreferrer"
+                                                            className="btn btn-ghost"
+                                                            style={{ padding: '6px 12px', fontSize: '0.8rem', textDecoration: 'none' }}>
+                                                            <Icon name="arrow-up-right-from-square" /> ดูไฟล์
+                                                        </a>
+                                                        <button className="btn btn-ghost"
+                                                            style={{ padding: '6px 12px', fontSize: '0.8rem' }}
+                                                            onClick={() => {
+                                                                setFileUrls(prev => {
+                                                                    const newUrls = { ...prev };
+                                                                    delete newUrls[q.id];
+                                                                    return newUrls;
+                                                                });
+                                                                setAnswers(prev => {
+                                                                    const newAnswers = { ...prev };
+                                                                    delete newAnswers[q.id];
+                                                                    return newAnswers;
+                                                                });
+                                                                const fileInput = document.getElementById(`file-${q.id}`);
+                                                                if (fileInput) fileInput.value = '';
+                                                            }}>
+                                                            <Icon name="xmark" /> ลบและเลือกใหม่
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <button className="btn btn-ghost"
+                                                        style={{ marginBottom: 8 }}
+                                                        onClick={() => {
+                                                            const fileInput = document.getElementById(`file-${q.id}`);
+                                                            if (fileInput) fileInput.click();
+                                                        }}>
+                                                        <Icon name="cloud-upload-alt" /> เลือกไฟล์เพื่ออัปโหลด
+                                                    </button>
+                                                    <p style={{ fontSize: '0.8rem' }}>
+                                                        📁 รองรับไฟล์ทุกประเภท (สูงสุด 50MB)
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {q.type === 'rating' && (
+                                    <div className="star-rating">
+                                        {[1, 2, 3, 4, 5].map(s => {
+                                            const current = hover[q.id] || stars[q.id] || 0;
+                                            const filled = s <= current;
+                                            return (
+                                                <span key={s}
+                                                    className="star"
+                                                    style={{ color: filled ? '#FFD060' : 'var(--border)', display: 'inline-flex' }}
+                                                    onMouseEnter={() => setHover(h => ({ ...h, [q.id]: s }))}
+                                                    onMouseLeave={() => setHover(h => ({ ...h, [q.id]: 0 }))}
+                                                    onClick={() => {
+                                                        setStars(st => ({ ...st, [q.id]: s }));
+                                                        setErrors(prev => ({ ...prev, [q.id]: undefined }));
+                                                    }}>
+                                                    <Icon name={filled ? 'star-filled' : 'star'}
+                                                        style={{ width: '1.3rem', height: '1.3rem' }}
+                                                        fill={filled}
+                                                    />
+                                                </span>
+                                            );
+                                        })}
+                                        {stars[q.id] && <span style={{ marginLeft: 8, fontWeight: 600 }}>{stars[q.id]}/5</span>}
+                                    </div>
+                                )}
+
+                                {q.type === 'date' &&
+                                    <input type="date" className="form-input"
+                                        value={answers[q.id] || ''}
+                                        onChange={e => {
+                                            setAnswers(a => ({ ...a, [q.id]: e.target.value }));
+                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
+                                        }}
+                                    />
+                                }
+
+                                {q.type === 'time' &&
+                                    <input type="time" className="form-input"
+                                        value={answers[q.id] || ''}
+                                        onChange={e => {
+                                            setAnswers(a => ({ ...a, [q.id]: e.target.value }));
+                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
+                                        }}
+                                    />
+                                }
+                            </div>
+                        ))}
+
+                        <div className="divider" />
+                        <button className="btn btn-primary ripple"
+                            style={{ width: '100%', justifyContent: 'center', padding: '14px', fontSize: '0.96rem' }}
+                            onClick={e => { addRipple(e); handleSubmit(); }}>
+                            <Icon name="paper-plane" /> ส่งคำตอบ 🌸
+                        </button>
+                        <p style={{ textAlign: 'center', color: 'var(--txt3)', fontSize: '0.76rem', marginTop: 12 }}>
+                            สร้างด้วย <strong style={{ color: 'var(--p3)' }}>FormFlow</strong>
+                        </p>
                     </div>
                 </div>
             );
@@ -3090,294 +3273,31 @@
             );
         }
 
-        function PublicForm({ form, onSubmit, uploadFile }) {
-            const [answers, setAnswers] = useState({});
-            const [stars, setStars] = useState({});
-            const [hover, setHover] = useState({});
-            const [submitted, setSubmitted] = useState(false);
-            const [errors, setErrors] = useState({});
-            const [fileUrls, setFileUrls] = useState({});
-            const [uploading, setUploading] = useState({});
-            const [submitting, setSubmitting] = useState(false);
-            const addRipple = useRipple();
-
-            if (!form) return (
-                <div style={{ textAlign: 'center', padding: 80 }}>
-                    <span style={{ fontSize: '4rem' }}>🌸</span>
-                    <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--p3)', marginTop: 12 }}>ไม่พบฟอร์มนี้</h2>
-                </div>
-            );
-
-            if (!form.active) return (
-                <div style={{ textAlign: 'center', padding: 80 }}>
-                    <span style={{ fontSize: '4rem' }}>🔒</span>
-                    <h2 style={{ marginTop: 12 }}>ฟอร์มปิดรับคำตอบ</h2>
-                </div>
-            );
-
-            if (submitted) return (
-                <div className="public-wrap" style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <div style={{ textAlign: 'center', background: 'var(--card)', padding: 48, borderRadius: 40, maxWidth: 400, width: '100%' }}>
-                        <span style={{ fontSize: '4rem' }}>🎉🌸</span>
-                        <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--p3)', margin: '12px 0' }}>ส่งคำตอบแล้ว!</h2>
-                        <p style={{ color: 'var(--txt2)', marginBottom: 24 }}>ขอบคุณที่ตอบแบบสอบถาม~</p>
-                        <button className="btn btn-primary ripple" onClick={e => {
-                            addRipple(e);
-                            setSubmitted(false);
-                            setAnswers({});
-                            setStars({});
-                            setFileUrls({});
-                            setErrors({});
-                        }}>
-                            <Icon name="paper-plane" /> ตอบอีกครั้ง
-                        </button>
-                    </div>
-                </div>
-            );
-
-            const accent = form.accentColor || 'var(--p3)';
-
-            const handleFileUpload = async (questionId, file) => {
-                if (!file) return;
-                setUploading(prev => ({ ...prev, [questionId]: true }));
-                try {
-                    const fileUrl = await uploadFile(form.id, questionId, file);
-                    setFileUrls(prev => ({ ...prev, [questionId]: fileUrl }));
-                    setAnswers(a => ({ ...a, [questionId]: file.name }));
-                    showSuccessAlert('อัปโหลดสำเร็จ! 🎉', `ไฟล์ "${file.name}" อัปโหลดเรียบร้อยแล้ว`);
-                } catch (err) {
-                    showErrorAlert('อัปโหลดล้มเหลว', err.message);
-                } finally {
-                    setUploading(prev => ({ ...prev, [questionId]: false }));
-                }
-            };
-
-            const handleSubmit = async () => {
-                const errs = {};
-                (form.questions || []).forEach(q => {
-                    if (q.required && !answers[q.id] && !stars[q.id] && q.type !== 'upload') {
-                        errs[q.id] = '🌸 กรุณาตอบด้วยนะ';
-                    }
-                    if (q.required && q.type === 'upload' && !fileUrls[q.id]) {
-                        errs[q.id] = '📁 กรุณาอัปโหลดไฟล์ด้วยนะ';
-                    }
-                });
-
-                if (Object.keys(errs).length > 0) {
-                    setErrors(errs);
-                    showWarningAlert('กรุณากรอกข้อมูลให้ครบ', 'มีคำถามที่จำเป็นยังไม่ได้ตอบนะคะ~');
-                    return;
-                }
-
-                setSubmitting(true);
-                try {
-                    const combined = { ...answers };
-                    Object.entries(stars).forEach(([k, v]) => combined[k] = `${v}/5`);
-                    await onSubmit(form.id, combined, fileUrls);
-
-                    confetti({
-                        particleCount: 150,
-                        spread: 80,
-                        origin: { y: 0.6 },
-                        colors: ['#F8B4C8', '#C4B5F4', '#90E0C8', '#FFB085', '#90C8F0', '#FFE070']
-                    });
-
-                    setSubmitted(true);
-                    const colors = getThemeColors();
-                    Swal.fire({
-                        title: '🎉 ส่งคำตอบสำเร็จ!',
-                        text: 'ขอบคุณที่ตอบแบบสอบถามนะคะ~',
-                        icon: 'success',
-                        confirmButtonColor: colors.p3,
-                        background: colors.card,
-                        color: colors.txt,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    });
-                } catch (err) {
-                    showErrorAlert('เกิดข้อผิดพลาด', err.message);
-                } finally {
-                    setSubmitting(false);
-                }
-            };
-
-            return (
-                <div className="public-wrap" style={{ background: form.bgColor || 'var(--bg)' }}>
-                    <div className="public-card card">
-                        <div style={{ textAlign: 'center', marginBottom: 18 }}>
-                            {form.headerImage && form.headerImage.startsWith('http') ?
-                                <img src={form.headerImage} style={{ maxWidth: '100%', borderRadius: 20, marginBottom: 12 }} alt="" /> :
-                                <span style={{ fontSize: '3rem' }}>{form.headerImage || '🌸'}</span>
-                            }
-                        </div>
-                        <h1 style={{ fontFamily: 'var(--font-display)', color: accent, textAlign: 'center', marginBottom: 8 }}>
-                            {form.title || 'แบบฟอร์ม'}
-                        </h1>
-                        {form.description && <p style={{ color: 'var(--txt2)', textAlign: 'center', marginBottom: 20 }}>{form.description}</p>}
-                        <div className="divider" />
-
-                        {(form.questions || []).map(q => (
-                            <div key={q.id} style={{ marginBottom: 22 }}>
-                                <p style={{ fontWeight: 700, marginBottom: 8, fontSize: '0.95rem' }}>
-                                    {q.title || '(ไม่มีชื่อ)'} {q.required && <span style={{ color: '#D04060' }}>*</span>}
-                                </p>
-                                {errors[q.id] && (
-                                    <div style={{ color: '#D04060', fontSize: '0.82rem', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 5 }}>
-                                        <Icon name="circle-exclamation" /> {errors[q.id]}
-                                    </div>
-                                )}
-
-                                {q.type === 'short' && (
-                                    <input className="form-input" placeholder={q.placeholder || ''}
-                                        value={answers[q.id] || ''}
-                                        onChange={e => { setAnswers(a => ({ ...a, [q.id]: e.target.value })); setErrors(prev => ({ ...prev, [q.id]: undefined })); }}
-                                    />
-                                )}
-
-                                {q.type === 'paragraph' && (
-                                    <textarea className="form-input" rows={3} placeholder={q.placeholder || ''}
-                                        value={answers[q.id] || ''}
-                                        onChange={e => { setAnswers(a => ({ ...a, [q.id]: e.target.value })); setErrors(prev => ({ ...prev, [q.id]: undefined })); }}
-                                    />
-                                )}
-
-                                {q.type === 'multiple' && (q.options || []).map(opt => (
-                                    <div key={opt} className={`custom-radio ${answers[q.id] === opt ? 'selected' : ''}`}
-                                        onClick={() => { setAnswers(a => ({ ...a, [q.id]: opt })); setErrors(prev => ({ ...prev, [q.id]: undefined })); }}>
-                                        <div className="radio-dot" /> {opt}
-                                    </div>
-                                ))}
-
-                                {q.type === 'dropdown' && (
-                                    <select className="form-input" value={answers[q.id] || ''}
-                                        onChange={e => { setAnswers(a => ({ ...a, [q.id]: e.target.value })); setErrors(prev => ({ ...prev, [q.id]: undefined })); }}>
-                                        <option value="">-- เลือก --</option>
-                                        {(q.options || []).map(o => <option key={o} value={o}>{o}</option>)}
-                                    </select>
-                                )}
-
-                                {q.type === 'upload' && (
-                                    <div style={{ border: '2px dashed var(--border)', borderRadius: 20, padding: 24 }}>
-                                        <input type="file" id={`file-${q.id}`} style={{ display: 'none' }}
-                                            onChange={(e) => { const file = e.target.files[0]; if (file) handleFileUpload(q.id, file); }}
-                                        />
-                                        <div style={{ textAlign: 'center', color: 'var(--txt3)' }}>
-                                            <Icon name="cloud-upload-alt" style={{ fontSize: '2rem', marginBottom: 8, display: 'block', color: 'var(--p1)' }} />
-                                            {uploading[q.id] ? (
-                                                <div>
-                                                    <Icon name="spinner" size="2rem" style={{ color: 'var(--p3)', marginBottom: 8 }} />
-                                                    <p style={{ color: 'var(--p3)', fontWeight: 600 }}>กำลังอัปโหลด... ⏳</p>
-                                                </div>
-                                            ) : fileUrls[q.id] ? (
-                                                <div>
-                                                    <p style={{ color: '#2BAF88', fontWeight: 600, marginBottom: 8 }}>✅ อัปโหลดไฟล์สำเร็จ!</p>
-                                                    <p style={{ fontSize: '0.85rem', marginBottom: 4, color: 'var(--txt2)' }}>📄 {answers[q.id] || 'ไฟล์ของคุณ'}</p>
-                                                    <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 8, flexWrap: 'wrap' }}>
-                                                        <a href={fileUrls[q.id]} target="_blank" rel="noopener noreferrer" className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: '0.8rem', textDecoration: 'none' }}>
-                                                            <Icon name="arrow-up-right-from-square" /> ดูไฟล์
-                                                        </a>
-                                                        <button className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: '0.8rem' }}
-                                                            onClick={() => {
-                                                                setFileUrls(prev => { const n = { ...prev }; delete n[q.id]; return n; });
-                                                                setAnswers(prev => { const n = { ...prev }; delete n[q.id]; return n; });
-                                                                const fi = document.getElementById(`file-${q.id}`); if (fi) fi.value = '';
-                                                            }}>
-                                                            <Icon name="xmark" /> ลบและเลือกใหม่
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div>
-                                                    <button className="btn btn-ghost" style={{ marginBottom: 8 }}
-                                                        onClick={() => { const fi = document.getElementById(`file-${q.id}`); if (fi) fi.click(); }}>
-                                                        <Icon name="cloud-upload-alt" /> เลือกไฟล์เพื่ออัปโหลด
-                                                    </button>
-                                                    <p style={{ fontSize: '0.8rem' }}>📁 รองรับไฟล์ทุกประเภท</p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                )}
-
-                                {q.type === 'rating' && (
-                                    <div className="star-rating">
-                                        {[1, 2, 3, 4, 5].map(s => {
-                                            const current = hover[q.id] || stars[q.id] || 0;
-                                            const filled = s <= current;
-                                            return (
-                                                <span key={s} className="star" style={{ color: filled ? '#FFD060' : 'var(--border)', display: 'inline-flex' }}
-                                                    onMouseEnter={() => setHover(h => ({ ...h, [q.id]: s }))}
-                                                    onMouseLeave={() => setHover(h => ({ ...h, [q.id]: 0 }))}
-                                                    onClick={() => { setStars(st => ({ ...st, [q.id]: s })); setErrors(prev => ({ ...prev, [q.id]: undefined })); }}>
-                                                    <Icon name={filled ? 'star-filled' : 'star'} style={{ width: '1.3rem', height: '1.3rem' }} fill={filled} />
-                                                </span>
-                                            );
-                                        })}
-                                        {stars[q.id] && <span style={{ marginLeft: 8, fontWeight: 600 }}>{stars[q.id]}/5</span>}
-                                    </div>
-                                )}
-
-                                {q.type === 'date' && (
-                                    <input type="date" className="form-input" value={answers[q.id] || ''}
-                                        onChange={e => { setAnswers(a => ({ ...a, [q.id]: e.target.value })); setErrors(prev => ({ ...prev, [q.id]: undefined })); }}
-                                    />
-                                )}
-
-                                {q.type === 'time' && (
-                                    <input type="time" className="form-input" value={answers[q.id] || ''}
-                                        onChange={e => { setAnswers(a => ({ ...a, [q.id]: e.target.value })); setErrors(prev => ({ ...prev, [q.id]: undefined })); }}
-                                    />
-                                )}
-                            </div>
-                        ))}
-
-                        <div className="divider" />
-                        <button className="btn btn-primary ripple" style={{ width: '100%', justifyContent: 'center', padding: '14px', fontSize: '0.96rem' }}
-                            onClick={e => { addRipple(e); handleSubmit(); }} disabled={submitting}>
-                            {submitting ? <><Icon name="spinner" /> กำลังส่ง...</> : <><Icon name="paper-plane" /> ส่งคำตอบ 🌸</>}
-                        </button>
-                        <p style={{ textAlign: 'center', color: 'var(--txt3)', fontSize: '0.76rem', marginTop: 12 }}>
-                            สร้างด้วย <strong style={{ color: 'var(--p3)' }}>FormFlow</strong>
-                        </p>
-                    </div>
-                </div>
-            );
-        }
-
-        // ============================================
-        // MAIN APP
-        // ============================================
         function App() {
             const [loggedIn, setLoggedIn] = useState(() => sessionStorage.getItem('ff_auth') === '1');
             const [page, setPage] = useState('dashboard');
             const [sidebarOpen, setSidebarOpen] = useState(false);
-            const [theme, setTheme] = useState(() => sessionStorage.getItem('ff_theme') || 'sakura');
+            const [theme, setTheme] = useState(() => localStorage.getItem('ff_theme') || 'sakura');
+            const [accent, setAccent] = useState('');
             const [toast, setToast] = useState(null);
             const [urlModal, setUrlModal] = useState(null);
             const [showScroll, setShowScroll] = useState(false);
-
-            const {
-                forms, responses, loading, error, initialized,
-                addForm, updateForm, deleteForm, addResponse, uploadFile,
-                deleteResponse, clearAllData, saveSettings, getSettings,
-                refreshData
-            } = useStore();
+            const { forms, responses, addForm, updateForm, deleteForm, addResponse, loadFormsFromGAS } = useStore();
 
             const params = new URLSearchParams(location.search);
             const publicFormId = params.get('form');
 
             useEffect(() => { applyTheme(theme); }, [theme]);
 
-            const handleThemeChange = t => {
-                setTheme(t);
-                sessionStorage.setItem('ff_theme', t);
-                applyTheme(t);
-            };
+            useEffect(() => {
+                if (loggedIn) {
+                    loadFormsFromGAS();
+                }
+            }, [loggedIn, loadFormsFromGAS]);
 
             useEffect(() => {
                 const h = () => setShowScroll(scrollY > 300);
-                addEventListener('scroll', h);
-                return () => removeEventListener('scroll', h);
+                addEventListener('scroll', h); return () => removeEventListener('scroll', h);
             }, []);
 
             const handleLogin = () => {
@@ -3385,7 +3305,6 @@
                 setLoggedIn(true);
                 showSuccessAlert('เข้าสู่ระบบสำเร็จ!', 'ยินดีต้อนรับสู่ FormFlow นะคะ~ 🌸');
             };
-
             const handleLogout = () => {
                 sessionStorage.removeItem('ff_auth');
                 setLoggedIn(false);
@@ -3399,33 +3318,11 @@
                 settings: <><Icon name="sliders" /> ตั้งค่า</>
             };
 
-            // Loading screen
-            if (loading && loggedIn) {
-                return (
-                    <div className="loading-overlay">
-                        <Icon name="spinner" size="3rem" style={{ color: 'var(--p3)' }} />
-                        <p className="loading-text">กำลังโหลดข้อมูลจาก Google Sheets...</p>
-                    </div>
-                );
-            }
-
-            // Public form view
             if (publicFormId) {
                 const form = forms.find(f => f.id === publicFormId);
-                return <PublicForm form={form} onSubmit={addResponse} uploadFile={uploadFile} />;
+                return <PublicForm form={form} onSubmit={(id, d, fileUrls) => { addResponse(id, d, fileUrls); }} />;
             }
-
-            // Login screen
             if (!loggedIn) return <LoginScreen onLogin={handleLogin} />;
-
-            // No GAS URL configured
-            if (!initialized && !loading && !error) {
-                return (
-                    <>
-                        <LoginScreen onLogin={handleLogin} />
-                    </>
-                );
-            }
 
             return (
                 <>
@@ -3438,44 +3335,23 @@
                         <TopBar
                             title={pageTitles[page] || 'FormFlow'}
                             onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-                            theme={theme}
-                            onThemeChange={handleThemeChange}
+                            theme={theme} onThemeChange={setTheme}
+                            accent={accent} onAccentChange={setAccent}
                             onLogout={handleLogout}
                         />
-                        {error && (
-                            <div style={{ padding: '12px 20px', background: 'rgba(255,96,112,0.1)', border: '2px solid rgba(255,96,112,0.3)', borderRadius: 20, marginBottom: 16, color: '#D04060', display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                                <Icon name="circle-exclamation" />
-                                <span style={{ flex: 1 }}>{error}</span>
-                                <button className="btn btn-ghost" style={{ padding: '4px 12px', fontSize: '0.8rem' }} onClick={refreshData}>
-                                    <Icon name="arrow-up" /> ลองใหม่
-                                </button>
-                            </div>
-                        )}
                         {page === 'dashboard' && <DashboardPage forms={forms} responses={responses} />}
                         {page === 'forms' && (
-                            <FormsPage
-                                forms={forms} responses={responses}
-                                onAdd={addForm}
-                                onEdit={updateForm}
-                                onDelete={deleteForm}
-                                onToggle={(id, v) => updateForm(id, { active: v })}
+                            <FormsPage forms={forms} responses={responses}
+                                onAdd={f => { addForm(f); }}
+                                onEdit={(id, f) => { updateForm(id, f); }}
+                                onDelete={id => { deleteForm(id); }}
+                                onToggle={(id, v) => { updateForm(id, { active: v }); }}
                                 onViewUrl={f => setUrlModal(f)}
-                                loading={loading}
                             />
                         )}
-                        {page === 'responses' && <ResponsesPage forms={forms} responses={responses} onDeleteResponse={deleteResponse} />}
+                        {page === 'responses' && <ResponsesPage forms={forms} responses={responses} />}
                         {page === 'analytics' && <AnalyticsPage forms={forms} responses={responses} />}
-                        {page === 'settings' && (
-                            <SettingsPage
-                                theme={theme}
-                                onThemeChange={handleThemeChange}
-                                onLogout={handleLogout}
-                                refreshData={refreshData}
-                                clearAllData={clearAllData}
-                                saveSettings={saveSettings}
-                                getSettings={getSettings}
-                            />
-                        )}
+                        {page === 'settings' && <SettingsPage theme={theme} onThemeChange={setTheme} onLogout={handleLogout} />}
                     </main>
                     <BottomNav page={page} setPage={setPage} />
                     <div className={`scroll-top-btn ${showScroll ? 'visible' : ''}`} onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}>
@@ -3483,6 +3359,12 @@
                     </div>
                     <style>{`
                         @media(max-width:768px){#menu-btn{display:flex!important;}}
+                        .stagger>*{animation:pageEnter 0.38s cubic-bezier(0.4,0,0.2,1) both;}
+                        .empty-state{text-align:center;padding:60px;color:var(--txt3);}
+                        .empty-state-emoji{font-size:3.5rem;margin-bottom:14px;}
+                        .empty-state-title{font-weight:700;font-size:1rem;color:var(--txt2);margin-bottom:6px;}
+                        .empty-state-sub{font-size:0.85rem;}
+                        .theme-preview-bar{height:5px;border-radius:4px;background:linear-gradient(90deg,var(--p1),var(--p2),var(--p3));margin-bottom:12px;}
                     `}</style>
                 </>
             );
