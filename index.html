@@ -79,7 +79,14 @@
             'calendar': 'M8 2v4 M16 2v4 M3 10h18 M19 6H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z',
             'arrow-up-right-from-square': 'M7 17L17 7 M7 7h10v10',
             'file-circle-plus': 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M12 18v-6 M9 15h6',
-            'copy': 'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1 M9 21h9a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-9a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z'
+            'copy': 'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1 M9 21h9a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-9a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z',
+            'cloud-download': 'M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z M12 12v6 M10 17l2 2 2-2',
+            'file-image': 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M8 12h.01 M8 16h.01 M16 12h.01 M16 16h.01 M10 9a2 2 0 1 0 0-4 2 2 0 0 0 0 4z',
+            'file-pdf': 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M8 12h8 M8 16h5',
+            'file': 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6',
+            'folder-open': 'M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z',
+            'download': 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3',
+            'eye': 'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'
         };
 
         function Icon({ name, size = '1em', className = '', style = {}, fill = false }) {
@@ -127,10 +134,54 @@
             { value: 'rating', label: 'ให้คะแนน', icon: 'star' },
             { value: 'date', label: 'วันที่', icon: 'calendar-days' },
             { value: 'time', label: 'เวลา', icon: 'clock-rotate-left' },
+            { value: 'file', label: 'อัปโหลดไฟล์', icon: 'cloud-upload-alt' },
         ];
+
+        // ขนาดไฟล์สูงสุด 10MB
+        const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+        // ประเภทไฟล์ที่รองรับ
+        const ALLOWED_FILE_TYPES = [
+            'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp',
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-powerpoint',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'text/plain', 'text/csv',
+            'application/zip', 'application/x-rar-compressed', 'application/x-7z-compressed',
+            'application/octet-stream'
+        ];
+
+        const ALLOWED_EXTENSIONS = '.jpg,.jpeg,.png,.gif,.webp,.bmp,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.rar,.7z';
 
         const generateId = () => Math.random().toString(36).substr(2, 9);
         const getFormUrl = (id) => `${location.origin}${location.pathname}?form=${id}`;
+
+        // ฟังก์ชันสำหรับดูว่าไฟล์เป็นรูปภาพหรือไม่
+        const isImageFile = (mimeType) => mimeType && mimeType.startsWith('image/');
+
+        // ฟังก์ชันสำหรับหาไอคอนตามประเภทไฟล์
+        const getFileIcon = (mimeType) => {
+            if (!mimeType) return 'file';
+            if (mimeType.startsWith('image/')) return 'file-image';
+            if (mimeType.includes('pdf')) return 'file-pdf';
+            if (mimeType.includes('word') || mimeType.includes('document')) return 'file-lines';
+            if (mimeType.includes('spreadsheet') || mimeType.includes('excel')) return 'file-lines';
+            if (mimeType.includes('zip') || mimeType.includes('rar') || mimeType.includes('compressed')) return 'file';
+            return 'file';
+        };
+
+        // ฟังก์ชันฟอร์แมตขนาดไฟล์
+        const formatFileSize = (bytes) => {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        };
 
         function applyTheme(themeId) {
             document.documentElement.setAttribute('data-theme', themeId);
@@ -149,6 +200,9 @@
             };
         }
 
+        /* ============================================
+           SWEETALERT HELPERS
+        ============================================ */
         const showSuccessAlert = (title, text) => {
             const colors = getThemeColors();
             return Swal.fire({
@@ -214,6 +268,20 @@
             });
         };
 
+        const showToast = (icon, title) => {
+            const colors = getThemeColors();
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2500,
+                timerProgressBar: true,
+                background: colors.card,
+                color: colors.txt,
+            });
+            return Toast.fire({ icon, title });
+        };
+
         function useRipple() {
             return useCallback((e) => {
                 const btn = e.currentTarget;
@@ -230,10 +298,9 @@
         /* ============================================
            GAS CONFIG — เชื่อมต่อ Google Apps Script
         ============================================ */
-        const GAS_URL = 'https://script.google.com/macros/s/AKfycbyd3saUpA4KajuPTVUwyu-geMcQHUh75Bu7tTlsFm69UvWd3rpyeD84SWegS0P6PO9nYw/exec';
-        const GAS_TOKEN = 'FormFlow_Secret_2024_XyZ!@#';  // ต้องตรงกับ SECRET_TOKEN ใน code.gs
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbzjebIKqR0G91MKXODUhbZgdpq6gsUaPLaZ05kFEAvAgc7syI1kbeeupB79LZm1GYnVoQ/exec';
+        const GAS_TOKEN = 'FormFlow_Secret_2024_XyZ!@#';
 
-        /* Helper: POST ไปยัง GAS */
         async function gasPost(payload) {
             const res = await fetch(GAS_URL, {
                 method: 'POST',
@@ -242,21 +309,54 @@
             return res.json();
         }
 
-        /* Helper: GET จาก GAS */
         async function gasGet(params = {}) {
             const qs = new URLSearchParams({ ...params, token: GAS_TOKEN }).toString();
             const res = await fetch(`${GAS_URL}?${qs}`);
             return res.json();
         }
 
-        /* Store พร้อม GAS Integration */
+        // ฟังก์ชันอัปโหลดไฟล์ไปยัง GAS
+        async function uploadFileToGAS(formId, questionId, file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('formId', formId);
+            formData.append('questionId', questionId);
+            formData.append('fileName', file.name);
+            formData.append('token', GAS_TOKEN);
+            formData.append('action', 'uploadFile');
+
+            const res = await fetch(GAS_URL, {
+                method: 'POST',
+                body: formData
+            });
+            return res.json();
+        }
+
+        // ฟังก์ชันดาวน์โหลดไฟล์
+        function downloadFileFromGAS(fileId, fileName) {
+            const url = `${GAS_URL}?action=download&fileId=${fileId}`;
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName || 'download';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // ฟังก์ชันดึง URL สำหรับ preview รูปภาพ
+        function getPreviewUrl(fileId) {
+            return `${GAS_URL}?action=preview&fileId=${fileId}`;
+        }
+
+        /* ============================================
+           STORE
+        ============================================ */
         function useStore() {
             const [forms, setForms] = useState([]);
             const [responses, setResponses] = useState({});
             const [gasLoading, setGasLoading] = useState(true);
             const [gasError, setGasError] = useState(null);
 
-            /* โหลดข้อมูลจาก Google Sheets ทุกครั้งที่เปิดหน้า */
             useEffect(() => {
                 let cancelled = false;
                 setGasLoading(true);
@@ -273,13 +373,11 @@
                 return () => { cancelled = true; };
             }, []);
 
-            /* บันทึก Forms → Sheets แล้วอัพเดต State */
             const saveForms = useCallback(async (f) => {
                 setForms(f);
                 await gasPost({ action: 'saveForms', forms: f });
             }, []);
 
-            /* บันทึก Responses → Sheets แล้วอัพเดต State */
             const saveResp = useCallback(async (r) => {
                 setResponses(r);
                 await gasPost({ action: 'saveResponses', responses: r });
@@ -372,10 +470,8 @@
                 setLoading(true);
                 setErr('');
                 try {
-                    // ดึง password จาก Google Sheets
                     const data = await gasGet({ action: 'getAll' });
                     const PASS = (data.settings?.adminpw) || 'admin1234';
-                    // แคชไว้ใช้ใน SettingsPage
                     sessionStorage.setItem('ff_adminpw_cache', PASS);
                     if (pw === PASS) {
                         confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 }, colors: ['#F8B4C8', '#C4B5F4', '#90E0C8', '#FFB085', '#FFE070'] });
@@ -385,7 +481,6 @@
                         showErrorAlert('เข้าสู่ระบบไม่สำเร็จ', 'รหัสผ่านไม่ถูกต้องนะคะ ลองใหม่อีกครั้ง~');
                     }
                 } catch (ex) {
-                    // fallback: ถ้าเชื่อมต่อไม่ได้ ใช้ค่า default
                     const PASS = sessionStorage.getItem('ff_adminpw_cache') || 'admin1234';
                     if (pw === PASS) {
                         onLogin();
@@ -436,6 +531,7 @@
                 { id: 'forms', icon: 'file-heart', label: 'ฟอร์มทั้งหมด' },
                 { id: 'responses', icon: 'inbox', label: 'คำตอบ' },
                 { id: 'analytics', icon: 'chart-pie', label: 'วิเคราะห์' },
+                { id: 'files', icon: 'folder-open', label: 'ไฟล์ทั้งหมด' },
                 { id: 'settings', icon: 'sliders', label: 'ตั้งค่า' },
             ];
 
@@ -501,20 +597,7 @@
                             <div key={t.id} className={`theme-swatch ${currentTheme === t.id ? 'active' : ''}`}
                                 onClick={() => {
                                     onThemeChange(t.id);
-                                    const colors = getThemeColors();
-                                    const Toast = Swal.mixin({
-                                        toast: true,
-                                        position: 'top-end',
-                                        showConfirmButton: false,
-                                        timer: 2000,
-                                        timerProgressBar: true,
-                                        background: colors.card,
-                                        color: colors.txt,
-                                    });
-                                    Toast.fire({
-                                        icon: 'success',
-                                        title: `เปลี่ยนเป็นธีม ${t.label} แล้ว!`
-                                    });
+                                    showToast('success', `เปลี่ยนเป็นธีม ${t.label} แล้ว!`);
                                 }}>
                                 <div className="theme-swatch-dot" style={{
                                     background: `linear-gradient(135deg, ${t.dot[0]}, ${t.dot[1]})`
@@ -569,6 +652,9 @@
                         <button className="btn-icon" onClick={handleLogout} title="ออกจากระบบ">
                             <Icon name="arrow-right-from-bracket" />
                         </button>
+                        <button className="btn-icon" onClick={() => setShowTheme(!showTheme)} title="เปลี่ยนธีม">
+                            <Icon name="sliders" />
+                        </button>
                         {showTheme && (
                             <div className="theme-picker-panel">
                                 <ThemePicker currentTheme={theme} onThemeChange={t => { onThemeChange(t); setShowTheme(false); }} accent={accent} onAccentChange={onAccentChange} />
@@ -586,10 +672,14 @@
                 required: question?.required || false,
                 options: question?.options || ['ตัวเลือกที่ 1'],
                 placeholder: question?.placeholder || '',
+                fileTypes: question?.fileTypes || ALLOWED_EXTENSIONS,
+                maxFileSize: question?.maxFileSize || MAX_FILE_SIZE,
             });
             const set = (k, v) => setData(d => ({ ...d, [k]: v }));
             const needsOpts = ['multiple', 'dropdown'].includes(data.type);
+            const isFileType = data.type === 'file';
             const addRipple = useRipple();
+
             const handleSave = () => {
                 if (!data.title.trim()) {
                     showWarningAlert('กรุณากรอกข้อมูล', '💬 ใส่ชื่อคำถามด้วยนะ~');
@@ -598,6 +688,7 @@
                 onSave(data);
                 onClose();
             };
+
             return (
                 <div className="modal-overlay" style={{ zIndex: 1100 }} onClick={e => e.target === e.currentTarget && onClose()}>
                     <div className="modal-box card">
@@ -615,10 +706,33 @@
                                 {QUESTION_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
                             </select>
                         </div>
-                        <div className="form-field">
-                            <label>ข้อความแนะนำ</label>
-                            <input className="form-input" placeholder="ข้อความแสดงในช่อง" value={data.placeholder} onChange={e => set('placeholder', e.target.value)} />
-                        </div>
+
+                        {!isFileType && (
+                            <div className="form-field">
+                                <label>ข้อความแนะนำ</label>
+                                <input className="form-input" placeholder="ข้อความแสดงในช่อง" value={data.placeholder} onChange={e => set('placeholder', e.target.value)} />
+                            </div>
+                        )}
+
+                        {isFileType && (
+                            <>
+                                <div className="form-field">
+                                    <label>📋 คำแนะนำการอัปโหลด</label>
+                                    <input className="form-input" placeholder="เช่น อัปโหลดรูปภาพหรือเอกสาร..." value={data.placeholder} onChange={e => set('placeholder', e.target.value)} />
+                                </div>
+                                <div className="form-field">
+                                    <label>📁 ประเภทไฟล์ที่รองรับ (นามสกุลไฟล์)</label>
+                                    <input className="form-input" value={data.fileTypes} onChange={e => set('fileTypes', e.target.value)} placeholder=".jpg,.png,.pdf" />
+                                    <small style={{ color: 'var(--txt3)', fontSize: '0.75rem' }}>ค่าเริ่มต้น: {ALLOWED_EXTENSIONS}</small>
+                                </div>
+                                <div className="form-field">
+                                    <label>📏 ขนาดไฟล์สูงสุด (MB)</label>
+                                    <input type="number" className="form-input" value={Math.round(data.maxFileSize / (1024 * 1024))} onChange={e => set('maxFileSize', parseInt(e.target.value) * 1024 * 1024)} min="1" max="50" />
+                                    <small style={{ color: 'var(--txt3)', fontSize: '0.75rem' }}>สูงสุด 50MB (แนะนำไม่เกิน 10MB)</small>
+                                </div>
+                            </>
+                        )}
+
                         {needsOpts && (
                             <div className="form-field">
                                 <label>🎯 ตัวเลือก</label>
@@ -685,6 +799,7 @@
                 const qs = [...data.questions]; const [m] = qs.splice(dragIdx, 1); qs.splice(idx, 0, m);
                 set('questions', qs); setDragIdx(idx);
             };
+
             return (
                 <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
                     <div className="modal-box card">
@@ -754,6 +869,7 @@
                                         </div>
                                         <p style={{ fontWeight: 600, fontSize: '0.9rem' }}>{q.title || '(ไม่มีชื่อ)'}</p>
                                         {q.options?.length > 0 && <p style={{ color: 'var(--txt3)', fontSize: '0.78rem', marginTop: 2 }}>{q.options.length} ตัวเลือก</p>}
+                                        {q.type === 'file' && <p style={{ color: 'var(--txt3)', fontSize: '0.78rem', marginTop: 2 }}>📁 รองรับไฟล์: {q.fileTypes || ALLOWED_EXTENSIONS}</p>}
                                     </div>
                                     <div style={{ display: 'flex', gap: 5 }}>
                                         <button className="btn-icon" onClick={() => setQModal(q)}><Icon name="pen-to-square" /></button>
@@ -775,6 +891,53 @@
             );
         }
 
+        // File Preview Modal
+        function FilePreviewModal({ fileInfo, onClose }) {
+            const isImage = fileInfo && isImageFile(fileInfo.mimeType);
+            const previewUrl = fileInfo ? getPreviewUrl(fileInfo.id) : '';
+
+            return (
+                <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
+                    <div className="modal-box card" style={{ maxWidth: 700 }}>
+                        <div className="modal-title">
+                            <Icon name="eye" /> ดูไฟล์
+                        </div>
+                        {fileInfo && (
+                            <>
+                                <div style={{ marginBottom: 16 }}>
+                                    <p style={{ fontWeight: 700, fontSize: '1rem', marginBottom: 4 }}>{fileInfo.name}</p>
+                                    <p style={{ color: 'var(--txt3)', fontSize: '0.82rem' }}>
+                                        ขนาด: {formatFileSize(fileInfo.size)} |
+                                        ประเภท: {fileInfo.mimeType} |
+                                        อัปโหลดเมื่อ: {new Date(fileInfo.createdDate || fileInfo.uploadedAt).toLocaleString('th-TH')}
+                                    </p>
+                                </div>
+                                {isImage ? (
+                                    <div style={{ textAlign: 'center', background: '#00000010', borderRadius: 'var(--radius)', padding: 16, marginBottom: 16 }}>
+                                        <img src={previewUrl} alt={fileInfo.name} style={{ maxWidth: '100%', maxHeight: 500, objectFit: 'contain', borderRadius: 'var(--radius-sm)' }} />
+                                    </div>
+                                ) : (
+                                    <div style={{ textAlign: 'center', padding: 40, background: 'var(--bg2)', borderRadius: 'var(--radius)', marginBottom: 16 }}>
+                                        <Icon name={getFileIcon(fileInfo.mimeType)} size="4em" style={{ color: 'var(--p3)', marginBottom: 12 }} />
+                                        <p style={{ color: 'var(--txt2)', fontWeight: 600 }}>ไม่สามารถแสดงตัวอย่างไฟล์นี้ได้</p>
+                                        <p style={{ color: 'var(--txt3)', fontSize: '0.85rem' }}>กรุณาดาวน์โหลดเพื่อดูไฟล์</p>
+                                    </div>
+                                )}
+                                <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+                                    <button className="btn btn-primary ripple" onClick={() => downloadFileFromGAS(fileInfo.id, fileInfo.name)}>
+                                        <Icon name="download" /> ดาวน์โหลด
+                                    </button>
+                                    <button className="btn btn-ghost" onClick={onClose}>
+                                        <Icon name="xmark" /> ปิด
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
         function DashboardPage({ forms, responses }) {
             const totalForms = forms.length;
             const activeForms = forms.filter(f => f.active).length;
@@ -787,6 +950,7 @@
                 { label: 'เดือนนี้', val: thisMonth, icon: 'calendar-days' },
             ];
             const chartRef = useRef(null), chartRef2 = useRef(null), c1 = useRef(null), c2 = useRef(null);
+
             useEffect(() => {
                 if (!chartRef.current) return;
                 c1.current?.destroy();
@@ -815,6 +979,7 @@
                 });
                 return () => c1.current?.destroy();
             }, [responses]);
+
             useEffect(() => {
                 if (!chartRef2.current || forms.length === 0) return;
                 c2.current?.destroy();
@@ -924,11 +1089,9 @@
 
             const handleToggle = (form, newStatus) => {
                 const action = newStatus ? 'เปิด' : 'ปิด';
-                const emoji = newStatus ? '📬' : '🔒';
                 const colors = getThemeColors();
-
                 Swal.fire({
-                    title: `${emoji} ${action}รับคำตอบ?`,
+                    title: `${newStatus ? '📬' : '🔒'} ${action}รับคำตอบ?`,
                     html: `คุณต้องการ${action}รับคำตอบสำหรับฟอร์ม "${form.title}" ใช่หรือไม่?`,
                     icon: 'question',
                     showCancelButton: true,
@@ -942,7 +1105,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         onToggle(form.id, newStatus);
-                        showSuccessAlert(`${action}รับคำตอบแล้ว`, `ฟอร์ม "${form.title}" ${action}รับคำตอบเรียบร้อยแล้ว`);
+                        showToast('success', `${action}รับคำตอบเรียบร้อยแล้ว!`);
                     }
                 });
             };
@@ -987,7 +1150,7 @@
                                         </div>
                                         <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
                                             <button className="btn-icon" title="ลิงก์ฟอร์ม" onClick={() => onViewUrl(f)}><Icon name="link" /></button>
-                                            <label className="toggle" title="เปิด/ปิด" onClick={() => handleToggle(f, !f.active)}>
+                                            <label className="toggle" title="เปิด/ปิด" onClick={(e) => { e.stopPropagation(); handleToggle(f, !f.active); }}>
                                                 <input type="checkbox" checked={f.active} readOnly />
                                                 <span className="toggle-slider" />
                                             </label>
@@ -1014,20 +1177,7 @@
                 navigator.clipboard?.writeText(url);
                 setCopied(true);
                 setTimeout(() => setCopied(false), 2000);
-                const colors = getThemeColors();
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    timerProgressBar: true,
-                    background: colors.card,
-                    color: colors.txt,
-                });
-                Toast.fire({
-                    icon: 'success',
-                    title: '📋 คัดลอกลิงก์แล้ว!'
-                });
+                showToast('success', '📋 คัดลอกลิงก์แล้ว!');
             };
             return (
                 <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
@@ -1107,14 +1257,39 @@
                             <div className="modal-box card">
                                 <div className="modal-title"><Icon name="file-lines" /> 📋 รายละเอียดคำตอบ</div>
                                 <p style={{ color: 'var(--txt3)', fontSize: '0.82rem', marginBottom: 22 }}>ส่งเมื่อ {new Date(viewResp.submittedAt).toLocaleString('th-TH')}</p>
-                                {(form.questions || []).map(q => (
-                                    <div key={q.id} style={{ marginBottom: 14, padding: '12px 16px', background: 'var(--bg2)', borderRadius: 'var(--radius-sm)' }}>
-                                        <p style={{ fontWeight: 700, fontSize: '0.76rem', color: 'var(--txt3)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 4 }}>{q.title}</p>
-                                        <p style={{ fontWeight: 500, fontSize: '0.9rem' }}>
-                                            {viewResp.data[q.id] || <em style={{ color: 'var(--txt3)' }}>ไม่ได้ตอบ</em>}
-                                        </p>
-                                    </div>
-                                ))}
+                                {(form.questions || []).map(q => {
+                                    const answer = viewResp.data[q.id];
+                                    let fileInfo = null;
+                                    if (q.type === 'file' && answer) {
+                                        try { fileInfo = JSON.parse(answer); } catch (e) { fileInfo = null; }
+                                    }
+
+                                    return (
+                                        <div key={q.id} style={{ marginBottom: 14, padding: '12px 16px', background: 'var(--bg2)', borderRadius: 'var(--radius-sm)' }}>
+                                            <p style={{ fontWeight: 700, fontSize: '0.76rem', color: 'var(--txt3)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 4 }}>
+                                                <Icon name={QUESTION_TYPES.find(t => t.value === q.type)?.icon || 'circle-question'} style={{ marginRight: 4 }} />{q.title}
+                                            </p>
+                                            {q.type === 'file' && fileInfo ? (
+                                                <div style={{ marginTop: 8, padding: '10px 14px', background: 'var(--bg3)', borderRadius: 'var(--radius-sm)' }}>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                                                        <Icon name={getFileIcon(fileInfo.mimeType)} size="1.5em" style={{ color: 'var(--p3)' }} />
+                                                        <div style={{ flex: 1 }}>
+                                                            <p style={{ fontWeight: 600, fontSize: '0.85rem' }}>{fileInfo.name}</p>
+                                                            <p style={{ fontSize: '0.75rem', color: 'var(--txt3)' }}>{formatFileSize(fileInfo.size)}</p>
+                                                        </div>
+                                                        <button className="btn-icon" title="ดาวน์โหลด" onClick={() => downloadFileFromGAS(fileInfo.id, fileInfo.name)}>
+                                                            <Icon name="download" />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <p style={{ fontWeight: 500, fontSize: '0.9rem' }}>
+                                                    {answer || <em style={{ color: 'var(--txt3)' }}>ไม่ได้ตอบ</em>}
+                                                </p>
+                                            )}
+                                        </div>
+                                    );
+                                })}
                                 <div style={{ marginTop: 10, display: 'flex', gap: 10 }}>
                                     <button className="btn btn-ghost" onClick={() => setViewResp(null)}><Icon name="xmark" /> ปิด</button>
                                     <button className="btn btn-danger" onClick={() => {
@@ -1136,6 +1311,7 @@
             const form = forms.find(f => f.id === selForm);
             const resps = responses[selForm] || [];
             const chartRefs = useRef({}), charts = useRef({});
+
             useEffect(() => {
                 if (!form) return;
                 (form.questions || []).filter(q => ['multiple', 'dropdown'].includes(q.type)).forEach(q => {
@@ -1157,6 +1333,7 @@
                 });
                 return () => Object.values(charts.current).forEach(c => c?.destroy());
             }, [selForm, resps]);
+
             return (
                 <div>
                     <div style={{ marginBottom: 18 }}>
@@ -1216,13 +1393,146 @@
             );
         }
 
+        // หน้าจัดการไฟล์ทั้งหมด
+        function FilesPage({ forms }) {
+            const [allFiles, setAllFiles] = useState({});
+            const [loading, setLoading] = useState(true);
+            const [previewFile, setPreviewFile] = useState(null);
+            const [selectedForm, setSelectedForm] = useState('all');
+
+            useEffect(() => {
+                loadFiles();
+            }, []);
+
+            const loadFiles = async () => {
+                setLoading(true);
+                try {
+                    const data = await gasGet({ action: 'getAllFiles' });
+                    if (data.allFiles) {
+                        setAllFiles(data.allFiles);
+                    }
+                } catch (err) {
+                    console.error('Error loading files:', err);
+                    showErrorAlert('โหลดไฟล์ไม่สำเร็จ', 'ไม่สามารถดึงรายการไฟล์ได้');
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const handleDeleteFile = (fileInfo) => {
+                showDeleteConfirm('ลบไฟล์?', `คุณแน่ใจหรือไม่ที่จะลบ "${fileInfo.name}"?<br><small style="color: var(--txt3)">การกระทำนี้ไม่สามารถกู้คืนได้</small>`)
+                    .then(async (result) => {
+                        if (result.isConfirmed) {
+                            try {
+                                await gasPost({ action: 'deleteFile', fileId: fileInfo.id });
+                                showToast('success', 'ลบไฟล์เรียบร้อยแล้ว!');
+                                loadFiles();
+                            } catch (err) {
+                                showErrorAlert('ลบไฟล์ไม่สำเร็จ', err.message || 'เกิดข้อผิดพลาด');
+                            }
+                        }
+                    });
+            };
+
+            // รวมไฟล์ทั้งหมดหรือกรองตามฟอร์ม
+            const getDisplayFiles = () => {
+                if (selectedForm === 'all') {
+                    return Object.entries(allFiles).flatMap(([formId, data]) =>
+                        data.files.map(file => ({ ...file, formId, formTitle: data.formTitle }))
+                    );
+                }
+                const formData = allFiles[selectedForm];
+                return formData ? formData.files.map(file => ({ ...file, formId: selectedForm, formTitle: formData.formTitle })) : [];
+            };
+
+            const displayFiles = getDisplayFiles();
+            const formList = Object.entries(allFiles).map(([id, data]) => ({ id, title: data.formTitle, count: data.files.length }));
+
+            return (
+                <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
+                        <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--p3)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <Icon name="folder-open" /> ไฟล์ทั้งหมด
+                        </h2>
+                        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                            <select className="form-input" value={selectedForm} onChange={e => setSelectedForm(e.target.value)} style={{ maxWidth: 250 }}>
+                                <option value="all">📁 ทุกฟอร์ม ({displayFiles.length} ไฟล์)</option>
+                                {formList.map(f => (
+                                    <option key={f.id} value={f.id}>{f.title} ({f.count} ไฟล์)</option>
+                                ))}
+                            </select>
+                            <button className="btn btn-ghost" onClick={loadFiles}>
+                                <Icon name="spinner" style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} /> รีเฟรช
+                            </button>
+                        </div>
+                    </div>
+
+                    {loading ? (
+                        <div className="empty-state" style={{ textAlign: 'center', padding: 60 }}>
+                            <div className="empty-state-emoji"><Icon name="spinner" size="3.5rem" /></div>
+                            <div className="empty-state-sub">กำลังโหลดไฟล์...</div>
+                        </div>
+                    ) : displayFiles.length === 0 ? (
+                        <div className="empty-state" style={{ textAlign: 'center', padding: 60 }}>
+                            <div className="empty-state-emoji"><Icon name="cloud-upload-alt" size="3.5rem" /></div>
+                            <div className="empty-state-title">ยังไม่มีไฟล์</div>
+                            <div className="empty-state-sub">ไฟล์ที่อัปโหลดจากฟอร์มจะแสดงที่นี่</div>
+                        </div>
+                    ) : (
+                        <div className="stagger">
+                            {displayFiles.map((file, index) => (
+                                <div key={file.id} className="card" style={{ padding: '14px 18px', marginBottom: 10 }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                                        <div style={{
+                                            width: 48, height: 48, borderRadius: 'var(--radius-sm)',
+                                            background: isImageFile(file.mimeType) ? 'transparent' : 'var(--bg2)',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            overflow: 'hidden'
+                                        }}>
+                                            {isImageFile(file.mimeType) ? (
+                                                <img src={getPreviewUrl(file.id)} alt={file.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                            ) : (
+                                                <Icon name={getFileIcon(file.mimeType)} size="1.5em" style={{ color: 'var(--p3)' }} />
+                                            )}
+                                        </div>
+                                        <div style={{ flex: 1, minWidth: 0 }}>
+                                            <p style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{file.name}</p>
+                                            <p style={{ color: 'var(--txt3)', fontSize: '0.78rem' }}>
+                                                {formatFileSize(file.size)} · {file.mimeType?.split('/')[0]}
+                                                {file.formTitle && <> · <Icon name="file-heart" style={{ margin: '0 2px' }} /> {file.formTitle}</>}
+                                            </p>
+                                            <p style={{ color: 'var(--txt3)', fontSize: '0.72rem', marginTop: 2 }}>
+                                                {new Date(file.createdDate || file.uploadedAt).toLocaleString('th-TH')}
+                                            </p>
+                                        </div>
+                                        <div style={{ display: 'flex', gap: 6 }}>
+                                            <button className="btn-icon" title="ดูตัวอย่าง" onClick={() => setPreviewFile(file)}>
+                                                <Icon name="eye" />
+                                            </button>
+                                            <button className="btn-icon" title="ดาวน์โหลด" onClick={() => downloadFileFromGAS(file.id, file.name)}>
+                                                <Icon name="download" />
+                                            </button>
+                                            <button className="btn-icon" style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }} title="ลบ"
+                                                onClick={() => handleDeleteFile(file)}>
+                                                <Icon name="trash-can" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    {previewFile && <FilePreviewModal fileInfo={previewFile} onClose={() => setPreviewFile(null)} />}
+                </div>
+            );
+        }
+
         function SettingsPage({ theme, onThemeChange, onLogout }) {
             const [oldPw, setOldPw] = useState(''); const [newPw, setNewPw] = useState('');
             const [toast, setToast] = useState(null);
             const [settingsLoading, setSettingsLoading] = useState(false);
             const addRipple = useRipple();
 
-            /* โหลด password จาก Sheets ครั้งแรก */
             useEffect(() => {
                 gasGet({ action: 'getAll' }).then(data => {
                     if (data.settings?.adminpw) {
@@ -1333,7 +1643,9 @@
                             <label>รหัสผ่านใหม่</label>
                             <input type="password" className="form-input" value={newPw} onChange={e => setNewPw(e.target.value)} placeholder="อย่างน้อย 6 ตัวอักษร" />
                         </div>
-                        <button className="btn btn-primary ripple" onClick={e => { addRipple(e); changePw(); }}><Icon name="key" /> บันทึกรหัสผ่านใหม่</button>
+                        <button className="btn btn-primary ripple" onClick={e => { addRipple(e); changePw(); }} disabled={settingsLoading}>
+                            {settingsLoading ? <><Icon name="spinner" /> กำลังบันทึก...</> : <><Icon name="key" /> บันทึกรหัสผ่านใหม่</>}
+                        </button>
                     </div>
 
                     <div className="card" style={{ padding: 26, marginBottom: 14, border: '2px solid rgba(208,64,96,0.2)' }}>
@@ -1353,13 +1665,54 @@
             );
         }
 
+        // =====================
+        // PUBLIC FORM COMPONENT
+        // =====================
         function PublicForm({ form, onSubmit }) {
             const [answers, setAnswers] = useState({});
             const [stars, setStars] = useState({});
             const [hover, setHover] = useState({});
             const [submitted, setSubmitted] = useState(false);
             const [errors, setErrors] = useState({});
+            const [uploading, setUploading] = useState({});
+            const [uploadProgress, setUploadProgress] = useState({});
             const addRipple = useRipple();
+
+            const uploadFile = async (questionId, file) => {
+                const q = (form.questions || []).find(q => q.id === questionId);
+                const maxSize = q?.maxFileSize || MAX_FILE_SIZE;
+
+                if (file.size > maxSize) {
+                    showErrorAlert('ไฟล์ใหญ่เกินไป', `ขนาดไฟล์ต้องไม่เกิน ${formatFileSize(maxSize)} นะคะ`);
+                    return;
+                }
+
+                setUploading(prev => ({ ...prev, [questionId]: true }));
+                setUploadProgress(prev => ({ ...prev, [questionId]: 0 }));
+
+                try {
+                    const result = await uploadFileToGAS(form.id, questionId, file);
+                    setUploadProgress(prev => ({ ...prev, [questionId]: 100 }));
+
+                    if (result.error) {
+                        showErrorAlert('อัปโหลดไม่สำเร็จ', result.message || result.error);
+                        return;
+                    }
+
+                    setAnswers(a => ({ ...a, [questionId]: JSON.stringify(result) }));
+                    setErrors(prev => {
+                        const newErrors = { ...prev };
+                        delete newErrors[questionId];
+                        return newErrors;
+                    });
+                    showToast('success', 'อัปโหลดไฟล์สำเร็จ! 📁');
+                } catch (err) {
+                    showErrorAlert('เกิดข้อผิดพลาด', 'ไม่สามารถอัปโหลดไฟล์ได้ กรุณาลองใหม่');
+                } finally {
+                    setUploading(prev => ({ ...prev, [questionId]: false }));
+                    setTimeout(() => setUploadProgress(prev => ({ ...prev, [questionId]: 0 })), 1000);
+                }
+            };
 
             if (!form) return (
                 <div style={{ textAlign: 'center', padding: 80 }}>
@@ -1396,8 +1749,15 @@
             const handleSubmit = () => {
                 const errs = {};
                 (form.questions || []).forEach(q => {
-                    if (q.required && !answers[q.id] && !stars[q.id]) {
-                        errs[q.id] = '🌸 กรุณาตอบด้วยนะ';
+                    if (q.required) {
+                        const answer = answers[q.id];
+                        if (q.type === 'file') {
+                            if (!answer) errs[q.id] = '🌸 กรุณาอัปโหลดไฟล์ด้วยนะ';
+                        } else if (q.type === 'rating') {
+                            if (!stars[q.id]) errs[q.id] = '🌸 กรุณาให้คะแนนด้วยนะ';
+                        } else if (!answer) {
+                            errs[q.id] = '🌸 กรุณาตอบด้วยนะ';
+                        }
                     }
                 });
 
@@ -1408,7 +1768,10 @@
                 }
 
                 const combined = { ...answers };
-                Object.entries(stars).forEach(([k, v]) => combined[k] = `${v}/5`);
+                Object.entries(stars).forEach(([k, v]) => {
+                    if (v) combined[k] = `${v}/5`;
+                });
+
                 onSubmit(form.id, combined);
 
                 confetti({
@@ -1454,6 +1817,7 @@
                         {(form.questions || []).map(q => (
                             <div key={q.id} style={{ marginBottom: 22 }}>
                                 <p style={{ fontWeight: 700, marginBottom: 8, fontSize: '0.95rem' }}>
+                                    <Icon name={QUESTION_TYPES.find(t => t.value === q.type)?.icon || 'circle-question'} style={{ marginRight: 6 }} />
                                     {q.title} {q.required && <span style={{ color: '#D04060' }}>*</span>}
                                 </p>
                                 {errors[q.id] &&
@@ -1462,49 +1826,54 @@
                                     </div>
                                 }
 
+                                {/* Short text */}
                                 {q.type === 'short' &&
                                     <input className="form-input" placeholder={q.placeholder}
                                         value={answers[q.id] || ''}
                                         onChange={e => {
                                             setAnswers(a => ({ ...a, [q.id]: e.target.value }));
-                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
+                                            if (errors[q.id]) setErrors(prev => { const n = { ...prev }; delete n[q.id]; return n; });
                                         }}
                                     />
                                 }
 
+                                {/* Paragraph */}
                                 {q.type === 'paragraph' &&
                                     <textarea className="form-input" rows={3} placeholder={q.placeholder}
                                         value={answers[q.id] || ''}
                                         onChange={e => {
                                             setAnswers(a => ({ ...a, [q.id]: e.target.value }));
-                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
+                                            if (errors[q.id]) setErrors(prev => { const n = { ...prev }; delete n[q.id]; return n; });
                                         }}
                                     />
                                 }
 
+                                {/* Multiple choice */}
                                 {q.type === 'multiple' && (q.options || []).map(opt => (
                                     <div key={opt}
                                         className={`custom-radio ${answers[q.id] === opt ? 'selected' : ''}`}
                                         onClick={() => {
                                             setAnswers(a => ({ ...a, [q.id]: opt }));
-                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
+                                            if (errors[q.id]) setErrors(prev => { const n = { ...prev }; delete n[q.id]; return n; });
                                         }}>
                                         <div className="radio-dot" /> {opt}
                                     </div>
                                 ))}
 
+                                {/* Dropdown */}
                                 {q.type === 'dropdown' && (
                                     <select className="form-input"
                                         value={answers[q.id] || ''}
                                         onChange={e => {
                                             setAnswers(a => ({ ...a, [q.id]: e.target.value }));
-                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
+                                            if (errors[q.id]) setErrors(prev => { const n = { ...prev }; delete n[q.id]; return n; });
                                         }}>
                                         <option value="">-- เลือก --</option>
                                         {(q.options || []).map(o => <option key={o} value={o}>{o}</option>)}
                                     </select>
                                 )}
 
+                                {/* Rating */}
                                 {q.type === 'rating' && (
                                     <div className="star-rating">
                                         {[1, 2, 3, 4, 5].map(s => {
@@ -1518,7 +1887,7 @@
                                                     onMouseLeave={() => setHover(h => ({ ...h, [q.id]: 0 }))}
                                                     onClick={() => {
                                                         setStars(st => ({ ...st, [q.id]: s }));
-                                                        setErrors(prev => ({ ...prev, [q.id]: undefined }));
+                                                        if (errors[q.id]) setErrors(prev => { const n = { ...prev }; delete n[q.id]; return n; });
                                                     }}>
                                                     <Icon name={filled ? 'star-filled' : 'star'}
                                                         style={{ width: '1.3rem', height: '1.3rem' }}
@@ -1531,25 +1900,131 @@
                                     </div>
                                 )}
 
+                                {/* Date */}
                                 {q.type === 'date' &&
                                     <input type="date" className="form-input"
                                         value={answers[q.id] || ''}
                                         onChange={e => {
                                             setAnswers(a => ({ ...a, [q.id]: e.target.value }));
-                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
+                                            if (errors[q.id]) setErrors(prev => { const n = { ...prev }; delete n[q.id]; return n; });
                                         }}
                                     />
                                 }
 
+                                {/* Time */}
                                 {q.type === 'time' &&
                                     <input type="time" className="form-input"
                                         value={answers[q.id] || ''}
                                         onChange={e => {
                                             setAnswers(a => ({ ...a, [q.id]: e.target.value }));
-                                            setErrors(prev => ({ ...prev, [q.id]: undefined }));
+                                            if (errors[q.id]) setErrors(prev => { const n = { ...prev }; delete n[q.id]; return n; });
                                         }}
                                     />
                                 }
+
+                                {/* File Upload */}
+                                {q.type === 'file' && (
+                                    <div>
+                                        {answers[q.id] ? (
+                                            (() => {
+                                                let fileInfo;
+                                                try { fileInfo = JSON.parse(answers[q.id]); } catch (e) { fileInfo = null; }
+                                                return fileInfo ? (
+                                                    <div className="card" style={{ padding: 14, background: 'var(--bg2)', position: 'relative' }}>
+                                                        {uploadProgress[q.id] > 0 && uploadProgress[q.id] < 100 && (
+                                                            <div style={{
+                                                                position: 'absolute', top: 0, left: 0, height: '100%',
+                                                                width: `${uploadProgress[q.id]}%`,
+                                                                background: 'rgba(var(--p3-rgb), 0.15)',
+                                                                borderRadius: 'var(--radius-sm)',
+                                                                transition: 'width 0.3s ease',
+                                                                zIndex: 0
+                                                            }} />
+                                                        )}
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, position: 'relative', zIndex: 1 }}>
+                                                            <Icon name={getFileIcon(fileInfo.mimeType)} size="1.8em" style={{ color: 'var(--p3)' }} />
+                                                            <div style={{ flex: 1, minWidth: 0 }}>
+                                                                <p style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{fileInfo.name}</p>
+                                                                <p style={{ fontSize: '0.78rem', color: 'var(--txt3)' }}>
+                                                                    {formatFileSize(fileInfo.size)}
+                                                                </p>
+                                                            </div>
+                                                            <div style={{ display: 'flex', gap: 6 }}>
+                                                                {isImageFile(fileInfo.mimeType) && (
+                                                                    <button className="btn-icon" onClick={() => window.open(getPreviewUrl(fileInfo.id), '_blank')} title="ดูตัวอย่าง">
+                                                                        <Icon name="eye" />
+                                                                    </button>
+                                                                )}
+                                                                <button className="btn-icon" onClick={() => downloadFileFromGAS(fileInfo.id, fileInfo.name)} title="ดาวน์โหลด">
+                                                                    <Icon name="download" />
+                                                                </button>
+                                                                <button className="btn-icon" style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }} onClick={() => {
+                                                                    setAnswers(a => ({ ...a, [q.id]: '' }));
+                                                                }} title="ลบ">
+                                                                    <Icon name="xmark" />
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ) : null;
+                                            })()
+                                        ) : (
+                                            <div
+                                                className="custom-radio"
+                                                style={{
+                                                    borderStyle: 'dashed',
+                                                    justifyContent: 'center',
+                                                    padding: '28px',
+                                                    cursor: uploading[q.id] ? 'wait' : 'pointer',
+                                                    background: uploading[q.id] ? 'var(--bg3)' : undefined,
+                                                    opacity: uploading[q.id] ? 0.7 : 1,
+                                                    textAlign: 'center'
+                                                }}
+                                                onClick={() => !uploading[q.id] && document.getElementById(`file-input-${q.id}`).click()}
+                                            >
+                                                {uploading[q.id] ? (
+                                                    <>
+                                                        <Icon name="spinner" size="2.4em" style={{ color: 'var(--p3)', marginBottom: 8 }} />
+                                                        <p style={{ fontWeight: 600, color: 'var(--p3)' }}>กำลังอัปโหลด...</p>
+                                                        {uploadProgress[q.id] > 0 && (
+                                                            <div style={{
+                                                                width: '100%', height: 4, background: 'var(--border)',
+                                                                borderRadius: 2, marginTop: 8, overflow: 'hidden'
+                                                            }}>
+                                                                <div style={{
+                                                                    width: `${uploadProgress[q.id]}%`, height: '100%',
+                                                                    background: 'linear-gradient(90deg, var(--p1), var(--p3))',
+                                                                    transition: 'width 0.3s ease'
+                                                                }} />
+                                                            </div>
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Icon name="cloud-upload-alt" size="2.4em" style={{ color: 'var(--p3)', marginBottom: 8 }} />
+                                                        <p style={{ fontWeight: 600, color: 'var(--txt2)' }}>
+                                                            {q.placeholder || 'คลิกเพื่ออัปโหลดไฟล์'}
+                                                        </p>
+                                                        <p style={{ fontSize: '0.78rem', color: 'var(--txt3)', marginTop: 4 }}>
+                                                            รองรับไฟล์: {q.fileTypes || ALLOWED_EXTENSIONS} (สูงสุด {formatFileSize(q.maxFileSize || MAX_FILE_SIZE)})
+                                                        </p>
+                                                    </>
+                                                )}
+                                                <input
+                                                    id={`file-input-${q.id}`}
+                                                    type="file"
+                                                    style={{ display: 'none' }}
+                                                    accept={q.fileTypes || ALLOWED_EXTENSIONS}
+                                                    onChange={(e) => {
+                                                        if (e.target.files[0]) {
+                                                            uploadFile(q.id, e.target.files[0]);
+                                                        }
+                                                    }}
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         ))}
 
@@ -1572,7 +2047,7 @@
                 { id: 'dashboard', icon: 'house-chimney', label: 'หน้าแรก' },
                 { id: 'forms', icon: 'file-heart', label: 'ฟอร์ม' },
                 { id: 'responses', icon: 'inbox', label: 'คำตอบ' },
-                { id: 'analytics', icon: 'chart-pie', label: 'วิเคราะห์' },
+                { id: 'files', icon: 'folder-open', label: 'ไฟล์' },
                 { id: 'settings', icon: 'sliders', label: 'ตั้งค่า' },
             ];
             return (
@@ -1589,6 +2064,9 @@
             );
         }
 
+        // =====================
+        // MAIN APP
+        // =====================
         function App() {
             const [loggedIn, setLoggedIn] = useState(() => sessionStorage.getItem('ff_auth') === '1');
             const [page, setPage] = useState('dashboard');
@@ -1603,27 +2081,19 @@
             const params = new URLSearchParams(location.search);
             const publicFormId = params.get('form');
 
-            /* ✅ ฟังก์ชันจัดการเปลี่ยนธีมพร้อมบันทึกลง Google Sheets */
             const handleThemeChange = useCallback(async (newTheme) => {
-                setTheme(newTheme); // อัปเดต state ทันทีเพื่อให้ UI เปลี่ยนเร็ว
-
+                setTheme(newTheme);
+                applyTheme(newTheme);
                 try {
-                    // ดึง settings ปัจจุบันจาก Google Sheets
                     const existing = await gasGet({ action: 'getAll' });
                     const settings = existing.settings || {};
-
-                    // อัปเดต theme ใน settings
                     settings.theme = newTheme;
-
-                    // บันทึกลง Google Sheets
                     await gasPost({ action: 'saveSettings', settings });
                 } catch (e) {
                     console.error('ไม่สามารถบันทึกธีมลง Google Sheets ได้:', e);
-                    // ไม่ต้องแสดง error ให้ผู้ใช้เห็น เพราะธีมถูกเปลี่ยนในหน้าเว็บแล้ว
                 }
             }, []);
 
-            /* โหลด theme จาก Google Sheets เมื่อเริ่มต้น */
             useEffect(() => {
                 gasGet({ action: 'getAll' }).then(data => {
                     if (data.settings?.theme) {
@@ -1658,6 +2128,7 @@
                 forms: <><Icon name="file-heart" /> ฟอร์มทั้งหมด</>,
                 responses: <><Icon name="inbox" /> คำตอบ</>,
                 analytics: <><Icon name="chart-pie" /> วิเคราะห์</>,
+                files: <><Icon name="folder-open" /> ไฟล์ทั้งหมด</>,
                 settings: <><Icon name="sliders" /> ตั้งค่า</>
             };
 
@@ -1673,16 +2144,12 @@
                     <FloatingDecorations />
                     {toast && <Toast msg={toast.msg} type={toast.type} onDone={() => setToast(null)} />}
 
-                    {/* === LOADING OVERLAY === */}
                     {gasLoading && (
                         <div className="loading-overlay" id="loadingOverlay">
                             <div className="spinner"></div>
                             <span style={{
-                                color: 'var(--txt3)',
-                                fontSize: '0.75rem',
-                                letterSpacing: '0.1em',
-                                marginTop: '12px',
-                                fontFamily: 'var(--font-display)'
+                                color: 'var(--txt3)', fontSize: '0.75rem', letterSpacing: '0.1em',
+                                marginTop: '12px', fontFamily: 'var(--font-display)'
                             }}>LOADING</span>
                         </div>
                     )}
@@ -1696,6 +2163,7 @@
                             ⚠️ เชื่อมต่อ Google Sheets ไม่ได้: {gasError}
                         </div>
                     )}
+
                     {urlModal && <UrlModal form={urlModal} onClose={() => setUrlModal(null)} />}
                     <Sidebar page={page} setPage={setPage} open={sidebarOpen} onClose={() => setSidebarOpen(false)} onLogout={handleLogout} />
                     <main className="main-content">
@@ -1703,7 +2171,7 @@
                             title={pageTitles[page] || 'FormFlow'}
                             onMenuClick={() => setSidebarOpen(!sidebarOpen)}
                             theme={theme}
-                            onThemeChange={handleThemeChange} /* ✅ ใช้ handleThemeChange แทน setTheme */
+                            onThemeChange={handleThemeChange}
                             accent={accent}
                             onAccentChange={setAccent}
                             onLogout={handleLogout}
@@ -1720,7 +2188,8 @@
                         )}
                         {page === 'responses' && <ResponsesPage forms={forms} responses={responses} />}
                         {page === 'analytics' && <AnalyticsPage forms={forms} responses={responses} />}
-                        {page === 'settings' && <SettingsPage theme={theme} onThemeChange={handleThemeChange} onLogout={handleLogout} />} {/* ✅ ใช้ handleThemeChange แทน setTheme */}
+                        {page === 'files' && <FilesPage forms={forms} />}
+                        {page === 'settings' && <SettingsPage theme={theme} onThemeChange={handleThemeChange} onLogout={handleLogout} />}
                     </main>
                     <BottomNav page={page} setPage={setPage} />
                     <div className={`scroll-top-btn ${showScroll ? 'visible' : ''}`} onClick={() => scrollTo({ top: 0, behavior: 'smooth' })}>
