@@ -163,6 +163,121 @@
     --badge-off-c: #9080B8;
 }
 
+/* 🪸 CORAL (Coral Red) */
+[data-theme="coral"] {
+    --p1: #FF9E9E;
+    --p2: #FF8585;
+    --p3: #E86060;
+    --bg: #FFF5F5;
+    --bg2: #FFE8E8;
+    --bg3: #FFDADA;
+    --card: #FFFFFF;
+    --glass: rgba(255, 245, 245, 0.9);
+    --txt: #5C2020;
+    --txt2: #8B4040;
+    --txt3: #B87070;
+    --border: #FFC8C8;
+    --border2: #FFE0E0;
+    --shadow: rgba(232, 96, 96, 0.12);
+    --sbg: linear-gradient(160deg, #FFF0F0 0%, #FFE4E4 50%, #FFF5F5 100%);
+    --badge-on-bg: rgba(232, 96, 96, 0.12);
+    --badge-on-c: #C04040;
+    --badge-off-bg: rgba(139, 64, 64, 0.08);
+    --badge-off-c: #8B4040;
+}
+
+/* 🌻 SUNFLOWER (Golden Yellow) */
+[data-theme="sunflower"] {
+    --p1: #FFD580;
+    --p2: #FFC840;
+    --p3: #E0A800;
+    --bg: #FFFCF0;
+    --bg2: #FFF8E0;
+    --bg3: #FFF0C0;
+    --card: #FFFFFF;
+    --glass: rgba(255, 252, 240, 0.9);
+    --txt: #4A3800;
+    --txt2: #786020;
+    --txt3: #A89050;
+    --border: #FFE8A0;
+    --border2: #FFF4D0;
+    --shadow: rgba(224, 168, 0, 0.15);
+    --sbg: linear-gradient(160deg, #FFFDF0 0%, #FFF8D0 50%, #FFFCF0 100%);
+    --badge-on-bg: rgba(224, 168, 0, 0.15);
+    --badge-on-c: #B08800;
+    --badge-off-bg: rgba(120, 96, 32, 0.08);
+    --badge-off-c: #786020;
+}
+
+/* 💜 AMETHYST (Plum Purple) */
+[data-theme="amethyst"] {
+    --p1: #D4B8F0;
+    --p2: #C8A4EC;
+    --p3: #9B60D0;
+    --bg: #FBF8FF;
+    --bg2: #F4ECFF;
+    --bg3: #ECE0FF;
+    --card: #FFFFFF;
+    --glass: rgba(251, 248, 255, 0.9);
+    --txt: #3A2058;
+    --txt2: #604080;
+    --txt3: #9070B0;
+    --border: #E0D0FF;
+    --border2: #F0E8FF;
+    --shadow: rgba(155, 96, 208, 0.12);
+    --sbg: linear-gradient(160deg, #F8F0FF 0%, #F0E4FF 50%, #FBF8FF 100%);
+    --badge-on-bg: rgba(155, 96, 208, 0.12);
+    --badge-on-c: #7B40B0;
+    --badge-off-bg: rgba(96, 64, 128, 0.08);
+    --badge-off-c: #604080;
+}
+
+/* 🫒 OLIVE (Olive Green) */
+[data-theme="olive"] {
+    --p1: #C8D4A0;
+    --p2: #B8C888;
+    --p3: #889848;
+    --bg: #FAFAF0;
+    --bg2: #F4F4E4;
+    --bg3: #ECECD0;
+    --card: #FFFFFF;
+    --glass: rgba(250, 250, 240, 0.9);
+    --txt: #3A4020;
+    --txt2: #606840;
+    --txt3: #909868;
+    --border: #D8E0B8;
+    --border2: #E8ECCC;
+    --shadow: rgba(136, 152, 72, 0.1);
+    --sbg: linear-gradient(160deg, #F8F8EE 0%, #F0F4DC 50%, #FAFAF0 100%);
+    --badge-on-bg: rgba(136, 152, 72, 0.15);
+    --badge-on-c: #687828;
+    --badge-off-bg: rgba(96, 104, 64, 0.08);
+    --badge-off-c: #606840;
+}
+
+/* 🌑 MIDNIGHT (Deep Blue Dark) */
+[data-theme="midnight"] {
+    --p1: #80A8D8;
+    --p2: #6098D0;
+    --p3: #3078B8;
+    --bg: #101820;
+    --bg2: #182430;
+    --bg3: #203040;
+    --card: #1A2838;
+    --glass: rgba(24, 36, 48, 0.94);
+    --txt: #E0E8F8;
+    --txt2: #B0C0D8;
+    --txt3: #8098B8;
+    --border: #284868;
+    --border2: #203850;
+    --shadow: rgba(0, 0, 0, 0.5);
+    --sbg: linear-gradient(160deg, #101A28 0%, #18283A 50%, #101820 100%);
+    --badge-on-bg: rgba(128, 168, 216, 0.15);
+    --badge-on-c: #90B8E0;
+    --badge-off-bg: rgba(128, 152, 184, 0.1);
+    --badge-off-c: #8098B8;
+}
+
 /* ============================================
    GLOBAL BASE
 ============================================ */
@@ -462,8 +577,27 @@ textarea.form-input {
     border-radius: var(--radius-sm);
 }
 
+/* Improved Select / Dropdown Styles */
 select.form-input {
     cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23808080' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+select.form-input option {
+    background: var(--card);
+    color: var(--txt);
+    padding: 8px 12px;
+}
+
+select.form-input option:hover,
+select.form-input option:checked {
+    background: var(--bg2);
+    color: var(--p3);
 }
 
 /* ============================================
@@ -1436,6 +1570,47 @@ select.form-input {
 }
 
 /* ============================================
+   FILE CARDS PREVIEW (Added)
+============================================ */
+.file-thumb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.file-thumb-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid var(--border);
+    background: var(--bg2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--trans);
+}
+
+.file-thumb-item:hover {
+    border-color: var(--p3);
+    box-shadow: 0 4px 12px var(--shadow);
+    transform: scale(1.05);
+}
+
+.file-thumb-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.file-thumb-item .file-icon {
+    font-size: 1.8rem;
+    color: var(--p3);
+}
+
+/* ============================================
    CHART
 ============================================ */
 .chart-wrap {
@@ -1559,5 +1734,68 @@ input[type="color"] {
 @keyframes spin {
     to {
         transform: rotate(360deg);
+    }
+}
+
+/* ============================================
+   PUBLIC FORM LOADING SCREEN
+============================================ */
+.public-loading-wrap {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    position: relative;
+    background: var(--bg);
+}
+
+.public-loading-wrap::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: var(--sbg);
+    z-index: -2;
+}
+
+.public-loading-wrap::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle at 15% 20%, var(--p1) 0%, transparent 35%),
+        radial-gradient(circle at 85% 10%, var(--p2) 0%, transparent 30%),
+        radial-gradient(circle at 70% 80%, var(--p1) 0%, transparent 28%),
+        radial-gradient(circle at 10% 75%, var(--p2) 0%, transparent 25%);
+    opacity: 0.12;
+    z-index: -1;
+    pointer-events: none;
+    animation: blobShift 18s ease-in-out infinite alternate;
+}
+
+/* Loading animation keyframes */
+@keyframes loading-bounce {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0.6);
+        opacity: 0.4;
+    }
+
+    40% {
+        transform: scale(1.3);
+        opacity: 1;
+    }
+}
+
+@keyframes logo-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
     }
 }
