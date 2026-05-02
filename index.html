@@ -123,7 +123,12 @@
             { id: 'mint', label: '🌿 มิ้นต์', dot: ['#90E0C8', '#2BAF88'] },
             { id: 'sky', label: '🌊 สกาย', dot: ['#90C8F0', '#3090D8'] },
             { id: 'lemon', label: '🍋 เลมอน', dot: ['#FFE070', '#F0C000'] },
+            { id: 'coral', label: '🪸 คอรัล', dot: ['#FF9E9E', '#E86060'] },
+            { id: 'sunflower', label: '🌻 ทานตะวัน', dot: ['#FFD580', '#E0A800'] },
+            { id: 'amethyst', label: '💜 อเมทิสต์', dot: ['#D4B8F0', '#9B60D0'] },
+            { id: 'olive', label: '🫒 มะกอก', dot: ['#C8D4A0', '#889848'] },
             { id: 'dark', label: '🌙 ดาร์ก', dot: ['#C4A8E8', '#9070C8'] },
+            { id: 'midnight', label: '🌑 มิดไนท์', dot: ['#80A8D8', '#3078B8'] },
         ];
 
         const QUESTION_TYPES = [
@@ -137,10 +142,8 @@
             { value: 'file', label: 'อัปโหลดไฟล์', icon: 'cloud-upload-alt' },
         ];
 
-        // ขนาดไฟล์สูงสุด 10MB
         const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
-        // ประเภทไฟล์ที่รองรับ
         const ALLOWED_FILE_TYPES = [
             'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp',
             'application/pdf',
@@ -160,10 +163,8 @@
         const generateId = () => Math.random().toString(36).substr(2, 9);
         const getFormUrl = (id) => `${location.origin}${location.pathname}?form=${id}`;
 
-        // ฟังก์ชันสำหรับดูว่าไฟล์เป็นรูปภาพหรือไม่
         const isImageFile = (mimeType) => mimeType && mimeType.startsWith('image/');
 
-        // ฟังก์ชันสำหรับหาไอคอนตามประเภทไฟล์
         const getFileIcon = (mimeType) => {
             if (!mimeType) return 'file';
             if (mimeType.startsWith('image/')) return 'file-image';
@@ -174,7 +175,6 @@
             return 'file';
         };
 
-        // ฟังก์ชันฟอร์แมตขนาดไฟล์
         const formatFileSize = (bytes) => {
             if (bytes === 0) return '0 Bytes';
             const k = 1024;
@@ -296,7 +296,7 @@
         }
 
         /* ============================================
-           GAS CONFIG — เชื่อมต่อ Google Apps Script
+           GAS CONFIG
         ============================================ */
         const GAS_URL = 'https://script.google.com/macros/s/AKfycbw-Y0JKGP-4I5B1SYBUPxxKr2URNiOof5im0vL4XL1oDmUCeHqqRr8BNjpFKAIYO4n_XQ/exec';
         const GAS_TOKEN = 'FormFlow_Secret_2024_XyZ!@#';
@@ -315,15 +315,12 @@
             return res.json();
         }
 
-        // ฟังก์ชันอัปโหลดไฟล์ไปยัง GAS
         async function uploadFileToGAS(formId, questionId, file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
-
                 reader.onload = async function (e) {
                     try {
                         const base64Data = e.target.result;
-
                         const payload = {
                             token: GAS_TOKEN,
                             action: 'uploadFile',
@@ -333,28 +330,23 @@
                             fileData: base64Data,
                             mimeType: file.type
                         };
-
                         const res = await fetch(GAS_URL, {
                             method: 'POST',
                             body: JSON.stringify(payload)
                         });
-
                         const result = await res.json();
                         resolve(result);
                     } catch (err) {
                         reject(err);
                     }
                 };
-
                 reader.onerror = function () {
                     reject(new Error('ไม่สามารถอ่านไฟล์ได้'));
                 };
-
                 reader.readAsDataURL(file);
             });
         }
 
-        // ฟังก์ชันดาวน์โหลดไฟล์
         function downloadFileFromGAS(fileId, fileName) {
             const url = `${GAS_URL}?action=download&fileId=${fileId}`;
             const a = document.createElement('a');
@@ -365,7 +357,6 @@
             document.body.removeChild(a);
         }
 
-        // ฟังก์ชันดึง URL สำหรับ preview รูปภาพ
         function getPreviewUrl(fileId) {
             return `${GAS_URL}?action=preview&fileId=${fileId}`;
         }
@@ -477,6 +468,129 @@
                             animationDuration: `${it.duration}s`
                         }}>{it.emoji}</div>
                     ))}
+                </div>
+            );
+        }
+
+        // ============================================
+        // PUBLIC FORM LOADING SCREEN (NEW)
+        // ============================================
+        function PublicFormLoading() {
+            const [loadingStage, setLoadingStage] = useState(0);
+            const messages = [
+                '🌱 กำลังเชื่อมต่อ...',
+                '📦 กำลังโหลดข้อมูลฟอร์ม...',
+                '✨ กำลังจัดเตรียมคำถาม...',
+                '🌸 ใกล้เสร็จแล้ว...'
+            ];
+
+            useEffect(() => {
+                const timer = setInterval(() => {
+                    setLoadingStage(prev => (prev < messages.length - 1 ? prev + 1 : prev));
+                }, 800);
+                return () => clearInterval(timer);
+            }, []);
+
+            const colors = getThemeColors();
+
+            return (
+                <div className="public-loading-wrap">
+                    <FloatingDecorations />
+                    <div className="login-card bounce-in" style={{ textAlign: 'center', maxWidth: 440 }}>
+                        {/* Animated Logo */}
+                        <div style={{ fontSize: '3.5rem', marginBottom: 8, animation: 'logo-pulse 2s ease-in-out infinite' }}>
+                            🌸
+                        </div>
+
+                        {/* Spinner */}
+                        <div style={{ margin: '0 auto 20px', position: 'relative', width: 60, height: 60 }}>
+                            <div className="spinner" style={{
+                                width: 60, height: 60, borderWidth: 5,
+                                borderColor: 'var(--border)',
+                                borderTopColor: 'var(--p3)',
+                                borderRadius: '50%',
+                                animation: 'spin 0.8s linear infinite'
+                            }}></div>
+                            <div style={{
+                                position: 'absolute', inset: 8,
+                                borderRadius: '50%',
+                                border: '3px solid transparent',
+                                borderBottomColor: 'var(--p1)',
+                                animation: 'spin 1.2s linear infinite reverse'
+                            }}></div>
+                        </div>
+
+                        {/* Title */}
+                        <h2 style={{
+                            fontFamily: 'var(--font-display)',
+                            color: 'var(--p3)',
+                            fontSize: '1.5rem',
+                            marginBottom: 8
+                        }}>
+                            กำลังโหลดฟอร์ม
+                        </h2>
+
+                        {/* Dynamic Message */}
+                        <p style={{
+                            color: 'var(--txt3)',
+                            fontSize: '0.9rem',
+                            marginTop: 8,
+                            minHeight: 24,
+                            transition: 'all 0.3s ease'
+                        }}>
+                            {messages[loadingStage]}
+                        </p>
+
+                        {/* Bouncing Dots */}
+                        <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 24 }}>
+                            {[0, 1, 2].map(i => (
+                                <div key={i} style={{
+                                    width: 12,
+                                    height: 12,
+                                    background: `linear-gradient(135deg, var(--p1), var(--p3))`,
+                                    borderRadius: '50%',
+                                    animation: `loading-bounce 1.4s ease-in-out ${i * 0.2}s infinite`,
+                                    boxShadow: '0 2px 8px var(--shadow)'
+                                }} />
+                            ))}
+                        </div>
+
+                        {/* Progress Bar */}
+                        <div style={{
+                            width: '100%',
+                            height: 4,
+                            background: 'var(--bg2)',
+                            borderRadius: 2,
+                            marginTop: 24,
+                            overflow: 'hidden'
+                        }}>
+                            <div style={{
+                                width: `${(loadingStage + 1) / messages.length * 100}%`,
+                                height: '100%',
+                                background: 'linear-gradient(90deg, var(--p1), var(--p3))',
+                                borderRadius: 2,
+                                transition: 'width 0.6s ease'
+                            }} />
+                        </div>
+
+                        {/* FormFlow Brand */}
+                        <p style={{
+                            color: 'var(--txt3)',
+                            fontSize: '0.72rem',
+                            marginTop: 20,
+                            fontFamily: 'var(--font-display)',
+                            letterSpacing: '0.05em'
+                        }}>
+                            ✦ FormFlow ✦
+                        </p>
+                    </div>
+
+                    <style>{`
+                        @keyframes loading-bounce {
+                            0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+                            40% { transform: scale(1.3); opacity: 1; }
+                        }
+                    `}</style>
                 </div>
             );
         }
@@ -674,14 +788,6 @@
                         <button className="btn-icon" onClick={handleLogout} title="ออกจากระบบ">
                             <Icon name="arrow-right-from-bracket" />
                         </button>
-                        <button className="btn-icon" onClick={() => setShowTheme(!showTheme)} title="เปลี่ยนธีม">
-                            <Icon name="sliders" />
-                        </button>
-                        {showTheme && (
-                            <div className="theme-picker-panel">
-                                <ThemePicker currentTheme={theme} onThemeChange={t => { onThemeChange(t); setShowTheme(false); }} accent={accent} onAccentChange={onAccentChange} />
-                            </div>
-                        )}
                     </div>
                 </div>
             );
@@ -913,7 +1019,6 @@
             );
         }
 
-        // File Preview Modal
         function FilePreviewModal({ fileInfo, onClose }) {
             const isImage = fileInfo && isImageFile(fileInfo.mimeType);
             const previewUrl = fileInfo ? getPreviewUrl(fileInfo.id) : '';
@@ -1277,7 +1382,7 @@
                     {viewResp && form && (
                         <div className="modal-overlay" onClick={e => e.target === e.currentTarget && setViewResp(null)}>
                             <div className="modal-box card">
-                                <div className="modal-title"><Icon name="file-lines" /> 📋 รายละเอียดคำตอบ</div>
+                                <div className="modal-title"><Icon name="file-lines" />รายละเอียดคำตอบ</div>
                                 <p style={{ color: 'var(--txt3)', fontSize: '0.82rem', marginBottom: 22 }}>ส่งเมื่อ {new Date(viewResp.submittedAt).toLocaleString('th-TH')}</p>
                                 {(form.questions || []).map(q => {
                                     const answer = viewResp.data[q.id];
@@ -1415,16 +1520,16 @@
             );
         }
 
-        // หน้าจัดการไฟล์ทั้งหมด
         function FilesPage({ forms }) {
             const [allFiles, setAllFiles] = useState({});
             const [loading, setLoading] = useState(true);
             const [previewFile, setPreviewFile] = useState(null);
             const [selectedForm, setSelectedForm] = useState('all');
+            const [refreshKey, setRefreshKey] = useState(0);
 
             useEffect(() => {
                 loadFiles();
-            }, []);
+            }, [refreshKey]);
 
             const loadFiles = async () => {
                 setLoading(true);
@@ -1448,7 +1553,7 @@
                             try {
                                 await gasPost({ action: 'deleteFile', fileId: fileInfo.id });
                                 showToast('success', 'ลบไฟล์เรียบร้อยแล้ว!');
-                                loadFiles();
+                                setRefreshKey(k => k + 1);
                             } catch (err) {
                                 showErrorAlert('ลบไฟล์ไม่สำเร็จ', err.message || 'เกิดข้อผิดพลาด');
                             }
@@ -1456,19 +1561,27 @@
                     });
             };
 
-            // รวมไฟล์ทั้งหมดหรือกรองตามฟอร์ม
             const getDisplayFiles = () => {
+                let allFlatFiles = [];
                 if (selectedForm === 'all') {
-                    return Object.entries(allFiles).flatMap(([formId, data]) =>
+                    allFlatFiles = Object.entries(allFiles).flatMap(([formId, data]) =>
                         data.files.map(file => ({ ...file, formId, formTitle: data.formTitle }))
                     );
+                } else {
+                    const formData = allFiles[selectedForm];
+                    if (formData) {
+                        allFlatFiles = formData.files.map(file => ({ ...file, formId: selectedForm, formTitle: formData.formTitle }));
+                    }
                 }
-                const formData = allFiles[selectedForm];
-                return formData ? formData.files.map(file => ({ ...file, formId: selectedForm, formTitle: formData.formTitle })) : [];
+                allFlatFiles.sort((a, b) => new Date(b.createdDate || b.uploadedAt) - new Date(a.createdDate || a.uploadedAt));
+                return allFlatFiles;
             };
 
             const displayFiles = getDisplayFiles();
             const formList = Object.entries(allFiles).map(([id, data]) => ({ id, title: data.formTitle, count: data.files.length }));
+
+            const imageCount = displayFiles.filter(f => isImageFile(f.mimeType)).length;
+            const docCount = displayFiles.filter(f => !isImageFile(f.mimeType)).length;
 
             return (
                 <div>
@@ -1476,18 +1589,51 @@
                         <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--p3)', display: 'flex', alignItems: 'center', gap: 8 }}>
                             <Icon name="folder-open" /> ไฟล์ทั้งหมด
                         </h2>
-                        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                            <select className="form-input" value={selectedForm} onChange={e => setSelectedForm(e.target.value)} style={{ maxWidth: 250 }}>
-                                <option value="all">📁 ทุกฟอร์ม ({displayFiles.length} ไฟล์)</option>
-                                {formList.map(f => (
-                                    <option key={f.id} value={f.id}>{f.title} ({f.count} ไฟล์)</option>
-                                ))}
-                            </select>
-                            <button className="btn btn-ghost" onClick={loadFiles}>
-                                <Icon name="spinner" style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} /> รีเฟรช
+                        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                            <div style={{ position: 'relative', display: 'inline-block' }}>
+                                <select
+                                    className="form-input"
+                                    value={selectedForm}
+                                    onChange={e => setSelectedForm(e.target.value)}
+                                    style={{ maxWidth: '250px', paddingRight: '2.5rem', backgroundPosition: 'right 12px center', cursor: 'pointer' }}
+                                >
+                                    <option value="all">📁 ทุกฟอร์ม ({displayFiles.length} ไฟล์)</option>
+                                    {formList.map(f => (
+                                        <option key={f.id} value={f.id}>{f.title} ({f.count} ไฟล์)</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <button
+                                className="btn btn-ghost"
+                                onClick={() => setRefreshKey(k => k + 1)}
+                                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                            >
+                                <span style={{ display: 'inline-flex', animation: loading ? 'spin 1s linear infinite' : 'none' }}>
+                                    <Icon name="spinner" />
+                                </span>
+                                รีเฟรช
                             </button>
                         </div>
                     </div>
+
+                    {!loading && displayFiles.length > 0 && (
+                        <div style={{ display: 'flex', gap: 16, marginBottom: 20, flexWrap: 'wrap' }}>
+                            <div className="card" style={{ padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 150 }}>
+                                <Icon name="file-image" size="1.5em" style={{ color: 'var(--p3)' }} />
+                                <div>
+                                    <div style={{ fontWeight: 700, fontSize: '1.2rem' }}>{imageCount}</div>
+                                    <div style={{ fontSize: '0.8rem', color: 'var(--txt3)' }}>รูปภาพ</div>
+                                </div>
+                            </div>
+                            <div className="card" style={{ padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 150 }}>
+                                <Icon name="file-lines" size="1.5em" style={{ color: 'var(--p3)' }} />
+                                <div>
+                                    <div style={{ fontWeight: 700, fontSize: '1.2rem' }}>{docCount}</div>
+                                    <div style={{ fontSize: '0.8rem', color: 'var(--txt3)' }}>เอกสาร / อื่นๆ</div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {loading ? (
                         <div className="empty-state" style={{ textAlign: 'center', padding: 60 }}>
@@ -1501,48 +1647,65 @@
                             <div className="empty-state-sub">ไฟล์ที่อัปโหลดจากฟอร์มจะแสดงที่นี่</div>
                         </div>
                     ) : (
-                        <div className="stagger">
-                            {displayFiles.map((file, index) => (
-                                <div key={file.id} className="card" style={{ padding: '14px 18px', marginBottom: 10 }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                                        <div style={{
-                                            width: 48, height: 48, borderRadius: 'var(--radius-sm)',
-                                            background: isImageFile(file.mimeType) ? 'transparent' : 'var(--bg2)',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                            overflow: 'hidden'
-                                        }}>
-                                            {isImageFile(file.mimeType) ? (
-                                                <img src={getPreviewUrl(file.id)} alt={file.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                            ) : (
-                                                <Icon name={getFileIcon(file.mimeType)} size="1.5em" style={{ color: 'var(--p3)' }} />
-                                            )}
-                                        </div>
-                                        <div style={{ flex: 1, minWidth: 0 }}>
-                                            <p style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{file.name}</p>
-                                            <p style={{ color: 'var(--txt3)', fontSize: '0.78rem' }}>
-                                                {formatFileSize(file.size)} · {file.mimeType?.split('/')[0]}
-                                                {file.formTitle && <> · <Icon name="file-heart" style={{ margin: '0 2px' }} /> {file.formTitle}</>}
-                                            </p>
-                                            <p style={{ color: 'var(--txt3)', fontSize: '0.72rem', marginTop: 2 }}>
-                                                {new Date(file.createdDate || file.uploadedAt).toLocaleString('th-TH')}
-                                            </p>
-                                        </div>
-                                        <div style={{ display: 'flex', gap: 6 }}>
-                                            <button className="btn-icon" title="ดูตัวอย่าง" onClick={() => setPreviewFile(file)}>
-                                                <Icon name="eye" />
-                                            </button>
-                                            <button className="btn-icon" title="ดาวน์โหลด" onClick={() => downloadFileFromGAS(file.id, file.name)}>
-                                                <Icon name="download" />
-                                            </button>
-                                            <button className="btn-icon" style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }} title="ลบ"
-                                                onClick={() => handleDeleteFile(file)}>
-                                                <Icon name="trash-can" />
-                                            </button>
-                                        </div>
+                        <>
+                            {imageCount > 0 && (
+                                <div className="card" style={{ padding: 16, marginBottom: 16 }}>
+                                    <h4 style={{ marginBottom: 10, color: 'var(--txt2)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+                                        <Icon name="file-image" /> รูปภาพทั้งหมด ({imageCount})
+                                    </h4>
+                                    <div className="file-thumb-grid">
+                                        {displayFiles.filter(f => isImageFile(f.mimeType)).slice(0, 12).map(file => (
+                                            <div key={file.id} className="file-thumb-item" onClick={() => setPreviewFile(file)} title={file.name}>
+                                                <img src={getPreviewUrl(file.id)} alt={file.name} loading="lazy" />
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
-                            ))}
-                        </div>
+                            )}
+
+                            <div className="stagger">
+                                {displayFiles.map((file, index) => (
+                                    <div key={file.id} className="card" style={{ padding: '14px 18px', marginBottom: 10 }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                                            <div style={{
+                                                width: 48, height: 48, borderRadius: 'var(--radius-sm)',
+                                                background: isImageFile(file.mimeType) ? 'transparent' : 'var(--bg2)',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                overflow: 'hidden', flexShrink: 0
+                                            }}>
+                                                {isImageFile(file.mimeType) ? (
+                                                    <img src={getPreviewUrl(file.id)} alt={file.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                ) : (
+                                                    <Icon name={getFileIcon(file.mimeType)} size="1.5em" style={{ color: 'var(--p3)' }} />
+                                                )}
+                                            </div>
+                                            <div style={{ flex: 1, minWidth: 0 }}>
+                                                <p style={{ fontWeight: 700, fontSize: '0.9rem', marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{file.name}</p>
+                                                <p style={{ color: 'var(--txt3)', fontSize: '0.78rem' }}>
+                                                    {formatFileSize(file.size)} · {file.mimeType?.split('/')[0]}
+                                                    {file.formTitle && <> · <Icon name="file-heart" style={{ margin: '0 2px' }} /> {file.formTitle}</>}
+                                                </p>
+                                                <p style={{ color: 'var(--txt3)', fontSize: '0.72rem', marginTop: 2 }}>
+                                                    {new Date(file.createdDate || file.uploadedAt).toLocaleString('th-TH')}
+                                                </p>
+                                            </div>
+                                            <div style={{ display: 'flex', gap: 6 }}>
+                                                <button className="btn-icon" title="ดูตัวอย่าง" onClick={() => setPreviewFile(file)}>
+                                                    <Icon name="eye" />
+                                                </button>
+                                                <button className="btn-icon" title="ดาวน์โหลด" onClick={() => downloadFileFromGAS(file.id, file.name)}>
+                                                    <Icon name="download" />
+                                                </button>
+                                                <button className="btn-icon" style={{ color: '#D04060', borderColor: 'rgba(208,64,96,0.3)' }} title="ลบ"
+                                                    onClick={() => handleDeleteFile(file)}>
+                                                    <Icon name="trash-can" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
                     )}
                     {previewFile && <FilePreviewModal fileInfo={previewFile} onClose={() => setPreviewFile(null)} />}
                 </div>
@@ -1848,7 +2011,6 @@
                                     </div>
                                 }
 
-                                {/* Short text */}
                                 {q.type === 'short' &&
                                     <input className="form-input" placeholder={q.placeholder}
                                         value={answers[q.id] || ''}
@@ -1859,7 +2021,6 @@
                                     />
                                 }
 
-                                {/* Paragraph */}
                                 {q.type === 'paragraph' &&
                                     <textarea className="form-input" rows={3} placeholder={q.placeholder}
                                         value={answers[q.id] || ''}
@@ -1870,7 +2031,6 @@
                                     />
                                 }
 
-                                {/* Multiple choice */}
                                 {q.type === 'multiple' && (q.options || []).map(opt => (
                                     <div key={opt}
                                         className={`custom-radio ${answers[q.id] === opt ? 'selected' : ''}`}
@@ -1882,7 +2042,6 @@
                                     </div>
                                 ))}
 
-                                {/* Dropdown */}
                                 {q.type === 'dropdown' && (
                                     <select className="form-input"
                                         value={answers[q.id] || ''}
@@ -1895,7 +2054,6 @@
                                     </select>
                                 )}
 
-                                {/* Rating */}
                                 {q.type === 'rating' && (
                                     <div className="star-rating">
                                         {[1, 2, 3, 4, 5].map(s => {
@@ -1922,7 +2080,6 @@
                                     </div>
                                 )}
 
-                                {/* Date */}
                                 {q.type === 'date' &&
                                     <input type="date" className="form-input"
                                         value={answers[q.id] || ''}
@@ -1933,7 +2090,6 @@
                                     />
                                 }
 
-                                {/* Time */}
                                 {q.type === 'time' &&
                                     <input type="time" className="form-input"
                                         value={answers[q.id] || ''}
@@ -1944,7 +2100,6 @@
                                     />
                                 }
 
-                                {/* File Upload */}
                                 {q.type === 'file' && (
                                     <div>
                                         {answers[q.id] ? (
@@ -2100,8 +2255,36 @@
             const [showScroll, setShowScroll] = useState(false);
             const { forms, responses, addForm, updateForm, deleteForm, addResponse, gasLoading, gasError } = useStore();
 
+            // 🔄 NEW: Public form loading state
+            const [publicFormLoading, setPublicFormLoading] = useState(false);
+            const [publicFormData, setPublicFormData] = useState(null);
+
             const params = new URLSearchParams(location.search);
             const publicFormId = params.get('form');
+
+            // 🔄 NEW: Load public form data with loading screen
+            useEffect(() => {
+                if (publicFormId) {
+                    setPublicFormLoading(true);
+                    // Wait for store to finish loading
+                    if (!gasLoading) {
+                        const form = forms.find(f => f.id === publicFormId);
+                        if (form) {
+                            setPublicFormData(form);
+                            setPublicFormLoading(false);
+                        } else {
+                            // Try to fetch again
+                            gasGet({ action: 'getAll' })
+                                .then(data => {
+                                    const foundForm = (data.forms || []).find(f => f.id === publicFormId);
+                                    setPublicFormData(foundForm || null);
+                                })
+                                .catch(() => setPublicFormData(null))
+                                .finally(() => setPublicFormLoading(false));
+                        }
+                    }
+                }
+            }, [publicFormId, forms, gasLoading]);
 
             const handleThemeChange = useCallback(async (newTheme) => {
                 setTheme(newTheme);
@@ -2154,9 +2337,12 @@
                 settings: <><Icon name="sliders" /> ตั้งค่า</>
             };
 
+            // 🔄 NEW: Handle public form with loading state
             if (publicFormId) {
-                const form = forms.find(f => f.id === publicFormId);
-                return <PublicForm form={form} onSubmit={(id, d) => { addResponse(id, d); }} />;
+                if (publicFormLoading || gasLoading) {
+                    return <PublicFormLoading />;
+                }
+                return <PublicForm form={publicFormData} onSubmit={(id, d) => { addResponse(id, d); }} />;
             }
             if (!loggedIn) return <LoginScreen onLogin={handleLogin} />;
 
